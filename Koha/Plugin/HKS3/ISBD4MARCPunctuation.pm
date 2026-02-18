@@ -18,7 +18,7 @@ package Koha::Plugin::HKS3::ISBD4MARCPunctuation;
 use Modern::Perl;
 use base qw(Koha::Plugins::Base);
 
-our $VERSION = "0.01";
+our $VERSION = "0.07";
 
 our $metadata = {
     name            => 'ISBD4MARC Punctuation',
