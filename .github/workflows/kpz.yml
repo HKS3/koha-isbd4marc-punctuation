@@ -9,6 +9,9 @@ on:
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   kpz:
     name: "Build a KPZ archive"
@@ -29,6 +32,13 @@ jobs:
         echo "KPZ version label: $KPZ_VERSION"
         echo "kpz_version=$KPZ_VERSION" >> $GITHUB_OUTPUT
 
+        RELEASE_NAME="Koha::Plugin::HKS3::ISBD4MARCPunctuation"
+        SAFE_RELEASE_NAME="${RELEASE_NAME//::/-}"
+        echo "Release name: $RELEASE_NAME"
+        echo "Safe release name: $SAFE_RELEASE_NAME"
+        echo "release_name=$RELEASE_NAME" >> $GITHUB_OUTPUT
+        echo "safe_release_name=$SAFE_RELEASE_NAME" >> $GITHUB_OUTPUT
+
         MINIMUM_KOHA_VERSION=$(perl -lne 'print $1 if /minimum_version\s*=>\s*\D([\d\.]+)\D/' Koha/Plugin/HKS3/ISBD4MARCPunctuation.pm)
         echo "Minimum Koha version: $MINIMUM_KOHA_VERSION"
         echo "minimum_koha_version=$MINIMUM_KOHA_VERSION" >> $GITHUB_OUTPUT
@@ -37,7 +47,7 @@ jobs:
       uses: "bywatersolutions/github-action-koha-plugin-create-kpz@master"
       with:
         release-version: ${{ steps.metadata.outputs.kpz_version }}
-        release-name: "Koha::Plugin::HKS3::ISBD4MARCPunctuation"
+        release-name: ${{ steps.metadata.outputs.safe_release_name }}
         minimum-version: ${{ steps.metadata.outputs.minimum_koha_version }}
         plugin-module: "Koha/Plugin/HKS3/ISBD4MARCPunctuation.pm"
     - name: Upload KPZ artifact (branch builds)
