@@ -65,7 +65,6 @@ sub _decorate_245 {
     # Note: they are _appended_ to the subfield just in front
     my %pchrs = (
         'b' => ' : ',
-        'c' => ' / ',
         'd' => ' ; ',
         'e' => '. ',
         'f' => ', ',
