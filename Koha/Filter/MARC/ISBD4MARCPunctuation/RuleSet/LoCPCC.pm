@@ -404,6 +404,27 @@ sub rules {
         },
 
         # ISBD punct (§3.4): $a N/A; $b (denomination) gets ' : '.
+        # ISBD punct (§4.11): $a N/A; $b ' ; '; $c/$d/$e = one paren run-group
+        # (shared _decorate_paren_group_pre); $s/$v '. '; $f/$g N/A. Internal
+        # group separators via COMPOUND cd/de keys. DECISION: c/d/e are ONE
+        # group (adjacent members share one paren pair); a $c-adjoining-$d
+        # case has no doc example -> left open (unhandled).
+        '255' => {
+            name  => 'Cartographic Mathematical Data',
+            pchrs => {
+                b  => ' ; ',
+                s  => '. ',
+                v  => '. ',
+                cd => ' ; ',
+                de => ' ; ',
+            },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, [qw(c d e)] );
+            },
+        },
+
         '258' => {
             name  => 'Philatelic Issue Data',
             pchrs => { b => ' : ' },
@@ -538,6 +559,31 @@ sub rules {
         #   $t ' = '  $v ' ; '  $x ', '  $y ' = '
         # $3 gets ': ' via post; $l wrapped (...).
         # GAP: $p can be '. ' or ', ' depending on context — we pick ', '.
+        # ISBD punct (§3.8): $a N/A; $b ' : ' (first) / ', ' (repeated after
+        # $c) via COMPOUND ab/cb; $g ', '; $i ' : '; $q ' ; '; $c = INDIVIDUAL
+        # paren wrap (NOT in the d/e/f group); $d/$e/$f = one paren run-group
+        # (shared _decorate_paren_group_pre) with ' x ' separators via COMPOUND
+        # de/ef. DECISION: $c stays a SEPARATE wrap (doc ex 2 shows individual
+        # (13671) (20171) pairs), not folded into the d/e/f group.
+        '352' => {
+            name  => 'Digital Graphic Representation',
+            pchrs => {
+                ab => ' : ',
+                cb => ', ',
+                g  => ', ',
+                i  => ' : ',
+                q  => ' ; ',
+                de => ' x ',
+                ef => ' x ',
+            },
+            wrap   => { c => [ '(', ')' ] },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, [qw(d e f)] );
+            },
+        },
+
         '490' => {
             name  => 'Series Statement',
             pchrs => {

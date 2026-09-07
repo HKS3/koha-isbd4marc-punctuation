@@ -638,6 +638,70 @@ sub _decorate_qualifier_group_pre {
     return "($value)";
 }
 
+=head2 _decorate_paren_group_pre
+
+I<Shared> pre-callback + helper that wraps a contiguous run of the given
+subfield codes in a SINGLE pair of parentheses. This is the generic
+parameterized run-grouper for the C2 cartographic fields, used by:
+
+    255 $c/$d/$e  (Cartographic Mathematical Data, spec §4.11)
+    352 $d/$e/$f  (Digital Graphic Representation, spec §3.8)
+
+It is the same grouping logic as C<_decorate_x10_pre> (the n/d/c meeting
+run) and C<_decorate_300_pre> (the h/i/j accompanying-material run), but
+generalized to take the run's subfield-code set as a parameter so the
+fields differ only in WHICH codes form the group. Unlike C<_decorate_300_pre>
+it has NO anchor guard: a 255/352 group run may open at any of its member
+codes (e.g. a 352 run may start at C<$e> when no C<$d> precedes it — there
+is no mandatory anchor like 300's C<$h>).
+
+Internal separators come from the COMPOUND pchrs keys in step 4 of
+C<_decorate_field> (the same mechanism as the x10 C<nd>/C<dc>/C<cc> and 300
+C<hi>/C<ij>/C<hj> keys), so the mode ownership stays engine-handled.
+
+Because the group code-set differs per field, the data files reference this
+helper via small closures that supply the arrayref (mirroring the
+C<_decorate_qualifier_group_pre> closures for 020/210/222). A leading space
+is added before the opening paren when the group is preceded by other
+content (e.g. 255: the space after "proj.").
+
+NOTE: the group members must NOT also carry a C<wrap> entry (step 1 callback
++ step 2 wrap would both apply -> double parens). 352's C<$c> is a separate
+INDIVIDUAL C<wrap> and is deliberately NOT in the C<d/e/f> callback set.
+
+Called with the standard C<cb_pre> signature followed by an arrayref of the
+group subfield codes.
+
+=cut
+
+sub _decorate_paren_group_pre {
+    my ( $sf, $value, $i, $subfields, $last_sf_ref, $group_sf_ref ) = @_;
+    my $last_sf = $$last_sf_ref;
+
+    my %group_sf = map { $_ => 1 } @{$group_sf_ref};
+
+    # Not a group subfield — leave untouched.
+    return $value unless $group_sf{$sf};
+
+    my $next    = $subfields->[ $i + 1 ];
+    my $next_sf = $next ? $next->[0] : '';
+
+    my $is_first = !$group_sf{$last_sf};
+    my $is_last  = ( !defined $next_sf || !$group_sf{$next_sf} );
+
+    if ($is_first) {
+
+        # Leading space unless this is the very first subfield of the field
+        my $lead = ( defined $last_sf && length $last_sf ) ? ' ' : '';
+        $value = $lead . '(' . $value;
+    }
+    if ($is_last) {
+        $value .= ')';
+    }
+
+    return $value;
+}
+
 =head2 _decorate_display_text_pre
 
 I<Shared> pre-callback for the display-text subfield C used by the
