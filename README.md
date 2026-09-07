@@ -23,7 +23,9 @@ Trigger condition:
 
 Implemented fields:
 
+- `015`: National Bibliography Number
 - `020`: International Standard Book Number
+- `024`: Other Standard Identifier
 - `100`: Main Entry – Personal Name
 - `110`: Main Entry – Corporate Name
 - `111`: Main Entry – Meeting Name
@@ -37,9 +39,18 @@ Implemented fields:
 - `246`: Varying Form of Title
 - `247`: Former Title
 - `250`: Edition Statement
+- `254`: Musical Presentation Statement
+- `255`: Cartographic Mathematical Data
+- `258`: Philatelic Issue Data
 - `260`: Publication, Distribution, etc. (Imprint)
 - `264`: Production, Publication, Distribution, Manufacture, and Copyright Notice
 - `300`: Physical Description
+- `307`: Hours, etc.
+- `310`: Current Publication Frequency
+- `321`: Former Publication Frequency
+- `343`: Planar Coordinate Data
+- `351`: Organization and Arrangement of Materials
+- `352`: Digital Graphic Representation
 - `490`: Series Statement
 - `500`: General Note
 - `501`: With Note
