@@ -23,19 +23,16 @@ Trigger condition:
 
 Implemented fields:
 
-- `020`: ISBD
-- `110`: Main Entry-Corporate Name
-- `111`: Main Entry-Meeting Name
-- `100`: Main Entry-Personal Name
-- `610`: Subject Added Entry-Corporate Name
-- `611`: Subject Added Entry-Meeting Name
-- `600`: Subject Added Entry-Personal Name
-- `700`: Added Entry-Personal Name
-- `710`: Added Entry-Corporate Name
-- `711`: Added Entry-Meeting Name
-- `810`: Series Added Entry-Corporate Name
-- `811`: Series Added Entry-Meeting Name
-- `800`: Series Added Entry-Personal Name
+- `020`: International Standard Book Number
+- `100`: Main Entry – Personal Name
+- `110`: Main Entry – Corporate Name
+- `111`: Main Entry – Meeting Name
+- `130`: Main Entry – Uniform Title
+- `210`: Abbreviated Title
+- `222`: Key Title
+- `240`: Uniform Title
+- `242`: Translation of Title by Cataloging Agency
+- `243`: Collective Uniform Title
 - `245`: Title Statement
 - `246`: Varying Form of Title
 - `247`: Former Title
@@ -44,9 +41,73 @@ Implemented fields:
 - `264`: Production, Publication, Distribution, Manufacture, and Copyright Notice
 - `300`: Physical Description
 - `490`: Series Statement
+- `500`: General Note
+- `501`: With Note
 - `502`: Dissertation Note
+- `504`: Bibliography, etc. Note
 - `505`: Formatted Contents Note
-- `520`: Summary
+- `506`: Restrictions on Access Note
+- `507`: Scale Note for Graphic Material
+- `508`: Creation/Production Credits Note
+- `510`: Citation/References Note
+- `511`: Participant or Performer Note
+- `513`: Type of Report and Period Covered Note
+- `515`: Numbering Peculiarities Note
+- `520`: Summary, etc.
+- `525`: Supplement Note
+- `526`: Study Program Information Note
+- `530`: Additional Physical Form Available Note
+- `532`: Accessibility Note
+- `533`: Reproduction Note
+- `534`: Original Version Note
+- `535`: Location of Originals/Duplicates Note
+- `538`: System Details Note
+- `540`: Terms Governing Use and Reproduction Note
+- `541`: Immediate Source of Acquisition Note
+- `544`: Location of Other Archival Materials Note
+- `546`: Language Note
+- `547`: Former Title Complexity Note
+- `550`: Issuing Body Note
+- `555`: Cumulative Index/Finding Aids Note
+- `562`: Copy and Version Identification Note
+- `565`: Case File Characteristics Note
+- `580`: Linking Entry Complexity Note
+- `584`: Accumulation and Frequency of Use Note
+- `600`: Subject Added Entry – Personal Name
+- `610`: Subject Added Entry – Corporate Name
+- `611`: Subject Added Entry – Meeting Name
+- `630`: Subject Added Entry – Uniform Title
+- `648`: Subject Added Entry – Chronological Term
+- `650`: Subject Added Entry – Topical Term
+- `651`: Subject Added Entry – Geographic Name
+- `655`: Index Term – Genre/Form
+- `656`: Index Term – Occupation
+- `657`: Index Term – Function
+- `658`: Index Term – Curriculum Objective
+- `700`: Added Entry – Personal Name
+- `710`: Added Entry – Corporate Name
+- `711`: Added Entry – Meeting Name
+- `730`: Added Entry – Uniform Title
+- `760`: Main Series Entry
+- `761`: Subseries Entry
+- `762`: Subseries Entry
+- `765`: Original Language Entry
+- `767`: Translation Entry
+- `770`: Supplement/Special Issue Entry
+- `772`: Supplement Parent Entry
+- `773`: Host Item Entry
+- `774`: Constituent Unit Entry
+- `775`: Other Edition Entry
+- `776`: Additional Physical Form Entry
+- `777`: Issued With Entry
+- `780`: Preceding Entry
+- `785`: Succeeding Entry
+- `786`: Data Source Entry
+- `787`: Other Relationship Entry
+- `800`: Series Added Entry – Personal Name
+- `810`: Series Added Entry – Corporate Name
+- `811`: Series Added Entry – Meeting Name
+- `830`: Series Added Entry – Uniform Title
 
 
 ### Why it does this

@@ -46,6 +46,29 @@ sub parse_render_marker {
     # Strip the leading '# render:' prefix and surrounding whitespace
     $marker =~ s/^\s*#?\s*render:\s*//i;
 
+    # Optional provenance token. [doc ...] = drawn from the reference
+    # document; [LoC ...] = split from a real pre-punctuated
+    # Library-of-Congress / MARC21-online record; absent = constructed
+    # (made up to cover 'rules as written').
+    # Grammar for both kinds: [kind] | [kind <section>] | [kind - derived] |
+    #   [kind <section> - derived].
+    #   section  e.g. '§5.5' or 'C.1a' (where in the doc the example comes from)
+    #   '- derived' marks an example reconstructed/adapted from its source
+    #   (same values/meaning, but restructured for the $-inverted form the
+    #   plugin handles, or with subfields adjusted) rather than a verbatim
+    #   source Current/Future pair.
+    # Returned as a hashref { kind => 'doc'|'LoC'|'', section => '', derived => 0|1 }.
+    my $prov = { kind => '', section => '', derived => 0 };
+    if ( $marker =~ s/^\[(doc|LoC)\b(.*?)\]\s*//i ) {
+        $prov->{kind} = $1;    # preserve case: 'doc' or 'LoC'
+        my $inner = $2;
+        $prov->{derived} = 1 if $inner =~ /-\s*derived/i;
+        $inner =~ s/-\s*derived//i;
+        $inner =~ s/^\s*[-—–]\s*//;
+        $inner =~ s/^\s+|\s+$//g;
+        $prov->{section} = $inner if length $inner;
+    }
+
     my ( $tag, $ind1, $ind2, $rest ) = $marker =~ /^(\d{3})\s*(.)(.)\s*(.*)$/;
     die "Cannot parse render marker: '$marker'" unless defined $tag;
 
@@ -62,7 +85,7 @@ sub parse_render_marker {
         push @subfields, $code, $value;
     }
 
-    return ( $tag, $ind1, $ind2, @subfields );
+    return ( $prov, $tag, $ind1, $ind2, @subfields );
 }
 
 # Render a field as a MARC-ish string, e.g.
@@ -91,11 +114,53 @@ sub combined_string {
     # Accept either a flat list (sf, value, sf, value, ...) or a single
     # arrayref to the same (as returned by wrappers that return an arrayref).
     @sfs = @{ $sfs[0] } if @sfs == 1 && ref( $sfs[0] ) eq 'ARRAY';
-    my $c = '';
+    # Cataloguing convention: subfield values are joined with a SINGLE space
+    # when rendered, with trailing whitespace stripped FIRST so a decorated
+    # value ending in a space cannot introduce a double space. This is a
+    # rendering/assembly convention only -- the space is NOT baked into the
+    # punctuation (the decorated subfield values carry only the punctuation
+    # characters). Internal spaces (e.g. in a separator like ' ; ' or a
+    # wrapped '(a : b)') are preserved.
+    #
+    # Both ownership modes normalise to the SAME rendered string:
+    #   - postfix mode leaves trailing punct on a value  -> a single space
+    #     then the next value, e.g. 'Press,' + '1955' == 'Press, 1955';
+    #   - prefix mode prepends punct to the NEXT value. Punct that carries no
+    #     leading space (', ', '. ') arrives as ', X' / '. X' and is GLUED to
+    #     the previous value ('Press, 1955', 'A. X'); punct that carries a
+    #     leading space (' ; ', ' : ', ' / ', ' = ') arrives as ' ; X' and is
+    #     appended as-is ('A ; X'). Wrap values beginning with an opener
+    #     '(' / '[' are separated by a space ('BASIC (Computer program
+    #     language)').
+    my $combined = '';
     for ( my $i = 1 ; $i < @sfs ; $i += 2 ) {
-        $c .= $sfs[$i];
+        my $v = $sfs[$i];
+        $v =~ s/\s+$//;    # strip trailing whitespace
+        next if !length $v;    # drop fully-empty values
+        if ( $combined eq '' ) {
+            $v =~ s/^\s+//;    # strip leading from the first chunk only
+            $combined = $v;
+        }
+        elsif ( $v =~ /^[,.;:)\]]/ ) {
+            $combined .= $v;    # leading separator punct: glue (no space)
+        }
+        elsif ( $v =~ /^\s/ ) {
+            # Leading-space punctuation (a spaced separator ' ; X', ' : X',
+            # ' / X' from a ' ; ', ' : ', ' / ' punct). Keep ONE space before
+            # it, and ensure a space AFTER a separator that is glued straight
+            # to the content (the no-trailing-space series ' ;' used for $v,
+            # which arrives as ' ;X' and must render ' ; X').
+            $v =~ s/^\s+//;    # collapse the leading whitespace
+            if ( $v =~ m{^([,.;:)/=])(\S)} ) {
+                $v =~ s{^([,.;:)/=])(\S)}{$1 $2};    # ';X' -> '; X'
+            }
+            $combined .= " $v";
+        }
+        else {
+            $combined .= " $v";    # normal value: single space
+        }
     }
-    return $c;
+    return $combined;
 }
 
 # Assert that the postfix and prefix decorated results produce the SAME
