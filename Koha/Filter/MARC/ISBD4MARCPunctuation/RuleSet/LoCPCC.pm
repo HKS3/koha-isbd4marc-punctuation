@@ -44,6 +44,18 @@ mixture of pure data plus self-contained closures — no code duplication.
 sub rules {
     return {
 
+        # ISBD punct (§3.1): $a and $z N/A; repeatable $q (qualifying info)
+        # wrapped in ONE paren pair, multiple $q separated by ' ; ' via the
+        # shared _decorate_qualifier_group_pre pattern (same as 020).
+        '015' => {
+            name  => 'National Bibliography Number',
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_qualifier_group_pre(
+                    @_, 'q', ' ; ' );
+            },
+        },
+
         # ISBD punct: $a ($q ; $q) : $c
         # The repeatable $q parenthetical grouping (with ' ; ' separators)
         # is the shared _decorate_qualifier_group_pre pattern (also used by
@@ -53,6 +65,19 @@ sub rules {
             pchrs => {
                 c => ' : ',
             },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_qualifier_group_pre(
+                    @_, 'q', ' ; ' );
+            },
+        },
+
+        # ISBD punct (§3.3): $a/$d/$z N/A; $c gets ' : '; repeatable $q
+        # wrapped in ONE paren pair (multiple $q separated by ' ; ') via the
+        # shared _decorate_qualifier_group_pre pattern (same as 020).
+        '024' => {
+            name  => 'Other Standard Identifier',
+            pchrs => { c => ' : ' },
             cb_pre => sub {
                 return
                   Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_qualifier_group_pre(
@@ -371,6 +396,19 @@ sub rules {
             },
         },
 
+        # ISBD punct (§4.10): $a N/A; $r (parallel musical presentation)
+        # gets ' = '.
+        '254' => {
+            name  => 'Musical Presentation Statement',
+            pchrs => { r => ' = ' },
+        },
+
+        # ISBD punct (§3.4): $a N/A; $b (denomination) gets ' : '.
+        '258' => {
+            name  => 'Philatelic Issue Data',
+            pchrs => { b => ' : ' },
+        },
+
         # ISBD punct: $a ; $a : $b , $c ( $e : $f , $g ) (q)
         # $e/$f/$g form a grouped parenthetical by _decorate_260_pre;
         # $3 gets ': ' via post; $q wrapped (...). Repeated $a (and $b then
@@ -445,6 +483,54 @@ sub rules {
             },
             cb_pre =>
               'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_300_pre',
+        },
+
+        # ISBD punct (§3.5): $a N/A; $b (additional information) gets '; '.
+        # (glued semicolon, matching the doc Current form "M, 8:30-6:00; $b").
+        '307' => {
+            name  => 'Hours, etc.',
+            pchrs => { b => '; ' },
+        },
+
+        # ISBD punct (§4.15): $a N/A; $b (date) gets ', '; $n (qualifying
+        # info) wrapped in a SINGLE paren pair (not a repeatable group).
+        '310' => {
+            name  => 'Current Publication Frequency',
+            pchrs => { b => ', ' },
+            wrap  => { n => [ '(', ')' ] },
+        },
+
+        # ISBD punct (§4.16): identical structure to 310.
+        '321' => {
+            name  => 'Former Publication Frequency',
+            pchrs => { b => ', ' },
+            wrap  => { n => [ '(', ')' ] },
+        },
+
+        # ISBD punct (§3.6): $a N/A; $b-$i each get '; ' (glued, matching
+        # the doc Current form "Coordinate pair; $b meters").
+        '343' => {
+            name  => 'Planar Coordinate Data',
+            pchrs => {
+                b => '; ',
+                c => '; ',
+                d => '; ',
+                e => '; ',
+                f => '; ',
+                g => '; ',
+                h => '; ',
+                i => '; ',
+            },
+        },
+
+        # ISBD punct (§3.7): $c N/A; $a and $b each get '; ' (glued; the
+        # separator also fires after a N/A $c, per doc "$c Series; $a...").
+        '351' => {
+            name  => 'Organization and Arrangement of Materials',
+            pchrs => {
+                a => '; ',
+                b => '; ',
+            },
         },
 
         # ISBD punct (§4.18 series statement):
