@@ -584,6 +584,36 @@ sub rules {
             },
         },
 
+        # ISBD punct (§4.17): dates of publication / sequential designation.
+        # $a N/A; $z '. ' (source). $b (begin) ' ; ' ONLY between two $b
+        # (COMPOUND bb = new sequence of numbering); $c (end) preceding '- '
+        # only after $b or $d (COMPOUND bc/dc -- NOT a bare 'c', so it never
+        # fires after $i, matching the doc "Ceased with 2" example); $e (alt
+        # begin) ' = '; $f (alt end) '- '. $d = paren run-group via shared
+        # _decorate_paren_group_pre (single-member run -> ' (date)', giving
+        # the leading space before '(').
+        # $i = display text: the SPEC TABLE says trailing ': ', but ALL doc
+        # examples render it WITHOUT a colon ("Ceased with", "Began with") ->
+        # treated as an EMPTY field (no colon); the empty pchrs key 'i =>""'
+        # records the decision (the table entry is believed to be a typo).
+        '362' => {
+            name  => 'Dates of Publication and/or Sequential Designation',
+            pchrs => {
+                i  => '',
+                bb => ' ; ',
+                bc => '- ',
+                dc => '- ',
+                e  => ' = ',
+                f  => '- ',
+                z  => '. ',
+            },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, ['d'] );
+            },
+        },
+
         '490' => {
             name  => 'Series Statement',
             pchrs => {

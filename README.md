@@ -51,6 +51,7 @@ Implemented fields:
 - `343`: Planar Coordinate Data
 - `351`: Organization and Arrangement of Materials
 - `352`: Digital Graphic Representation
+- `362`: Dates of Publication and/or Sequential Designation
 - `490`: Series Statement
 - `500`: General Note
 - `501`: With Note

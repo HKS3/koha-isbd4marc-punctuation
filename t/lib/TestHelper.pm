@@ -126,12 +126,15 @@ sub combined_string {
     #   - postfix mode leaves trailing punct on a value  -> a single space
     #     then the next value, e.g. 'Press,' + '1955' == 'Press, 1955';
     #   - prefix mode prepends punct to the NEXT value. Punct that carries no
-    #     leading space (', ', '. ') arrives as ', X' / '. X' and is GLUED to
-    #     the previous value ('Press, 1955', 'A. X'); punct that carries a
-    #     leading space (' ; ', ' : ', ' / ', ' = ') arrives as ' ; X' and is
-    #     appended as-is ('A ; X'). Wrap values beginning with an opener
-    #     '(' / '[' are separated by a space ('BASIC (Computer program
-    #     language)').
+    #     leading space (', ', '. ', '- ') arrives as ', X' / '. X' / '- X'
+    #     and is GLUED to the previous value ('Press, 1955', 'A. X',
+    #     '1970- Dec. 1980'); punct that carries a leading space
+    #     (' ; ', ' : ', ' / ', ' = ') arrives as ' ; X' and is appended
+    #     as-is ('A ; X'). Wrap values beginning with an opener '(' / '['
+    #     are separated by a space ('BASIC (Computer program language)').
+    #     NOTE: '-' (hyphen) is in the glue set for field 362's date-range
+    #     punctuation ($c/$f '- '); it was added 2026-09-08 (the only hyphen
+    #     pchrs in the LoC/PCC set). No other field had a leading hyphen.
     my $combined = '';
     for ( my $i = 1 ; $i < @sfs ; $i += 2 ) {
         my $v = $sfs[$i];
@@ -141,7 +144,7 @@ sub combined_string {
             $v =~ s/^\s+//;    # strip leading from the first chunk only
             $combined = $v;
         }
-        elsif ( $v =~ /^[,.;:)\]]/ ) {
+        elsif ( $v =~ /^[-.,;:)\]]/ ) {
             $combined .= $v;    # leading separator punct: glue (no space)
         }
         elsif ( $v =~ /^\s/ ) {
