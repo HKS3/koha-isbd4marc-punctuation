@@ -100,7 +100,6 @@ Implemented fields:
 - `711`: Added Entry – Meeting Name
 - `730`: Added Entry – Uniform Title
 - `760`: Main Series Entry
-- `761`: Subseries Entry
 - `762`: Subseries Entry
 - `765`: Original Language Entry
 - `767`: Translation Entry

@@ -1250,8 +1250,8 @@ sub rules {
         #   $o/$q/$r/$u/$v/$w/$x/$y/$z N/A (no punctuation).
         #
         # DECISIONS / GAPS:
-        #   - All 16 §4.35 tags share this exact table -> 760 is canonical;
-        #     761..787 alias it via use_rules.
+        #   - All 15 §4.35 tags share this exact table -> 760 is canonical;
+        #     762..787 alias it via use_rules.
         #   - Embedded-field $j/$1 encoding NOT processed: $j is N/A and $1
         #     takes a preceding '. ' like any content subfield.
         '760' => {
@@ -1272,12 +1272,6 @@ sub rules {
             },
             cb_pre =>
               'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_display_text_pre',
-        },
-
-        # Identical structure to 760
-        '761' => {
-            name      => 'Subseries Entry',
-            use_rules => '760',
         },
 
         # Identical structure to 760

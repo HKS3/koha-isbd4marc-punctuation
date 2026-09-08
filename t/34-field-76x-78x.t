@@ -41,7 +41,7 @@ note( "Rule set under test: $SET" );
 my $R = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET);
 
 # --- all 15 tags are defined, canonical + aliases ---
-my @tags = qw(760 761 762 765 767 770 772 773 774 775 776 777 780 785 786 787);
+my @tags = qw(760 762 765 767 770 772 773 774 775 776 777 780 785 786 787);
 for my $t (@tags) {
     ok( defined $R->{$t}, "$t rules defined" );
 }
@@ -66,7 +66,7 @@ is( $R->{760}{cb_pre},
     'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_display_text_pre',
     '760 $i display-text wired to the shared callback string'
 );
-for my $t (qw(761 762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
+for my $t (qw(762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
     is( $R->{$t}{use_rules}, '760', "$t aliases 760 (identical rule table)" );
 }
 
@@ -209,23 +209,10 @@ for my $t (qw(761 762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
 }
 
 # =====================================================================
-# The remaining aliases (761/762/765/767/770/772/773/774/777/785/786):
+# The remaining aliases (762/765/767/770/772/773/774/777/785/786):
 # representative constructed data per tag — all share the identical §4.35
 # table, so each just exercises the content-subfield '. ' + $i ':' rules.
 # =====================================================================
-
-# 761 Subseries Entry
-{
-    # render: 761 ## $a Hauptserie. Abt. A $t Monographien
-    my $field = make_field( '761', ' ', ' ', a => 'Hauptserie. Abt. A', t => 'Monographien' );
-    my @r = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{761}, 'postfix' );
-    is( $r[1], 'Hauptserie. Abt. A. ', '761 postfix: $a gets ". " (from following $t)' );
-    is( $r[3], 'Monographien', '761 postfix: $t (last) unchanged' );
-    my @rp = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{761}, 'prefix' );
-    is( $rp[1], 'Hauptserie. Abt. A', '761 prefix: $a unchanged' );
-    is( $rp[3], '. Monographien', '761 prefix: $t gets ". " prepended' );
-    check_combined( \@r, \@rp, '761: combined string identical' );
-}
 
 # 762 Subseries Entry
 {
