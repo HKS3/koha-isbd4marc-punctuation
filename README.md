@@ -215,3 +215,26 @@ marker, and regenerate the example report.
 **To add a whole new rule set**: create `RuleSet/<Name>.pm` exposing
 `rules()` and register it in `rules_for()` (see `RuleSets.md` at the
 project root for the design).
+
+## What is not automated
+
+The plugin automates the mechanical punctuation rules according to
+standards. Where the correct punctuation depends on human judgement
+punctuation should be done manually and leader/18 set accordingly. The
+following cases are known to be too difficult for automatic
+punctuation:
+
+- **Conjunctions `$o` (245, 242)** — same author titles and alternative
+titles can not be distinguished from MARC.
+- **Same-author `$a` (242)** — *same* author/shared authorship is a
+judgement the data does not carry.
+- **Part names `$p` (130, 240, 242, 490)** — the plugin consistently
+uses `, `.
+- **Date of treaty signing `$d` (240)** — the rule is unclear.
+- **Repeated `$g` qualifiers (x00/x10/x11)** — render `(a)(b)` rather
+than `(a : b)`.
+- **Already-punctuated data (260 `$e/$f/$g`)** — existing parentheses
+cannot be detected and would be duplicated.
+- **Lone `$i`/`$j` (300)** — accompanying-material details without a
+leading `$h` are not parenthesized and a bare ` ; ` may leak.
+- **Alternate script `880`** — not handled.
