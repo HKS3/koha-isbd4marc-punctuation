@@ -288,23 +288,15 @@ sub _decorate_field {
             }
             if ( defined $punct ) {
                 # Colon-skip: never stack punctuation after a value that ends
-                # in ':' (e.g. 534 $p, whose trailing ' : ' comes from `post`;
-                # mirror of the K10plus reference loop). Check both the value
+                # in ':' (e.g. 534 $p, whose trailing ' : ' comes from `post`).
+                # A colon already closes the unit, so it suppresses ANY further
+                # stacked punct (incl. the '.()' sentinel). Check both the value
                 # decorated so far AND this subfield's `post` suffix, because
                 # `post` is applied in step 5 (after this one).
                 my $post_suffix = $rules->{post}{$sf};
                 if ( $value =~ /:\s*$/ || ( defined $post_suffix && $post_suffix =~ /:\s*$/ ) ) {
                     $punct = undef;
                 }
-                # KNOWN GAP (deferred): there is NO dedup when the current
-                # value already ends in the SAME char about to be added
-                # (only colon-skip above). E.g. a German value '2. Aufl.'
-                # (abbreviation period) followed by a '. ' would stack to
-                # '2. Aufl.. '. The two '.' are the same char but different
-                # functions (abbreviation vs sentence-end); proper handling
-                # wants a "ends in the same char -> skip" check like the
-                # colon-skip. Not implemented (see the pchrs pod note);
-                # t/34 avoids such values deliberately.
                 # '.()' sentinel: append a bare period to the current subfield
                 # and defer a paren-wrap onto the next subfield. The space
                 # before '(' comes from the single-space join in
@@ -317,6 +309,19 @@ sub _decorate_field {
                     else {
                         $value .= '.';
                     }
+                    $punct = undef;
+                }
+                # Same-char dedup: a value already ending in the SAME char as
+                # the punct about to be added suppresses THAT punct (e.g.
+                # '2. Aufl.' + '. ' -> '2. Aufl.', 'ABC Corp.' + '. ' ->
+                # 'ABC Corp.', 'Press,' + ', ' -> 'Press,'). Same char, two
+                # functions (abbreviation/content vs new unit); the unit is
+                # not doubled. Generalises the colon-only skip to any char.
+                elsif ( ( $value =~ /(\S)\s*$/ && index( $punct, $1 ) == 0 )
+                    || ( defined $post_suffix
+                        && $post_suffix =~ /(\S)\s*$/
+                        && index( $punct, $1 ) == 0 ) )
+                {
                     $punct = undef;
                 }
                 if ( defined $punct ) {
@@ -378,11 +383,17 @@ sub _decorate_260_pre {
         }
     }
     if ( $sf eq 'g' ) {
-        if ( $last_sf ne 'f' ) {
-            $value = ", ($value)";
+        # Close the group. The leading separator depends on whether the
+        # group was already opened by $e/$f (we are INSIDE it) or the
+        # $g is alone (starts AND closes its own group).
+        if ( $last_sf eq 'f' ) {
+            $value = ", $value)";   # inside group after manufacturer: (e : f, g)
+        }
+        elsif ( $last_sf eq 'e' ) {
+            $value = " : $value)";  # inside group after place: (e : g)
         }
         else {
-            $value = ", $value)";
+            $value = "($value)";     # lone $g (no $e/$f): clean paren (ex '1963 printing')
         }
     }
 

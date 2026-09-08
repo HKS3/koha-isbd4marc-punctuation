@@ -106,6 +106,7 @@ sub rules {
                 d => ', ',
                 e => ', ',
                 f => '. ',
+                h => ', ',
                 j => ', ',
                 k => '. ',
                 l => '. ',
@@ -118,6 +119,7 @@ sub rules {
                 t => '. ',
             },
             wrap => {
+                g => [ ' (', ')' ],
                 q => [ '(', ')' ],
             },
         },
@@ -335,6 +337,7 @@ sub rules {
                 k => ' : ',
                 n => '. ',
                 p => ', ',    # Context: could be `. ` or `, `; we pick `, `
+                ep => '. ',   # $p after $e (subsequent title by different author) -> `. ` (ex 7)
                 q => ', ',
                 r => ' = ',
                 s => '. ',
@@ -1045,6 +1048,7 @@ sub rules {
                 d => ', ',
                 e => ', ',
                 f => '. ',
+                h => ', ',
                 j => ', ',
                 k => '. ',
                 l => '. ',
@@ -1056,7 +1060,7 @@ sub rules {
                 s => '. ',
                 t => '. ',
             },
-            wrap => { q => [ '(', ')' ] },
+            wrap => { g => [ ' (', ')' ], q => [ '(', ')' ] },
         },
 
         # Same pchrs/wrap as 110 but:
@@ -1398,6 +1402,7 @@ sub rules {
                 d => ', ',
                 e => ', ',
                 f => '. ',
+                h => ', ',
                 j => ', ',
                 k => '. ',
                 l => '. ',
@@ -1410,7 +1415,7 @@ sub rules {
                 t => '. ',
                 v => ' ;',
             },
-            wrap => { q => [ '(', ')' ] },
+            wrap => { g => [ ' (', ')' ], q => [ '(', ')' ] },
         },
 
         # Same as 110 but $v (volume) gets ' ;' punctuation (610 differs)

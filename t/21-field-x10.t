@@ -344,7 +344,7 @@ sub check_combined {
         v => 'Periodicals',
         x => 'History'
     );
-    is( $r->[1], 'ABC Corp.. ', '610: $a gets ". " before $b' );
+    is( $r->[1], 'ABC Corp.',      '610: $a ends in ". " already, so the ". " for $b is suppressed (same-char dedup)' );
     is( $r->[3], 'Division',    '610: $b unchanged (v not in pchrs)' );
     is( $r->[5], 'Periodicals', '610: $v unchanged' );
     is( $r->[7], 'History',     '610: $x last' );

@@ -114,4 +114,39 @@ ok( defined $rules, '245 rules loaded' );
     check_combined( \@result, \@result_pr, '245 ex4: combined string identical' );
 }
 
+# --- Example 7: $e then $p (part/section after a different-author title) ---
+# Doc: Current: 245 10 $a Concerto per piano n. 21, K 467 $h [sound recording] / $c W.A. Mozart.
+#              L'assedio di Corinto. Ouverture / G. Rossini.
+# Future: ... $e L'assedio di Corinto $p Ouverture $c G. Rossini
+# (x5 ex7 pins the COMPOUND ep key: $p after $e gets '. ', not the default ', ')
+{
+    # render: [doc §4.6] 245 10 $a Concerto per piano n. 21, K 467 $h sound recording $c W.A. Mozart $e L'assedio di Corinto $p Ouverture $c G. Rossini
+    my $field = make_field( '245', '1', '0',
+        a => 'Concerto per piano n. 21, K 467',
+        h => 'sound recording',
+        c => 'W.A. Mozart',
+        e => "L'assedio di Corinto",
+        p => 'Ouverture',
+        c => 'G. Rossini',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
+    is( $result[1],  'Concerto per piano n. 21, K 467',        '245 ex7: $a unchanged (h wrapped, no pchrs)' );
+    is( $result[3],  '[sound recording] / ',                    '245 ex7: $h wrapped + gets " / " for $c' );
+    is( $result[5],  'W.A. Mozart. ',                           '245 ex7: $c gets ". " for $e' );
+    is( $result[7],  "L'assedio di Corinto. ",                 '245 ex7: $e gets ". " for $p (compound ep)' );
+    is( $result[9],  'Ouverture / ',                            '245 ex7: $p gets " / " for second $c' );
+    is( $result[11], 'G. Rossini',                              '245 ex7: second $c (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
+    is( $result_pr[1],  'Concerto per piano n. 21, K 467',      '245 ex7 prefix: $a unchanged' );
+    is( $result_pr[3],  '[sound recording]',                    '245 ex7 prefix: $h unchanged (wrapped)' );
+    is( $result_pr[5],  ' / W.A. Mozart',                       '245 ex7 prefix: $c gets " / " prepended' );
+    is( $result_pr[7],  ". L'assedio di Corinto",              '245 ex7 prefix: $e gets ". " prepended' );
+    is( $result_pr[9],  '. Ouverture',                          '245 ex7 prefix: $p gets ". " prepended (compound ep)' );
+    is( $result_pr[11], ' / G. Rossini',                        '245 ex7 prefix: second $c gets " / " prepended' );
+
+    check_combined( \@result, \@result_pr, '245 ex7: combined string identical' );
+}
+
 done_testing();
