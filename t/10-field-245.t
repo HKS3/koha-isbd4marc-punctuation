@@ -164,4 +164,82 @@ ok( defined $rules, '245 rules loaded' );
     check_combined( \@result, \@result_pr, '245: combined string identical' );
 }
 
+# --- Test 6: $q (alternative title) ---
+# Constructed: $q gets ', ' on the preceding $a (the $o-free part of
+# doc ex 6; $o conjunction is not decodable, so this pair drops it).
+{
+    # render: 245 10 $a Under the hill $q The story of Venus
+    my $field = make_field(
+        '245', '1', '0',
+        a => 'Under the hill',
+        q => 'The story of Venus',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'Under the hill, ', '245: $a gets ", " for $q' );
+    is( $result[3], 'The story of Venus', '245: $q (last) unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'Under the hill',     '245 prefix: $a unchanged' );
+    is( $result_pr[3], ', The story of Venus', '245 prefix: $q gets ", " prepended' );
+
+    check_combined( \@result, \@result_pr, '245: combined string identical' );
+}
+
+# --- Test 7: $k (form) ---
+# Constructed: $k (form) gets ' : ' on the preceding $a (key fires on the
+# following subfield). No doc example for 245 $k.
+{
+    # render: 245 00 $a Works $k Selections
+    my $field = make_field(
+        '245', '0', '0',
+        a => 'Works',
+        k => 'Selections',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'Works : ',  '245: $a gets " : " for $k (form)' );
+    is( $result[3], 'Selections', '245: $k (last) unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'Works',       '245 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Selections', '245 prefix: $k gets " : " prepended' );
+
+    check_combined( \@result, \@result_pr, '245: combined string identical' );
+}
+
+# --- Test 8: $s (version) ---
+# Constructed: $s (version) gets '. ' on the preceding $a (key fires on the
+# following subfield). No doc example for 245 $s.
+{
+    # render: 245 00 $a Works $s 2nd ed. rev.
+    my $field = make_field(
+        '245', '0', '0',
+        a => 'Works',
+        s => '2nd ed. rev.',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'Works. ',   '245: $a gets ". " for $s (version)' );
+    is( $result[3], '2nd ed. rev.', '245: $s (last) unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'Works',        '245 prefix: $a unchanged' );
+    is( $result_pr[3], '. 2nd ed. rev.', '245 prefix: $s gets ". " prepended' );
+
+    check_combined( \@result, \@result_pr, '245: combined string identical' );
+}
+
 done_testing();

@@ -224,17 +224,34 @@ punctuation should be done manually and leader/18 set accordingly. The
 following cases are known to be too difficult for automatic
 punctuation:
 
-- **Conjunctions `$o` (245, 242)** — same author titles and alternative
-titles can not be distinguished from MARC.
-- **Same-author `$a` (242)** — *same* author/shared authorship is a
+1. **Conjunctions `$o` (245, 242)** — same author titles and alternative
+titles can not be distinguished from MARC. (cf. section 4.6)
+```
+Current: 245 00 $a Lord Macaulay's essays ; $b and, Lays of ancient Rome.
+Future: 245 00 $a Lord Macaulay's essays $o and $a Lays of ancient Rome
+```
+```
+Current: 245 10 $a Under the hill, or, The story of Venus and Tannhauser.
+Future: 245 10 $a Under the hill $o or $q The story of Venus and Tannhauser
+```
+2. **Same-author `$a` (242)** — *same* author/shared authorship is a
 judgement the data does not carry.
-- **Part names `$p` (130, 240, 242, 490)** — the plugin consistently
+3. **Part names `$p` (130, 240, 242, 490)** — the plugin consistently
 uses `, `.
-- **Date of treaty signing `$d` (240)** — the rule is unclear.
-- **Repeated `$g` qualifiers (x00/x10/x11)** — render `(a)(b)` rather
+4. **Date of treaty signing `$d` (240)** — the rule is unclear.
+5. **Repeated `$g` qualifiers (x00/x10/x11)** — render `(a)(b)` rather
 than `(a : b)`.
-- **Already-punctuated data (260 `$e/$f/$g`)** — existing parentheses
+6. **Already-punctuated data (260 `$e/$f/$g`)** — existing parentheses
 cannot be detected and would be duplicated.
-- **Lone `$i`/`$j` (300)** — accompanying-material details without a
+7. **Lone `$i`/`$j` (300)** — accompanying-material details without a
 leading `$h` are not parenthesized and a bare ` ; ` may leak.
-- **Alternate script `880`** — not handled.
+8. **Alternate script `880`** — not handled. (cf. section 3.26)
+```
+Current: 260 ## $6 880-12 $a Moskva : $b Izd-vo "Nauka", $c 1982.
+         880 ## $6 260-12/(N $a Москва : $b Изд-во "Наука", $c 1982.
+Future: 260 ## $6 880-12 $a Moskva $b Izd-vo "Nauka" $c 1982
+         880 ## $6 260-12/(N $a Москва $b Изд-во "Наука" $c 1982
+```
+
+For the others there are no examples in the reference document. Real
+world test cases would be helpful.

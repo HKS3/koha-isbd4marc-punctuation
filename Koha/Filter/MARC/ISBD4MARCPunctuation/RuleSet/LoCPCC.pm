@@ -321,10 +321,12 @@ sub rules {
             use_rules => '240',
         },
 
-        # ISBD punct: $a : $b / $c ; $d . $e , $f , $g [h] . $n , $p : $k . $s
+        # ISBD punct: $a : $b / $c ; $d . $e , $f [h] . $n , $p : $k . $s
         #
         # DECISION / GAP: $p can be ', ' or '. ' depending on context — we pick
         # ', ' as more likely. $o (conjunction) is not decodable in MARC.
+        # NOTE: $g (bulk dates) is N/A - no preceding punct (spec §4.6; matches
+        # LoC + K10plus). The old `g => ', '` was a spec deviation, removed.
         '245' => {
             name  => 'Title Statement',
             pchrs => {
@@ -333,7 +335,6 @@ sub rules {
                 d => ' ; ',
                 e => '. ',
                 f => ', ',
-                g => ', ',
                 k => ' : ',
                 n => '. ',
                 p => ', ',    # Context: could be `. ` or `, `; we pick `, `

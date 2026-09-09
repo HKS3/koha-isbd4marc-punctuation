@@ -299,4 +299,25 @@ ok( defined $rules, '490 rules loaded' );
     check_combined( \@result, \@result_pr, '490: German-abbreviation dedup combined string identical' );
 }
 
+# --- 490 $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $a (mirrors ex6's $r; no doc
+# example for 490 $t).
+{
+    # render: 490 1# $a Census of manufactures $t Recensement des manufactures
+    my $field = make_field( '490', '1', ' ',
+        a => 'Census of manufactures',
+        t => 'Recensement des manufactures',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
+    is( $result[1], 'Census of manufactures = ', '490: $a gets " = " for $t' );
+    is( $result[3], 'Recensement des manufactures', '490: $t (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
+    is( $result_pr[1], 'Census of manufactures', '490 prefix: $a unchanged' );
+    is( $result_pr[3], ' = Recensement des manufactures', '490 prefix: $t gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '490: combined string identical ($t)' );
+}
+
 done_testing();

@@ -224,4 +224,61 @@ ok( defined $rules, '260 rules loaded' );
     check_combined( \@result, \@result_pr, '260: combined string identical' );
 }
 
+# --- 260 $r (parallel data, §4.5) ---
+# Constructed: $r fires ' = ' on the preceding $b (no doc example for 260 $r;
+# §4.12 defines it, §4.5 gives the pattern).
+{
+    # render: 260 ## $a London $b Arts Council $r London Arts Council
+    my $field = make_field(
+        '260', ' ', ' ',
+        a => 'London',
+        b => 'Arts Council',
+        r => 'London Arts Council',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'London : ',          '260: $a gets " : " for $b' );
+    is( $result[3], 'Arts Council = ',    '260: $b gets " = " for $r' );
+    is( $result[5], 'London Arts Council', '260: $r unchanged (last sf)' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'London',          '260 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Arts Council', '260 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = London Arts Council', '260 prefix: $r gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '260: combined string identical ($r)' );
+}
+
+# --- 260 $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $b (no doc example for 260 $t).
+{
+    # render: 260 ## $a London $b Arts Council $t Parallel publisher
+    my $field = make_field(
+        '260', ' ', ' ',
+        a => 'London',
+        b => 'Arts Council',
+        t => 'Parallel publisher',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'London : ',          '260: $a gets " : " for $b' );
+    is( $result[3], 'Arts Council = ',    '260: $b gets " = " for $t' );
+    is( $result[5], 'Parallel publisher', '260: $t unchanged (last sf)' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'London',          '260 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Arts Council', '260 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = Parallel publisher', '260 prefix: $t gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '260: combined string identical ($t)' );
+}
+
 done_testing();
