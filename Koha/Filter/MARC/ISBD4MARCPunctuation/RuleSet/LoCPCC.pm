@@ -87,12 +87,15 @@ sub rules {
 
         # ISBD punct: separating punctuation between subfields (§5.5):
         #   $a alone: no change (inversion comma already in $a)
-        #   $b '. '  $c ', '  $d ', '  $e ', '  $f '. '  $j ', '
+        #   $c ', '  $d ', '  $e ', '  $f '. '  $j ', '
         #   $k '. '  $l '. '  $m ', '  $n '. '  $o '; '  $p ', '
         #   $q '()'  $r ', '  $s '. '  $t '. '  $v ' ;' (800 only)
         #   $i: left as-is (cataloguer ends it with ':')
         #
         # DECISIONS / GAPS:
+        #   - $b (numeration) is N/A per §5.2 (e.g. John $b II -> John II,
+        #     no '. '). The old `b => '. '` ghost-copied the x10 meaning
+        #     (subordinate unit) into the personal-name blocks; removed.
         #   - $n '. ' / $p ', ' are the §5.5 LoC/PCC reading (aligned with
         #     x10/x11; e.g. Tolkien 700 "…rings. 2, Two towers").
         #   - §5.2 $a/$h split NOT in use: real records keep the inversion
@@ -101,7 +104,6 @@ sub rules {
         '100' => {
             name  => 'Main Entry – Personal Name',
             pchrs => {
-                b => '. ',
                 c => ', ',
                 d => ', ',
                 e => ', ',
@@ -1045,7 +1047,6 @@ sub rules {
         '600' => {
             name  => 'Subject Added Entry – Personal Name',
             pchrs => {
-                b => '. ',
                 c => ', ',
                 d => ', ',
                 e => ', ',
@@ -1403,7 +1404,6 @@ sub rules {
 
             name  => 'Series Added Entry – Personal Name',
             pchrs => {
-                b => '. ',
                 c => ', ',
                 d => ', ',
                 e => ', ',

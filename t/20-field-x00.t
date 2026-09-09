@@ -194,21 +194,50 @@ sub check_combined {
 }
 
 {
-    # render: 100 ## $a Charles Edward $b III $d 1720-1788
+    # LoC Current: 100 0# $a John $b II Comnenus, $c Emperor of the East, $d 1088-1143.
+    # render: [LoC - derived] 100 ## $a John $b II Comnenus $c Emperor of the East $d 1088-1143
+    # $b is the numeration -> N/A per §5.2 (no '. ' after $a).
     my $r = _decorate(
         '100', 'postfix',
-        a => 'Charles Edward',
-        b => 'III',
-        d => '1720-1788'
+        a => 'John',
+        b => 'II Comnenus',
+        c => 'Emperor of the East',
+        d => '1088-1143'
     );
-    is( $r->[1], 'Charles Edward. ', '100: $a before $b' );
-    is( $r->[3], 'III, ',            '100: $b before $d' );
-    is( $r->[5], '1720-1788',        '100: $d last' );
+    is( $r->[1], 'John',                 '100: $a unchanged ($b numeration, N/A)' );
+    is( $r->[3], 'II Comnenus, ',        '100: $b before $c' );
+    is( $r->[5], 'Emperor of the East, ', '100: $c before $d' );
+    is( $r->[7], '1088-1143',            '100: $d last' );
     check_combined(
-        '100', '100: $a+$b+$d',
-        a => 'Charles Edward',
-        b => 'III',
-        d => '1720-1788'
+        '100', '100 LoC: John II Comnenus',
+        a => 'John',
+        b => 'II Comnenus',
+        c => 'Emperor of the East',
+        d => '1088-1143'
+    )
+}
+
+{
+    # LoC Current: 100 0# $a John Paul $b II, $c Pope, $d 1920-
+    # render: [LoC - derived] 100 ## $a John Paul $b II $c Pope $d 1920-
+    # $b is the numeration -> N/A per §5.2 (no '. ' after $a).
+    my $r = _decorate(
+        '100', 'postfix',
+        a => 'John Paul',
+        b => 'II',
+        c => 'Pope',
+        d => '1920-'
+    );
+    is( $r->[1], 'John Paul',      '100: $a unchanged ($b numeration, N/A)' );
+    is( $r->[3], 'II, ',           '100: $b before $c' );
+    is( $r->[5], 'Pope, ',         '100: $c before $d' );
+    is( $r->[7], '1920-',          '100: $d last' );
+    check_combined(
+        '100', '100 LoC: John Paul II',
+        a => 'John Paul',
+        b => 'II',
+        c => 'Pope',
+        d => '1920-'
     )
 }
 
