@@ -239,13 +239,11 @@ judgement the data does not carry.
 3. **Part names `$p` (130, 240, 242, 490)** — the plugin consistently
 uses `, `.
 4. **Date of treaty signing `$d` (240)** — the rule is unclear.
-5. **Repeated `$g` qualifiers (x00/x10/x11)** — render `(a)(b)` rather
-than `(a : b)`.
-6. **Already-punctuated data (260 `$e/$f/$g`)** — existing parentheses
+5. **Already-punctuated data (260 `$e/$f/$g`)** — existing parentheses
 cannot be detected and would be duplicated.
-7. **Lone `$i`/`$j` (300)** — accompanying-material details without a
+6. **Lone `$i`/`$j` (300)** — accompanying-material details without a
 leading `$h` are not parenthesized and a bare ` ; ` may leak.
-8. **Alternate script `880`** — not handled. (cf. section 3.26)
+7. **Alternate script `880`** — not handled. (cf. section 3.26)
 ```
 Current: 260 ## $6 880-12 $a Moskva : $b Izd-vo "Nauka", $c 1982.
          880 ## $6 260-12/(N $a Москва : $b Изд-во "Наука", $c 1982.
@@ -255,3 +253,20 @@ Future: 260 ## $6 880-12 $a Moskva $b Izd-vo "Nauka" $c 1982
 
 For the others there are no examples in the reference document. Real
 world test cases would be helpful.
+
+### Qualifier `$g` combined with other subfields (manual)
+
+Repeated `$g` qualifiers are grouped as `(a : b)` automatically (see
+the implemented fields above). However, the following LoC records
+combine `$g` with other subfields (a date `$d`, or a trailing
+qualifier) in a single parenthetical in ways the automatic rules can
+not model. These need manual punctuation (leader/18 manual):
+
+```
+Current: 110 1# $a Minnesota. $b Constitutional Convention $d (1857 : $g Republican)
+Current: 710 1# $a Minnesota. $b Constitutional Convention $d (1857 : $g Republican)
+Current: 111 2# $a National Conference on Physical Measurement of the Disabled, $n 2nd, $c Mayo Clinic, $d 1981, $g Projected, not held.
+Current: 710 1# $a France. $t Treaties, etc. $g Poland, $d 1948 Mar. 2. $k Protocols, etc., $d 1951 Mar. 6.
+Current: 710 1# $a Algeria. $t Treaties, etc. $g England and Wales, $d 1682 Apr. 20.
+```
+

@@ -117,10 +117,13 @@ sub rules {
                 r => ', ',
                 s => '. ',
                 t => '. ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap => {
-                g => [ ' (', ')' ],
-                q => [ '(', ')' ],
+            wrap   => { q => [ '(', ')' ] },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, ['g'] );
             },
         },
 
@@ -164,10 +167,9 @@ sub rules {
                 dc => ' : ',
                 nd => ' : ',
                 tn => '. ',    # $t followed by $n (title part, §5.5 Ecuador ex)
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
       # ISBD punct: NAME (§5.4) + TITLE (§5.5) portion, mirroring x10.
@@ -202,10 +204,9 @@ sub rules {
                 cc => ' ; ',
                 dc => ' : ',
                 nd => ' : ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Uniform title, same §5.5 structure and punctuation as 240.
@@ -1060,8 +1061,14 @@ sub rules {
                 r => ', ',
                 s => '. ',
                 t => '. ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap => { g => [ ' (', ')' ], q => [ '(', ')' ] },
+            wrap   => { q => [ '(', ')' ] },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, ['g'] );
+            },
         },
 
         # Same pchrs/wrap as 110 but:
@@ -1090,10 +1097,9 @@ sub rules {
                 dc => ' : ',
                 nd => ' : ',
                 tn => '. ',    # $t followed by $n (title part, §5.5)
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Same as 111 but $v/$x/$y/$z (subject subdivisions) get NO punctuation
@@ -1118,10 +1124,9 @@ sub rules {
                 cc => ' ; ',
                 dc => ' : ',
                 nd => ' : ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Same §5.5 uniform-title block as 240/243/730/830, PLUS the ONE
@@ -1415,8 +1420,14 @@ sub rules {
                 s => '. ',
                 t => '. ',
                 v => ' ;',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap => { g => [ ' (', ')' ], q => [ '(', ')' ] },
+            wrap   => { q => [ '(', ')' ] },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, ['g'] );
+            },
         },
 
         # Same as 110 but $v (volume) gets ' ;' punctuation (610 differs)
@@ -1441,10 +1452,9 @@ sub rules {
                 dc => ' : ',
                 nd => ' : ',
                 tn => '. ',    # $t followed by $n (title part, §5.5)
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Same as 111 but $v (volume) gets ' ;' punctuation
@@ -1469,10 +1479,9 @@ sub rules {
                 cc => ' ; ',
                 dc => ' : ',
                 nd => ' : ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Same §5.5 uniform-title block as 240, PLUS $v (volume /

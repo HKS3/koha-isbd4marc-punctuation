@@ -582,4 +582,26 @@ sub check_combined {
     )
 }
 
+# repeated $g (constructed) -> single paren group (a : b)
+# x00 $g is the name-portion qualifier; two adjacent $g share one paren pair
+# via _decorate_paren_group_pre(['g']) + the gg compound key.
+{
+    # render: 100 ## $a Aristotle $g Greek philosopher $g student of Plato
+    my $r = _decorate(
+        '100', 'postfix',
+        a => 'Aristotle',
+        g => 'Greek philosopher',
+        g => 'student of Plato'
+    );
+    is( $r->[1], 'Aristotle',          '100: repeated $g - $a unchanged' );
+    is( $r->[3], ' (Greek philosopher : ', '100: repeated $g - first $g opens group + ": " via gg' );
+    is( $r->[5], 'student of Plato)',   '100: repeated $g - last $g closes paren (a : b)' );
+    check_combined(
+        '100', '100 repeated $g: (a : b)',
+        a => 'Aristotle',
+        g => 'Greek philosopher',
+        g => 'student of Plato'
+    )
+}
+
 done_testing();

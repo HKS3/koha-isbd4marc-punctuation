@@ -412,6 +412,16 @@ This mirrors I<enclose_in_parentheses(datafield, 'n', 'd', 'c')>.
 The internal C<' : '> / C<'; '> separators are supplied by
 the compound pchrs keys C<nd>/C<dc>/C<cc> in step 4 of C<_decorate_field>.
 
+It ALSO groups a contiguous run of C (qualifying info) into its own single
+paren pair (a separate group from the n/d/c meeting run), by delegating to
+C<_decorate_paren_group_pre> with the C<['g']> code-set. A repeated C like
+
+    $b President $g 1981-1989 $g Reagan  ->  President (1981-1989 : Reagan)
+
+uses the C<gg> compound pchrs key for the internal C<' : '>; a single C
+wraps as C<' (value)'>. Two independent groups (n/d/c and g) render as two
+separate parens, e.g. C<(N.Y.) (1982 : Albany)> per spec §5.4.
+
 A leading space is added before the opening paren when the group is preceded
 by other content (e.g. C).
 
@@ -444,6 +454,18 @@ If this gets revisited, revisit BOTH the grouping here and the title-portation
 sub _decorate_x10_pre {
     my ( $sf, $value, $i, $subfields, $last_sf_ref ) = @_;
     my $last_sf = $$last_sf_ref;
+
+    # $g (qualifying info) is a separate repeatable QUALIFIER group: a
+    # contiguous run of $g shares ONE paren pair (the internal ' : ' between
+    # two $g is supplied by the gg compound pchrs key in step 4, like the
+    # n/d/c separators). A single $g wraps as ' (value)'. Delegate to the
+    # shared generic run-grouper (the unification target for the per-field
+    # group callbacks), keeping the n/d/c meeting logic below unchanged.
+    if ( $sf eq 'g' ) {
+        return
+          _decorate_paren_group_pre( $sf, $value, $i, $subfields,
+            $last_sf_ref, ['g'] );
+    }
 
     # Meeting-group subfields.
     my %group_sf = map { $_ => 1 } qw(n d c);
