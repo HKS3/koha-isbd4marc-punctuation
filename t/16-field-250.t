@@ -215,4 +215,38 @@ ok( defined $rules_250, '250 rules loaded' );
     check_combined( \@result, \@result_pr, '250: combined string identical ($a+$c+$d)' );
 }
 
+# --- Example 7: $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $a (mirrors ex1's $r; no doc
+# example for 250 $t).
+{
+    # render: 250 ## $a Canadian ed. $t parallel
+    my $field = make_field(
+        '250', ' ', ' ',
+        a => 'Canadian ed.',
+        t => 'parallel',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules_250, 'postfix' );
+    is(
+        $result[1],
+        'Canadian ed. = ',
+        '250: $a gets " = " for $t'
+    );
+    is( $result[3], 'parallel', '250: $t unchanged (last sf)' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules_250, 'prefix' );
+    is( $result_pr[1], 'Canadian ed.', '250 prefix: $a unchanged' );
+    is(
+        $result_pr[3],
+        ' = parallel',
+        '250 prefix: $t gets " = " prepended'
+    );
+
+    check_combined( \@result, \@result_pr, '250: combined string identical ($a+$t)' );
+}
+
 done_testing();

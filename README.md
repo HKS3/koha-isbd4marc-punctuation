@@ -23,7 +23,9 @@ Trigger condition:
 
 Implemented fields:
 
+- `015`: National Bibliography Number
 - `020`: International Standard Book Number
+- `024`: Other Standard Identifier
 - `100`: Main Entry – Personal Name
 - `110`: Main Entry – Corporate Name
 - `111`: Main Entry – Meeting Name
@@ -37,9 +39,19 @@ Implemented fields:
 - `246`: Varying Form of Title
 - `247`: Former Title
 - `250`: Edition Statement
+- `254`: Musical Presentation Statement
+- `255`: Cartographic Mathematical Data
+- `258`: Philatelic Issue Data
 - `260`: Publication, Distribution, etc. (Imprint)
 - `264`: Production, Publication, Distribution, Manufacture, and Copyright Notice
 - `300`: Physical Description
+- `307`: Hours, etc.
+- `310`: Current Publication Frequency
+- `321`: Former Publication Frequency
+- `343`: Planar Coordinate Data
+- `351`: Organization and Arrangement of Materials
+- `352`: Digital Graphic Representation
+- `362`: Dates of Publication and/or Sequential Designation
 - `490`: Series Statement
 - `500`: General Note
 - `501`: With Note
@@ -89,7 +101,6 @@ Implemented fields:
 - `711`: Added Entry – Meeting Name
 - `730`: Added Entry – Uniform Title
 - `760`: Main Series Entry
-- `761`: Subseries Entry
 - `762`: Subseries Entry
 - `765`: Original Language Entry
 - `767`: Translation Entry
@@ -204,3 +215,58 @@ marker, and regenerate the example report.
 **To add a whole new rule set**: create `RuleSet/<Name>.pm` exposing
 `rules()` and register it in `rules_for()` (see `RuleSets.md` at the
 project root for the design).
+
+## What is not automated
+
+The plugin automates the mechanical punctuation rules according to
+standards. Where the correct punctuation depends on human judgement
+punctuation should be done manually and leader/18 set accordingly. The
+following cases are known to be too difficult for automatic
+punctuation:
+
+1. **Conjunctions `$o` (245, 242)** — same author titles and alternative
+titles can not be distinguished from MARC. (cf. section 4.6)
+```
+Current: 245 00 $a Lord Macaulay's essays ; $b and, Lays of ancient Rome.
+Future: 245 00 $a Lord Macaulay's essays $o and $a Lays of ancient Rome
+```
+```
+Current: 245 10 $a Under the hill, or, The story of Venus and Tannhauser.
+Future: 245 10 $a Under the hill $o or $q The story of Venus and Tannhauser
+```
+2. **Same-author `$a` (242)** — *same* author/shared authorship is a
+judgement the data does not carry.
+3. **Part names `$p` (130, 240, 242, 490)** — the plugin consistently
+uses `, `.
+4. **Date of treaty signing `$d` (240)** — the rule is unclear.
+5. **Already-punctuated data (260 `$e/$f/$g`)** — existing parentheses
+cannot be detected and would be duplicated.
+6. **Lone `$i`/`$j` (300)** — accompanying-material details without a
+leading `$h` are not parenthesized and a bare ` ; ` may leak.
+7. **Alternate script `880`** — not handled. (cf. section 3.26)
+```
+Current: 260 ## $6 880-12 $a Moskva : $b Izd-vo "Nauka", $c 1982.
+         880 ## $6 260-12/(N $a Москва : $b Изд-во "Наука", $c 1982.
+Future: 260 ## $6 880-12 $a Moskva $b Izd-vo "Nauka" $c 1982
+         880 ## $6 260-12/(N $a Москва $b Изд-во "Наука" $c 1982
+```
+
+For the others there are no examples in the reference document. Real
+world test cases would be helpful.
+
+### Qualifier `$g` combined with other subfields (manual)
+
+Repeated `$g` qualifiers are grouped as `(a : b)` automatically (see
+the implemented fields above). However, the following LoC records
+combine `$g` with other subfields (a date `$d`, or a trailing
+qualifier) in a single parenthetical in ways the automatic rules can
+not model. These need manual punctuation (leader/18 manual):
+
+```
+Current: 110 1# $a Minnesota. $b Constitutional Convention $d (1857 : $g Republican)
+Current: 710 1# $a Minnesota. $b Constitutional Convention $d (1857 : $g Republican)
+Current: 111 2# $a National Conference on Physical Measurement of the Disabled, $n 2nd, $c Mayo Clinic, $d 1981, $g Projected, not held.
+Current: 710 1# $a France. $t Treaties, etc. $g Poland, $d 1948 Mar. 2. $k Protocols, etc., $d 1951 Mar. 6.
+Current: 710 1# $a Algeria. $t Treaties, etc. $g England and Wales, $d 1682 Apr. 20.
+```
+

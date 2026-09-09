@@ -150,6 +150,30 @@ sub check_combined {
     )
 }
 
+# repeated $g -> single paren group (a : b) [doc §5.3 ex 3]
+{
+    # Doc: Current: 110 1# $a United States. $b President (1981-1989 : Reagan)
+    # render: [doc §5.3] 110 ## $a United States $b President $g 1981-1989 $g Reagan
+    my $r = _decorate(
+        '110', 'postfix',
+        a => 'United States',
+        b => 'President',
+        g => '1981-1989',
+        g => 'Reagan'
+    );
+    is( $r->[1], 'United States. ', '110: repeated $g - $a gets ". " before $b' );
+    is( $r->[3], 'President',       '110: repeated $g - $b unchanged (no single g over-fire)' );
+    is( $r->[5], ' (1981-1989 : ',  '110: repeated $g - first $g opens group + ": " via gg' );
+    is( $r->[7], 'Reagan)',         '110: repeated $g - last $g closes paren (a : b)' );
+    check_combined(
+        '110', '110 repeated $g: (a : b)',
+        a => 'United States',
+        b => 'President',
+        g => '1981-1989',
+        g => 'Reagan'
+    )
+}
+
 # multiple $b subordinate units chain
 {
     # render: 110 ## $a Canada $b Department $b Section
@@ -344,7 +368,7 @@ sub check_combined {
         v => 'Periodicals',
         x => 'History'
     );
-    is( $r->[1], 'ABC Corp.. ', '610: $a gets ". " before $b' );
+    is( $r->[1], 'ABC Corp.',      '610: $a ends in ". " already, so the ". " for $b is suppressed (same-char dedup)' );
     is( $r->[3], 'Division',    '610: $b unchanged (v not in pchrs)' );
     is( $r->[5], 'Periodicals', '610: $v unchanged' );
     is( $r->[7], 'History',     '610: $x last' );

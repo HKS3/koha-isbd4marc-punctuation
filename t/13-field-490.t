@@ -163,7 +163,7 @@ ok( defined $rules, '490 rules loaded' );
     );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
-    is( $result[1], 'Papers and documents of the I.C.I.. ',        '490 ex7: $a gets ". " for $n' );
+    is( $result[1], 'Papers and documents of the I.C.I.',        '490 ex7: $a ends in ". ", so the ". " for $n is suppressed (same-char dedup)' );
     is( $result[3], 'Series C, ',                                  '490 ex7: $n gets ", " for $p' );
     is( $result[5], 'Bibliographies ; ',                           '490 ex7: $p gets " ; " for $v' );
     is( $result[7], 'no. 3 = ',                                    '490 ex7: $v gets " = " for $r' );
@@ -171,7 +171,7 @@ ok( defined $rules, '490 rules loaded' );
 
     my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
     is( $result_pr[1], 'Papers and documents of the I.C.I.',        '490 ex7 prefix: $a unchanged' );
-    is( $result_pr[3], '. Series C',                                '490 ex7 prefix: $n gets ". " prepended' );
+    is( $result_pr[3], 'Series C',                                '490 ex7 prefix: $n unchanged (the ". " for $n was suppressed)' );
     is( $result_pr[5], ', Bibliographies',     '490 ex7 prefix: $p gets ", " prepended' );
     is( $result_pr[7], ' ; no. 3',             '490 ex7 prefix: $v gets " ; " prepended' );
     is( $result_pr[9], ' = Travaux et documents de l\'I.C.I.', '490 ex7 prefix: $r gets " = " prepended' );
@@ -276,6 +276,48 @@ ok( defined $rules, '490 rules loaded' );
     is( $result_pr[5], ' ; compiled by John Smith', '490 prefix: $d gets " ; " prepended' );
 
     check_combined( \@result, \@result_pr, '490: combined string identical' );
+}
+
+# --- German abbreviation: same-char dedup (engine) ---
+# '2. Aufl.' already ends in a period, so the '. ' for $n must NOT double
+# it -> '2. Aufl.' (not '2. Aufl.. '). This is the engine same-char dedup.
+{
+    # render: 490 ## $a 2. Aufl. $n Ergänzungsband
+    my $field = make_field( '490', '1', ' ',
+        a => '2. Aufl.',
+        n => 'Ergänzungsband',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
+    is( $result[1], '2. Aufl.',                '490: $a ends in "2. Aufl.", so the ". " for $n is suppressed (dedup)' );
+    is( $result[3], 'Ergänzungsband',    '490: $n (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
+    is( $result_pr[1], '2. Aufl.',            '490 prefix: $a unchanged' );
+    is( $result_pr[3], 'Ergänzungsband', '490 prefix: $n unchanged (dedup suppresses ". ")' );
+
+    check_combined( \@result, \@result_pr, '490: German-abbreviation dedup combined string identical' );
+}
+
+# --- 490 $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $a (mirrors ex6's $r; no doc
+# example for 490 $t).
+{
+    # render: 490 1# $a Census of manufactures $t Recensement des manufactures
+    my $field = make_field( '490', '1', ' ',
+        a => 'Census of manufactures',
+        t => 'Recensement des manufactures',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
+    is( $result[1], 'Census of manufactures = ', '490: $a gets " = " for $t' );
+    is( $result[3], 'Recensement des manufactures', '490: $t (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
+    is( $result_pr[1], 'Census of manufactures', '490 prefix: $a unchanged' );
+    is( $result_pr[3], ' = Recensement des manufactures', '490 prefix: $t gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '490: combined string identical ($t)' );
 }
 
 done_testing();

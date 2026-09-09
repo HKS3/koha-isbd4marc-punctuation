@@ -77,4 +77,130 @@ ok( defined $rules_247, '247 rules loaded' );
     check_combined( \@result, \@result_pr, '247 example 9: combined string identical' );
 }
 
+# --- 247 $b (other title info) ---
+# Constructed: $b fires ' : ' on the preceding $a (no doc example for 247 $b).
+{
+    # render: 247 10 $a Progress report $b a subtitle
+    my $field = make_field( '247', '1', '0',
+        a => 'Progress report',
+        b => 'a subtitle',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'postfix' );
+    is( $result[1], 'Progress report : ', '247: $a gets " : " for $b' );
+    is( $result[3], 'a subtitle',          '247: $b (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'prefix' );
+    is( $result_pr[1], 'Progress report',  '247 prefix: $a unchanged' );
+    is( $result_pr[3], ' : a subtitle',    '247 prefix: $b gets " : " prepended' );
+
+    check_combined( \@result, \@result_pr, '247: combined string identical' );
+}
+
+# --- 247 $n (number of part) ---
+# Constructed: $n fires '. ' on the preceding $a.
+{
+    # render: 247 10 $a Progress report $n Pt. 1
+    my $field = make_field( '247', '1', '0',
+        a => 'Progress report',
+        n => 'Pt. 1',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'postfix' );
+    is( $result[1], 'Progress report. ', '247: $a gets ". " for $n' );
+    is( $result[3], 'Pt. 1',             '247: $n (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'prefix' );
+    is( $result_pr[1], 'Progress report', '247 prefix: $a unchanged' );
+    is( $result_pr[3], '. Pt. 1',         '247 prefix: $n gets ". " prepended' );
+
+    check_combined( \@result, \@result_pr, '247: combined string identical' );
+}
+
+# --- 247 $p (name of part) ---
+# Constructed: $p fires ', ' on the preceding $n.
+{
+    # render: 247 10 $a Progress report $n Pt. 1 $p Section A
+    my $field = make_field( '247', '1', '0',
+        a => 'Progress report',
+        n => 'Pt. 1',
+        p => 'Section A',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'postfix' );
+    is( $result[1], 'Progress report. ', '247: $a gets ". " for $n' );
+    is( $result[3], 'Pt. 1, ',           '247: $n gets ", " for $p' );
+    is( $result[5], 'Section A',         '247: $p (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'prefix' );
+    is( $result_pr[1], 'Progress report', '247 prefix: $a unchanged' );
+    is( $result_pr[3], '. Pt. 1',         '247 prefix: $n gets ". " prepended' );
+    is( $result_pr[5], ', Section A',     '247 prefix: $p gets ", " prepended' );
+
+    check_combined( \@result, \@result_pr, '247: combined string identical' );
+}
+
+# --- 247 $q (alternative title) ---
+# Constructed: $q fires ', ' on the preceding $a.
+{
+    # render: 247 10 $a Progress report $q Parallel title
+    my $field = make_field( '247', '1', '0',
+        a => 'Progress report',
+        q => 'Parallel title',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'postfix' );
+    is( $result[1], 'Progress report, ', '247: $a gets ", " for $q' );
+    is( $result[3], 'Parallel title',    '247: $q (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'prefix' );
+    is( $result_pr[1], 'Progress report',   '247 prefix: $a unchanged' );
+    is( $result_pr[3], ', Parallel title',  '247 prefix: $q gets ", " prepended' );
+
+    check_combined( \@result, \@result_pr, '247: combined string identical' );
+}
+
+# --- 247 $r (parallel title, §4.5) ---
+# Constructed: $r fires ' = ' on the preceding $a.
+{
+    # render: 247 10 $a Progress report $r Rapport de progres
+    my $field = make_field( '247', '1', '0',
+        a => 'Progress report',
+        r => 'Rapport de progres',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'postfix' );
+    is( $result[1], 'Progress report = ', '247: $a gets " = " for $r' );
+    is( $result[3], 'Rapport de progres', '247: $r (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'prefix' );
+    is( $result_pr[1], 'Progress report', '247 prefix: $a unchanged' );
+    is( $result_pr[3], ' = Rapport de progres', '247 prefix: $r gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '247: combined string identical' );
+}
+
+# --- 247 $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $b.
+{
+    # render: 247 10 $a Progress report $b subtitle $t Parallel subtitle
+    my $field = make_field( '247', '1', '0',
+        a => 'Progress report',
+        b => 'subtitle',
+        t => 'Parallel subtitle',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'postfix' );
+    is( $result[1], 'Progress report : ', '247: $a gets " : " for $b' );
+    is( $result[3], 'subtitle = ',        '247: $b gets " = " for $t' );
+    is( $result[5], 'Parallel subtitle',  '247: $t (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_247, 'prefix' );
+    is( $result_pr[1], 'Progress report', '247 prefix: $a unchanged' );
+    is( $result_pr[3], ' : subtitle',     '247 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = Parallel subtitle', '247 prefix: $t gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '247: combined string identical' );
+}
+
 done_testing();

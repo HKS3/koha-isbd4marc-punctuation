@@ -288,23 +288,15 @@ sub _decorate_field {
             }
             if ( defined $punct ) {
                 # Colon-skip: never stack punctuation after a value that ends
-                # in ':' (e.g. 534 $p, whose trailing ' : ' comes from `post`;
-                # mirror of the K10plus reference loop). Check both the value
+                # in ':' (e.g. 534 $p, whose trailing ' : ' comes from `post`).
+                # A colon already closes the unit, so it suppresses ANY further
+                # stacked punct (incl. the '.()' sentinel). Check both the value
                 # decorated so far AND this subfield's `post` suffix, because
                 # `post` is applied in step 5 (after this one).
                 my $post_suffix = $rules->{post}{$sf};
                 if ( $value =~ /:\s*$/ || ( defined $post_suffix && $post_suffix =~ /:\s*$/ ) ) {
                     $punct = undef;
                 }
-                # KNOWN GAP (deferred): there is NO dedup when the current
-                # value already ends in the SAME char about to be added
-                # (only colon-skip above). E.g. a German value '2. Aufl.'
-                # (abbreviation period) followed by a '. ' would stack to
-                # '2. Aufl.. '. The two '.' are the same char but different
-                # functions (abbreviation vs sentence-end); proper handling
-                # wants a "ends in the same char -> skip" check like the
-                # colon-skip. Not implemented (see the pchrs pod note);
-                # t/34 avoids such values deliberately.
                 # '.()' sentinel: append a bare period to the current subfield
                 # and defer a paren-wrap onto the next subfield. The space
                 # before '(' comes from the single-space join in
@@ -317,6 +309,19 @@ sub _decorate_field {
                     else {
                         $value .= '.';
                     }
+                    $punct = undef;
+                }
+                # Same-char dedup: a value already ending in the SAME char as
+                # the punct about to be added suppresses THAT punct (e.g.
+                # '2. Aufl.' + '. ' -> '2. Aufl.', 'ABC Corp.' + '. ' ->
+                # 'ABC Corp.', 'Press,' + ', ' -> 'Press,'). Same char, two
+                # functions (abbreviation/content vs new unit); the unit is
+                # not doubled. Generalises the colon-only skip to any char.
+                elsif ( ( $value =~ /(\S)\s*$/ && index( $punct, $1 ) == 0 )
+                    || ( defined $post_suffix
+                        && $post_suffix =~ /(\S)\s*$/
+                        && index( $punct, $1 ) == 0 ) )
+                {
                     $punct = undef;
                 }
                 if ( defined $punct ) {
@@ -378,11 +383,17 @@ sub _decorate_260_pre {
         }
     }
     if ( $sf eq 'g' ) {
-        if ( $last_sf ne 'f' ) {
-            $value = ", ($value)";
+        # Close the group. The leading separator depends on whether the
+        # group was already opened by $e/$f (we are INSIDE it) or the
+        # $g is alone (starts AND closes its own group).
+        if ( $last_sf eq 'f' ) {
+            $value = ", $value)";   # inside group after manufacturer: (e : f, g)
+        }
+        elsif ( $last_sf eq 'e' ) {
+            $value = " : $value)";  # inside group after place: (e : g)
         }
         else {
-            $value = ", $value)";
+            $value = "($value)";     # lone $g (no $e/$f): clean paren (ex '1963 printing')
         }
     }
 
@@ -400,6 +411,16 @@ C (location) into a single pair of parentheses, e.g.
 This mirrors I<enclose_in_parentheses(datafield, 'n', 'd', 'c')>.
 The internal C<' : '> / C<'; '> separators are supplied by
 the compound pchrs keys C<nd>/C<dc>/C<cc> in step 4 of C<_decorate_field>.
+
+It ALSO groups a contiguous run of C (qualifying info) into its own single
+paren pair (a separate group from the n/d/c meeting run), by delegating to
+C<_decorate_paren_group_pre> with the C<['g']> code-set. A repeated C like
+
+    $b President $g 1981-1989 $g Reagan  ->  President (1981-1989 : Reagan)
+
+uses the C<gg> compound pchrs key for the internal C<' : '>; a single C
+wraps as C<' (value)'>. Two independent groups (n/d/c and g) render as two
+separate parens, e.g. C<(N.Y.) (1982 : Albany)> per spec §5.4.
 
 A leading space is added before the opening paren when the group is preceded
 by other content (e.g. C).
@@ -433,6 +454,18 @@ If this gets revisited, revisit BOTH the grouping here and the title-portation
 sub _decorate_x10_pre {
     my ( $sf, $value, $i, $subfields, $last_sf_ref ) = @_;
     my $last_sf = $$last_sf_ref;
+
+    # $g (qualifying info) is a separate repeatable QUALIFIER group: a
+    # contiguous run of $g shares ONE paren pair (the internal ' : ' between
+    # two $g is supplied by the gg compound pchrs key in step 4, like the
+    # n/d/c separators). A single $g wraps as ' (value)'. Delegate to the
+    # shared generic run-grouper (the unification target for the per-field
+    # group callbacks), keeping the n/d/c meeting logic below unchanged.
+    if ( $sf eq 'g' ) {
+        return
+          _decorate_paren_group_pre( $sf, $value, $i, $subfields,
+            $last_sf_ref, ['g'] );
+    }
 
     # Meeting-group subfields.
     my %group_sf = map { $_ => 1 } qw(n d c);
@@ -636,6 +669,70 @@ sub _decorate_qualifier_group_pre {
 
     # Single occurrence: wrap entirely
     return "($value)";
+}
+
+=head2 _decorate_paren_group_pre
+
+I<Shared> pre-callback + helper that wraps a contiguous run of the given
+subfield codes in a SINGLE pair of parentheses. This is the generic
+parameterized run-grouper for the C2 cartographic fields, used by:
+
+    255 $c/$d/$e  (Cartographic Mathematical Data, spec §4.11)
+    352 $d/$e/$f  (Digital Graphic Representation, spec §3.8)
+
+It is the same grouping logic as C<_decorate_x10_pre> (the n/d/c meeting
+run) and C<_decorate_300_pre> (the h/i/j accompanying-material run), but
+generalized to take the run's subfield-code set as a parameter so the
+fields differ only in WHICH codes form the group. Unlike C<_decorate_300_pre>
+it has NO anchor guard: a 255/352 group run may open at any of its member
+codes (e.g. a 352 run may start at C<$e> when no C<$d> precedes it — there
+is no mandatory anchor like 300's C<$h>).
+
+Internal separators come from the COMPOUND pchrs keys in step 4 of
+C<_decorate_field> (the same mechanism as the x10 C<nd>/C<dc>/C<cc> and 300
+C<hi>/C<ij>/C<hj> keys), so the mode ownership stays engine-handled.
+
+Because the group code-set differs per field, the data files reference this
+helper via small closures that supply the arrayref (mirroring the
+C<_decorate_qualifier_group_pre> closures for 020/210/222). A leading space
+is added before the opening paren when the group is preceded by other
+content (e.g. 255: the space after "proj.").
+
+NOTE: the group members must NOT also carry a C<wrap> entry (step 1 callback
++ step 2 wrap would both apply -> double parens). 352's C<$c> is a separate
+INDIVIDUAL C<wrap> and is deliberately NOT in the C<d/e/f> callback set.
+
+Called with the standard C<cb_pre> signature followed by an arrayref of the
+group subfield codes.
+
+=cut
+
+sub _decorate_paren_group_pre {
+    my ( $sf, $value, $i, $subfields, $last_sf_ref, $group_sf_ref ) = @_;
+    my $last_sf = $$last_sf_ref;
+
+    my %group_sf = map { $_ => 1 } @{$group_sf_ref};
+
+    # Not a group subfield — leave untouched.
+    return $value unless $group_sf{$sf};
+
+    my $next    = $subfields->[ $i + 1 ];
+    my $next_sf = $next ? $next->[0] : '';
+
+    my $is_first = !$group_sf{$last_sf};
+    my $is_last  = ( !defined $next_sf || !$group_sf{$next_sf} );
+
+    if ($is_first) {
+
+        # Leading space unless this is the very first subfield of the field
+        my $lead = ( defined $last_sf && length $last_sf ) ? ' ' : '';
+        $value = $lead . '(' . $value;
+    }
+    if ($is_last) {
+        $value .= ')';
+    }
+
+    return $value;
 }
 
 =head2 _decorate_display_text_pre

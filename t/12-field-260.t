@@ -166,6 +166,39 @@ ok( defined $rules, '260 rules loaded' );
     check_combined( \@result, \@result_pr, '260: combined string identical' );
 }
 
+# --- Test 5b: lone $g (no $e/$f) opens its own clean paren ---
+# Doc Current: 260 ## $a Harmondsworth : $b Penguin, $c 1949 $g (1963 printing)
+# A lone $g is a self-contained (value) group; it must NOT get a leading
+# comma (the old bug produced ', (1963 printing)').
+{
+    # render: [doc §4.12] 260 ## $a Harmondsworth $b Penguin $c 1949 $g 1963 printing
+    my $field = make_field(
+        '260', ' ', ' ',
+        a => 'Harmondsworth',
+        b => 'Penguin',
+        c => '1949',
+        g => '1963 printing',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'Harmondsworth : ', '260: $a gets " : " for $b' );
+    is( $result[3], 'Penguin, ',        '260: $b gets ", " for $c' );
+    is( $result[5], '1949',             '260: $c unchanged (g not in pchrs)' );
+    is( $result[7], '(1963 printing)',  '260: lone $g wrapped cleanly, no leading comma' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'Harmondsworth',   '260 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Penguin',      '260 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ', 1949',          '260 prefix: $c gets ", " prepended' );
+    is( $result_pr[7], '(1963 printing)', '260 prefix: lone $g wrapped cleanly' );
+
+    check_combined( \@result, \@result_pr, '260: lone $g combined string identical' );
+}
+
 # --- Test 6: $3 always gets ": " appended ---
 # $3 uses "post" (always-appended suffix), not pchrs, so same in both modes.
 {
@@ -189,6 +222,63 @@ ok( defined $rules, '260 rules loaded' );
     is( $result_pr[3], 'New York', '260 prefix: $a unchanged' );
 
     check_combined( \@result, \@result_pr, '260: combined string identical' );
+}
+
+# --- 260 $r (parallel data, §4.5) ---
+# Constructed: $r fires ' = ' on the preceding $b (no doc example for 260 $r;
+# §4.12 defines it, §4.5 gives the pattern).
+{
+    # render: 260 ## $a London $b Arts Council $r London Arts Council
+    my $field = make_field(
+        '260', ' ', ' ',
+        a => 'London',
+        b => 'Arts Council',
+        r => 'London Arts Council',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'London : ',          '260: $a gets " : " for $b' );
+    is( $result[3], 'Arts Council = ',    '260: $b gets " = " for $r' );
+    is( $result[5], 'London Arts Council', '260: $r unchanged (last sf)' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'London',          '260 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Arts Council', '260 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = London Arts Council', '260 prefix: $r gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '260: combined string identical ($r)' );
+}
+
+# --- 260 $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $b (no doc example for 260 $t).
+{
+    # render: 260 ## $a London $b Arts Council $t Parallel publisher
+    my $field = make_field(
+        '260', ' ', ' ',
+        a => 'London',
+        b => 'Arts Council',
+        t => 'Parallel publisher',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'London : ',          '260: $a gets " : " for $b' );
+    is( $result[3], 'Arts Council = ',    '260: $b gets " = " for $t' );
+    is( $result[5], 'Parallel publisher', '260: $t unchanged (last sf)' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'London',          '260 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Arts Council', '260 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = Parallel publisher', '260 prefix: $t gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '260: combined string identical ($t)' );
 }
 
 done_testing();

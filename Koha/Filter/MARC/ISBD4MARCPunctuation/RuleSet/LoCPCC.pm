@@ -44,6 +44,18 @@ mixture of pure data plus self-contained closures — no code duplication.
 sub rules {
     return {
 
+        # ISBD punct (§3.1): $a and $z N/A; repeatable $q (qualifying info)
+        # wrapped in ONE paren pair, multiple $q separated by ' ; ' via the
+        # shared _decorate_qualifier_group_pre pattern (same as 020).
+        '015' => {
+            name  => 'National Bibliography Number',
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_qualifier_group_pre(
+                    @_, 'q', ' ; ' );
+            },
+        },
+
         # ISBD punct: $a ($q ; $q) : $c
         # The repeatable $q parenthetical grouping (with ' ; ' separators)
         # is the shared _decorate_qualifier_group_pre pattern (also used by
@@ -53,6 +65,19 @@ sub rules {
             pchrs => {
                 c => ' : ',
             },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_qualifier_group_pre(
+                    @_, 'q', ' ; ' );
+            },
+        },
+
+        # ISBD punct (§3.3): $a/$d/$z N/A; $c gets ' : '; repeatable $q
+        # wrapped in ONE paren pair (multiple $q separated by ' ; ') via the
+        # shared _decorate_qualifier_group_pre pattern (same as 020).
+        '024' => {
+            name  => 'Other Standard Identifier',
+            pchrs => { c => ' : ' },
             cb_pre => sub {
                 return
                   Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_qualifier_group_pre(
@@ -81,6 +106,7 @@ sub rules {
                 d => ', ',
                 e => ', ',
                 f => '. ',
+                h => ', ',
                 j => ', ',
                 k => '. ',
                 l => '. ',
@@ -91,9 +117,13 @@ sub rules {
                 r => ', ',
                 s => '. ',
                 t => '. ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap => {
-                q => [ '(', ')' ],
+            wrap   => { q => [ '(', ')' ] },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, ['g'] );
             },
         },
 
@@ -137,10 +167,9 @@ sub rules {
                 dc => ' : ',
                 nd => ' : ',
                 tn => '. ',    # $t followed by $n (title part, §5.5 Ecuador ex)
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
       # ISBD punct: NAME (§5.4) + TITLE (§5.5) portion, mirroring x10.
@@ -175,10 +204,9 @@ sub rules {
                 cc => ' ; ',
                 dc => ' : ',
                 nd => ' : ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Uniform title, same §5.5 structure and punctuation as 240.
@@ -294,10 +322,12 @@ sub rules {
             use_rules => '240',
         },
 
-        # ISBD punct: $a : $b / $c ; $d . $e , $f , $g [h] . $n , $p : $k . $s
+        # ISBD punct: $a : $b / $c ; $d . $e , $f [h] . $n , $p : $k . $s
         #
         # DECISION / GAP: $p can be ', ' or '. ' depending on context — we pick
         # ', ' as more likely. $o (conjunction) is not decodable in MARC.
+        # NOTE: $g (bulk dates) is N/A - no preceding punct (spec §4.6; matches
+        # LoC + K10plus). The old `g => ', '` was a spec deviation, removed.
         '245' => {
             name  => 'Title Statement',
             pchrs => {
@@ -306,10 +336,10 @@ sub rules {
                 d => ' ; ',
                 e => '. ',
                 f => ', ',
-                g => ', ',
                 k => ' : ',
                 n => '. ',
                 p => ', ',    # Context: could be `. ` or `, `; we pick `, `
+                ep => '. ',   # $p after $e (subsequent title by different author) -> `. ` (ex 7)
                 q => ', ',
                 r => ' = ',
                 s => '. ',
@@ -369,6 +399,40 @@ sub rules {
                 r => ' = ',
                 t => ' = ',
             },
+        },
+
+        # ISBD punct (§4.10): $a N/A; $r (parallel musical presentation)
+        # gets ' = '.
+        '254' => {
+            name  => 'Musical Presentation Statement',
+            pchrs => { r => ' = ' },
+        },
+
+        # ISBD punct (§3.4): $a N/A; $b (denomination) gets ' : '.
+        # ISBD punct (§4.11): $a N/A; $b ' ; '; $c/$d/$e = one paren run-group
+        # (shared _decorate_paren_group_pre); $s/$v '. '; $f/$g N/A. Internal
+        # group separators via COMPOUND cd/de keys. DECISION: c/d/e are ONE
+        # group (adjacent members share one paren pair); a $c-adjoining-$d
+        # case has no doc example -> left open (unhandled).
+        '255' => {
+            name  => 'Cartographic Mathematical Data',
+            pchrs => {
+                b  => ' ; ',
+                s  => '. ',
+                v  => '. ',
+                cd => ' ; ',
+                de => ' ; ',
+            },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, [qw(c d e)] );
+            },
+        },
+
+        '258' => {
+            name  => 'Philatelic Issue Data',
+            pchrs => { b => ' : ' },
         },
 
         # ISBD punct: $a ; $a : $b , $c ( $e : $f , $g ) (q)
@@ -447,11 +511,114 @@ sub rules {
               'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_300_pre',
         },
 
+        # ISBD punct (§3.5): $a N/A; $b (additional information) gets '; '.
+        # (glued semicolon, matching the doc Current form "M, 8:30-6:00; $b").
+        '307' => {
+            name  => 'Hours, etc.',
+            pchrs => { b => '; ' },
+        },
+
+        # ISBD punct (§4.15): $a N/A; $b (date) gets ', '; $n (qualifying
+        # info) wrapped in a SINGLE paren pair (not a repeatable group).
+        '310' => {
+            name  => 'Current Publication Frequency',
+            pchrs => { b => ', ' },
+            wrap  => { n => [ '(', ')' ] },
+        },
+
+        # ISBD punct (§4.16): identical structure to 310.
+        '321' => {
+            name  => 'Former Publication Frequency',
+            pchrs => { b => ', ' },
+            wrap  => { n => [ '(', ')' ] },
+        },
+
+        # ISBD punct (§3.6): $a N/A; $b-$i each get '; ' (glued, matching
+        # the doc Current form "Coordinate pair; $b meters").
+        '343' => {
+            name  => 'Planar Coordinate Data',
+            pchrs => {
+                b => '; ',
+                c => '; ',
+                d => '; ',
+                e => '; ',
+                f => '; ',
+                g => '; ',
+                h => '; ',
+                i => '; ',
+            },
+        },
+
+        # ISBD punct (§3.7): $c N/A; $a and $b each get '; ' (glued; the
+        # separator also fires after a N/A $c, per doc "$c Series; $a...").
+        '351' => {
+            name  => 'Organization and Arrangement of Materials',
+            pchrs => {
+                a => '; ',
+                b => '; ',
+            },
+        },
+
         # ISBD punct (§4.18 series statement):
         #   $b ' : '  $c ' / '  $d ' ; '  $n '. '  $p ', '  $r ' = '
         #   $t ' = '  $v ' ; '  $x ', '  $y ' = '
         # $3 gets ': ' via post; $l wrapped (...).
         # GAP: $p can be '. ' or ', ' depending on context — we pick ', '.
+        # ISBD punct (§3.8): $a N/A; $b ' : ' (first) / ', ' (repeated after
+        # $c) via COMPOUND ab/cb; $g ', '; $i ' : '; $q ' ; '; $c = INDIVIDUAL
+        # paren wrap (NOT in the d/e/f group); $d/$e/$f = one paren run-group
+        # (shared _decorate_paren_group_pre) with ' x ' separators via COMPOUND
+        # de/ef. DECISION: $c stays a SEPARATE wrap (doc ex 2 shows individual
+        # (13671) (20171) pairs), not folded into the d/e/f group.
+        '352' => {
+            name  => 'Digital Graphic Representation',
+            pchrs => {
+                ab => ' : ',
+                cb => ', ',
+                g  => ', ',
+                i  => ' : ',
+                q  => ' ; ',
+                de => ' x ',
+                ef => ' x ',
+            },
+            wrap   => { c => [ '(', ')' ] },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, [qw(d e f)] );
+            },
+        },
+
+        # ISBD punct (§4.17): dates of publication / sequential designation.
+        # $a N/A; $z '. ' (source). $b (begin) ' ; ' ONLY between two $b
+        # (COMPOUND bb = new sequence of numbering); $c (end) preceding '- '
+        # only after $b or $d (COMPOUND bc/dc -- NOT a bare 'c', so it never
+        # fires after $i, matching the doc "Ceased with 2" example); $e (alt
+        # begin) ' = '; $f (alt end) '- '. $d = paren run-group via shared
+        # _decorate_paren_group_pre (single-member run -> ' (date)', giving
+        # the leading space before '(').
+        # $i = display text: the SPEC TABLE says trailing ': ', but ALL doc
+        # examples render it WITHOUT a colon ("Ceased with", "Began with") ->
+        # treated as an EMPTY field (no colon); the empty pchrs key 'i =>""'
+        # records the decision (the table entry is believed to be a typo).
+        '362' => {
+            name  => 'Dates of Publication and/or Sequential Designation',
+            pchrs => {
+                i  => '',
+                bb => ' ; ',
+                bc => '- ',
+                dc => '- ',
+                e  => ' = ',
+                f  => '- ',
+                z  => '. ',
+            },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, ['d'] );
+            },
+        },
+
         '490' => {
             name  => 'Series Statement',
             pchrs => {
@@ -883,6 +1050,7 @@ sub rules {
                 d => ', ',
                 e => ', ',
                 f => '. ',
+                h => ', ',
                 j => ', ',
                 k => '. ',
                 l => '. ',
@@ -893,8 +1061,14 @@ sub rules {
                 r => ', ',
                 s => '. ',
                 t => '. ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap => { q => [ '(', ')' ] },
+            wrap   => { q => [ '(', ')' ] },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, ['g'] );
+            },
         },
 
         # Same pchrs/wrap as 110 but:
@@ -923,10 +1097,9 @@ sub rules {
                 dc => ' : ',
                 nd => ' : ',
                 tn => '. ',    # $t followed by $n (title part, §5.5)
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Same as 111 but $v/$x/$y/$z (subject subdivisions) get NO punctuation
@@ -951,10 +1124,9 @@ sub rules {
                 cc => ' ; ',
                 dc => ' : ',
                 nd => ' : ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Same §5.5 uniform-title block as 240/243/730/830, PLUS the ONE
@@ -1118,8 +1290,8 @@ sub rules {
         #   $o/$q/$r/$u/$v/$w/$x/$y/$z N/A (no punctuation).
         #
         # DECISIONS / GAPS:
-        #   - All 16 §4.35 tags share this exact table -> 760 is canonical;
-        #     761..787 alias it via use_rules.
+        #   - All 15 §4.35 tags share this exact table -> 760 is canonical;
+        #     762..787 alias it via use_rules.
         #   - Embedded-field $j/$1 encoding NOT processed: $j is N/A and $1
         #     takes a preceding '. ' like any content subfield.
         '760' => {
@@ -1140,12 +1312,6 @@ sub rules {
             },
             cb_pre =>
               'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_display_text_pre',
-        },
-
-        # Identical structure to 760
-        '761' => {
-            name      => 'Subseries Entry',
-            use_rules => '760',
         },
 
         # Identical structure to 760
@@ -1242,6 +1408,7 @@ sub rules {
                 d => ', ',
                 e => ', ',
                 f => '. ',
+                h => ', ',
                 j => ', ',
                 k => '. ',
                 l => '. ',
@@ -1253,8 +1420,14 @@ sub rules {
                 s => '. ',
                 t => '. ',
                 v => ' ;',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap => { q => [ '(', ')' ] },
+            wrap   => { q => [ '(', ')' ] },
+            cb_pre => sub {
+                return
+                  Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_paren_group_pre(
+                    @_, ['g'] );
+            },
         },
 
         # Same as 110 but $v (volume) gets ' ;' punctuation (610 differs)
@@ -1279,10 +1452,9 @@ sub rules {
                 dc => ' : ',
                 nd => ' : ',
                 tn => '. ',    # $t followed by $n (title part, §5.5)
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Same as 111 but $v (volume) gets ' ;' punctuation
@@ -1307,10 +1479,9 @@ sub rules {
                 cc => ' ; ',
                 dc => ' : ',
                 nd => ' : ',
+                gg => ' : ',   # repeated $g qualifier -> (a : b) (2026-09-09)
             },
-            wrap   => { g => [ ' (', ')' ] },
-            cb_pre =>
-              'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
+            cb_pre => 'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_x10_pre',
         },
 
         # Same §5.5 uniform-title block as 240, PLUS $v (volume /

@@ -517,4 +517,25 @@ sub check_combined {
     )
 }
 
+# repeated $g (constructed) -> single paren group (a : b); stays separate
+# from the n/d/c meeting run (two independent parens).
+{
+    # render: 111 ## $a Conference $g International $g Invitational
+    my $r = _decorate(
+        '111', 'postfix',
+        a => 'Conference',
+        g => 'International',
+        g => 'Invitational'
+    );
+    is( $r->[1], 'Conference',                    '111: repeated $g - $a unchanged' );
+    is( $r->[3], ' (International : ',            '111: repeated $g - first opens group + ": " via gg' );
+    is( $r->[5], 'Invitational)',                 '111: repeated $g - last closes paren (a : b)' );
+    check_combined(
+        '111', '111 repeated $g: (a : b)',
+        a => 'Conference',
+        g => 'International',
+        g => 'Invitational'
+    )
+}
+
 done_testing();

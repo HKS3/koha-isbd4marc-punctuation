@@ -114,4 +114,86 @@ ok( defined $rules, '245 rules loaded' );
     check_combined( \@result, \@result_pr, '245 ex4: combined string identical' );
 }
 
+# --- Example 7: $e then $p (part/section after a different-author title) ---
+# Doc: Current: 245 10 $a Concerto per piano n. 21, K 467 $h [sound recording] / $c W.A. Mozart.
+#              L'assedio di Corinto. Ouverture / G. Rossini.
+# Future: ... $e L'assedio di Corinto $p Ouverture $c G. Rossini
+# (x5 ex7 pins the COMPOUND ep key: $p after $e gets '. ', not the default ', ')
+{
+    # render: [doc §4.6] 245 10 $a Concerto per piano n. 21, K 467 $h sound recording $c W.A. Mozart $e L'assedio di Corinto $p Ouverture $c G. Rossini
+    my $field = make_field( '245', '1', '0',
+        a => 'Concerto per piano n. 21, K 467',
+        h => 'sound recording',
+        c => 'W.A. Mozart',
+        e => "L'assedio di Corinto",
+        p => 'Ouverture',
+        c => 'G. Rossini',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
+    is( $result[1],  'Concerto per piano n. 21, K 467',        '245 ex7: $a unchanged (h wrapped, no pchrs)' );
+    is( $result[3],  '[sound recording] / ',                    '245 ex7: $h wrapped + gets " / " for $c' );
+    is( $result[5],  'W.A. Mozart. ',                           '245 ex7: $c gets ". " for $e' );
+    is( $result[7],  "L'assedio di Corinto. ",                 '245 ex7: $e gets ". " for $p (compound ep)' );
+    is( $result[9],  'Ouverture / ',                            '245 ex7: $p gets " / " for second $c' );
+    is( $result[11], 'G. Rossini',                              '245 ex7: second $c (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
+    is( $result_pr[1],  'Concerto per piano n. 21, K 467',      '245 ex7 prefix: $a unchanged' );
+    is( $result_pr[3],  '[sound recording]',                    '245 ex7 prefix: $h unchanged (wrapped)' );
+    is( $result_pr[5],  ' / W.A. Mozart',                       '245 ex7 prefix: $c gets " / " prepended' );
+    is( $result_pr[7],  ". L'assedio di Corinto",              '245 ex7 prefix: $e gets ". " prepended' );
+    is( $result_pr[9],  '. Ouverture',                          '245 ex7 prefix: $p gets ". " prepended (compound ep)' );
+    is( $result_pr[11], ' / G. Rossini',                        '245 ex7 prefix: second $c gets " / " prepended' );
+
+    check_combined( \@result, \@result_pr, '245 ex7: combined string identical' );
+}
+
+# --- LoC $g (bulk dates) regression: $g is N/A (no preceding punct) ---
+# LoC Current: 245 00 $k Records, $f 1939-1973 $g 1965-1972.
+# Future (terminal . stripped): $k Records $f 1939-1973 $g 1965-1972
+#   -> $f must NOT get ', ' before $g (spec §4.6 says $g = N/A); $k gets
+#      ', ' from the f key. Pin: no comma between the inclusive/bulk dates.
+{
+    # render: [LoC - derived] 245 00 $k Records $f 1939-1973 $g 1965-1972
+    my $field = make_field( '245', '0', '0',
+        k => 'Records',
+        f => '1939-1973',
+        g => '1965-1972',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
+    is( $result[1], 'Records, ',      '245 LoC $g: $k gets ", " for $f' );
+    is( $result[3], '1939-1973',      '245 LoC $g: $f gets NO ", " before $g (bulk dates N/A)' );
+    is( $result[5], '1965-1972',      '245 LoC $g: $g (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
+    is( $result_pr[1], 'Records',      '245 LoC $g prefix: $k unchanged' );
+    is( $result_pr[3], ', 1939-1973',  '245 LoC $g prefix: $f gets ", " prepended' );
+    is( $result_pr[5], '1965-1972',    '245 LoC $g prefix: $g unchanged' );
+
+    check_combined( \@result, \@result_pr, '245 LoC $g: combined string identical' );
+}
+
+# --- LoC $g (bulk dates) standalone: $g is N/A, no punct around it ---
+# LoC Current: 245 10 $k Employment applications $g Jan.-Dec. 1985.
+# Future: $k Employment applications $g Jan.-Dec. 1985 (no punct at all).
+{
+    # render: [LoC - derived] 245 10 $k Employment applications $g Jan.-Dec. 1985
+    my $field = make_field( '245', '1', '0',
+        k => 'Employment applications',
+        g => 'Jan.-Dec. 1985',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
+    is( $result[1], 'Employment applications', '245 LoC $g: $k followed by $g gets NO punct' );
+    is( $result[3], 'Jan.-Dec. 1985',          '245 LoC $g: $g (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
+    is( $result_pr[1], 'Employment applications', '245 LoC $g prefix: $k unchanged' );
+    is( $result_pr[3], 'Jan.-Dec. 1985',          '245 LoC $g prefix: $g unchanged' );
+
+    check_combined( \@result, \@result_pr, '245 LoC $g (standalone): combined string identical' );
+}
+
 done_testing();

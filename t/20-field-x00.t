@@ -44,6 +44,39 @@ sub check_combined {
 }
 
 {
+    # Doc: Current: 100 1# $a El Saffar, Ruth S., $d 1941-
+    # render: [doc §5.2] 100 ## $a El Saffar $h Ruth S. $d 1941-
+    my $r = _decorate( '100', 'postfix', a => 'El Saffar', h => 'Ruth S.', d => '1941-' );
+    is( $r->[1], 'El Saffar, ', '100: $a before $h (inverted name)' );
+    is( $r->[3], 'Ruth S., ',   '100: $h before $d' );
+    is( $r->[5], '1941-',       '100: $d last' );
+    check_combined(
+        '100', '100: $a+$h+$d',
+        a => 'El Saffar',
+        h => 'Ruth S.',
+        d => '1941-'
+    )
+}
+
+{
+    # Doc: Current: 100 1# $a Beethoven, Ludwig van, $d 1770-1827 $c (Spirit)
+    # render: [doc §5.2] 100 ## $a Beethoven $h Ludwig van $d 1770-1827 $g Spirit
+    my $r = _decorate( '100', 'postfix',
+        a => 'Beethoven', h => 'Ludwig van', d => '1770-1827', g => 'Spirit' );
+    is( $r->[1], 'Beethoven, ', '100: $a before $h' );
+    is( $r->[3], 'Ludwig van, ', '100: $h before $d' );
+    is( $r->[5], '1770-1827',   '100: $d unchanged (g not in pchrs)' );
+    is( $r->[7], ' (Spirit)',   '100: $g wrapped in parens (spec 5.2)' );
+    check_combined(
+        '100', '100: $a+$h+$d+$g',
+        a => 'Beethoven',
+        h => 'Ludwig van',
+        d => '1770-1827',
+        g => 'Spirit'
+    )
+}
+
+{
     # render: [doc Appendix - derived] 100 ## $a Morgan, Robert $d 1944-
     my $r = _decorate( '100', 'postfix', a => 'Morgan, Robert', d => '1944-' );
     is( $r->[1], 'Morgan, Robert, ', '100: $a before $d' );
@@ -546,6 +579,28 @@ sub check_combined {
         d => '1564-1616',
         t => 'Works',
         l => 'German'
+    )
+}
+
+# repeated $g (constructed) -> single paren group (a : b)
+# x00 $g is the name-portion qualifier; two adjacent $g share one paren pair
+# via _decorate_paren_group_pre(['g']) + the gg compound key.
+{
+    # render: 100 ## $a Aristotle $g Greek philosopher $g student of Plato
+    my $r = _decorate(
+        '100', 'postfix',
+        a => 'Aristotle',
+        g => 'Greek philosopher',
+        g => 'student of Plato'
+    );
+    is( $r->[1], 'Aristotle',          '100: repeated $g - $a unchanged' );
+    is( $r->[3], ' (Greek philosopher : ', '100: repeated $g - first $g opens group + ": " via gg' );
+    is( $r->[5], 'student of Plato)',   '100: repeated $g - last $g closes paren (a : b)' );
+    check_combined(
+        '100', '100 repeated $g: (a : b)',
+        a => 'Aristotle',
+        g => 'Greek philosopher',
+        g => 'student of Plato'
     )
 }
 

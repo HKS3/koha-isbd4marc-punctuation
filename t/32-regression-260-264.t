@@ -291,4 +291,50 @@ ok( defined $rules_264, '264 rules loaded' );
     check_combined( \@result, \@result_pr, '264 ex21: combined string identical' );
 }
 
+# --- 264 $r (parallel data, §4.5) ---
+# Constructed: $r fires ' = ' on the preceding $b (no doc example for 264 $r).
+{
+    # render: 264 #1 $a London $b Arts Council $r London Arts Council
+    my $field = make_field( '264', '#', '1',
+        a => 'London',
+        b => 'Arts Council',
+        r => 'London Arts Council',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_264, 'postfix' );
+    is( $result[1], 'London : ',          '264: $a gets " : " for $b' );
+    is( $result[3], 'Arts Council = ',    '264: $b gets " = " for $r' );
+    is( $result[5], 'London Arts Council', '264: $r unchanged (last sf)' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_264, 'prefix' );
+    is( $result_pr[1], 'London',          '264 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Arts Council', '264 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = London Arts Council', '264 prefix: $r gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '264: combined string identical ($r)' );
+}
+
+# --- 264 $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $b (no doc example for 264 $t).
+{
+    # render: 264 #1 $a London $b Arts Council $t Parallel publisher
+    my $field = make_field( '264', '#', '1',
+        a => 'London',
+        b => 'Arts Council',
+        t => 'Parallel publisher',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_264, 'postfix' );
+    is( $result[1], 'London : ',          '264: $a gets " : " for $b' );
+    is( $result[3], 'Arts Council = ',    '264: $b gets " = " for $t' );
+    is( $result[5], 'Parallel publisher', '264: $t unchanged (last sf)' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_264, 'prefix' );
+    is( $result_pr[1], 'London',          '264 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Arts Council', '264 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = Parallel publisher', '264 prefix: $t gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '264: combined string identical ($t)' );
+}
+
 done_testing();
