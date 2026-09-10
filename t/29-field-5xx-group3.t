@@ -524,7 +524,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # Doc: Current: 541 0# $3 5 diaries $n 25 $o cubic feet; $a Merriwether, Stuart; $b 458 Yonkers Road, Poughkeepsie, NY 12601; $c Purchase at auction; $d 1981/09/24; $e 81-325; $f Jonathan P. Merriwether Estate; $h $7,850.
 # (the literal $ in $h is written \$ in the render marker, plain $ in the value)
 {
-    # render: [doc §3.19] 541 0# $3 5 diaries $n 25 $o cubic feet $a Merriwether, Stuart $b 458 Yonkers Road, Poughkeepsie, NY 12601 $c Purchase at auction $d 1981/09/24 $e 81-325 $f Jonathan P. Merriwether Estate $h \$7,850
+    # render: [doc §3.19 #2] 541 0# $3 5 diaries $n 25 $o cubic feet $a Merriwether, Stuart $b 458 Yonkers Road, Poughkeepsie, NY 12601 $c Purchase at auction $d 1981/09/24 $e 81-325 $f Jonathan P. Merriwether Estate $h \$7,850
     my $field = make_field( '541', '0', '#', '3' => '5 diaries', n => '25', o => 'cubic feet', a => 'Merriwether, Stuart', b => '458 Yonkers Road, Poughkeepsie, NY 12601', c => 'Purchase at auction', d => '1981/09/24', e => '81-325', f => 'Jonathan P. Merriwether Estate', h => '$7,850' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'541'}, 'postfix' );
@@ -703,7 +703,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 555 ex 2: $3 + $a + $b/$b/$d (doc §3.22 ex 3) ---
 # Doc: Current: 555 0# $3 Claims settled under Treaty of Washington, May 8, 1871 $a Preliminary inventory prepared in 1962; $b Available in NARS central search room; $b NARS Publications Sales Branch; $d Ulibarri, George S. ...
 {
-    # render: [doc §3.22] 555 0# $3 Claims settled under Treaty of Washington, May 8, 1871 $a Preliminary inventory prepared in 1962 $b Available in NARS central search room $b NARS Publications Sales Branch $d Ulibarri, George S.
+    # render: [doc §3.22 #3] 555 0# $3 Claims settled under Treaty of Washington, May 8, 1871 $a Preliminary inventory prepared in 1962 $b Available in NARS central search room $b NARS Publications Sales Branch $d Ulibarri, George S.
     my $field = make_field( '555', '0', '#', '3' => 'Claims settled under Treaty of Washington, May 8, 1871', a => 'Preliminary inventory prepared in 1962', b => 'Available in NARS central search room', b => 'NARS Publications Sales Branch', d => 'Ulibarri, George S.' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'555'}, 'postfix' );

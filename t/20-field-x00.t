@@ -244,7 +244,7 @@ sub check_combined {
 # ===== 700 =====
 {
     # Doc: Current: 700 1# $a Salamín C., Marcel A.
-    # render: [doc §5.2] 700 ## $a Salamín C., Marcel A.
+    # render: [doc §5.2 - derived] 700 ## $a Salamín C., Marcel A.
     my $r = _decorate( '700', 'postfix', a => 'Salamín C., Marcel A.' );
     is( $r->[1], 'Salamín C., Marcel A.', '700: $a alone' );
     check_combined( '700', '700: $a alone', a => 'Salamín C., Marcel A.' )

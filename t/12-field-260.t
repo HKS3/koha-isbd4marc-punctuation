@@ -171,7 +171,7 @@ ok( defined $rules, '260 rules loaded' );
 # A lone $g is a self-contained (value) group; it must NOT get a leading
 # comma (the old bug produced ', (1963 printing)').
 {
-    # render: [doc §4.12] 260 ## $a Harmondsworth $b Penguin $c 1949 $g 1963 printing
+    # render: [doc §4.12 #6] 260 ## $a Harmondsworth $b Penguin $c 1949 $g 1963 printing
     my $field = make_field(
         '260', ' ', ' ',
         a => 'Harmondsworth',

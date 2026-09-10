@@ -42,7 +42,7 @@ ok( defined $rules, '245 rules loaded' );
 # --- Example 2: $a + $b + $r (parallel title) ---
 # Doc: Current: 245 10 $a Rock mechanics : $b journal... = $r Felsmechanik.
 {
-    # render: [doc §4.6] 245 10 $a Rock mechanics $b journal of the International Society for Rock Mechanics $r Felsmechanik
+    # render: [doc §4.6 #2] 245 10 $a Rock mechanics $b journal of the International Society for Rock Mechanics $r Felsmechanik
     my $field = make_field( '245', '1', '0',
         a => 'Rock mechanics',
         b => 'journal of the International Society for Rock Mechanics',
@@ -65,7 +65,7 @@ ok( defined $rules, '245 rules loaded' );
 # --- Example 3: $a + $c + $r + $c (parallel statements of responsibility) ---
 # Doc: Current: 245 00 $a Retail et volaille / $c Bureau... = $r Livestock... / $c Quebec...
 {
-    # render: [doc §4.6] 245 00 $a Retail et volaille $c Bureau des statistiques de Québec $r Livestock and poultry $c Quebec Bureau of Statistics
+    # render: [doc §4.6 #3] 245 00 $a Retail et volaille $c Bureau des statistiques de Québec $r Livestock and poultry $c Quebec Bureau of Statistics
     my $field = make_field( '245', '0', '0',
         a => 'Retail et volaille',
         c => 'Bureau des statistiques de Québec',
@@ -91,7 +91,7 @@ ok( defined $rules, '245 rules loaded' );
 # --- Example 4: $c + $d + $d (subsequent statements of responsibility) ---
 # Doc: Current: 245 10 $a How to play chess / $c Kevin Wicker ; $d with a foreword... ; $d illustrated...
 {
-    # render: [doc §4.6] 245 10 $a How to play chess $c Kevin Wicker $d with a foreword by David Pritchard $d illustrated by Karel Feuerstein
+    # render: [doc §4.6 #4] 245 10 $a How to play chess $c Kevin Wicker $d with a foreword by David Pritchard $d illustrated by Karel Feuerstein
     my $field = make_field( '245', '1', '0',
         a => 'How to play chess',
         c => 'Kevin Wicker',
@@ -120,7 +120,7 @@ ok( defined $rules, '245 rules loaded' );
 # Future: ... $e L'assedio di Corinto $p Ouverture $c G. Rossini
 # (x5 ex7 pins the COMPOUND ep key: $p after $e gets '. ', not the default ', ')
 {
-    # render: [doc §4.6] 245 10 $a Concerto per piano n. 21, K 467 $h sound recording $c W.A. Mozart $e L'assedio di Corinto $p Ouverture $c G. Rossini
+    # render: [doc §4.6 #7] 245 10 $a Concerto per piano n. 21, K 467 $h sound recording $c W.A. Mozart $e L'assedio di Corinto $p Ouverture $c G. Rossini
     my $field = make_field( '245', '1', '0',
         a => 'Concerto per piano n. 21, K 467',
         h => 'sound recording',

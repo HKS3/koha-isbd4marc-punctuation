@@ -129,7 +129,7 @@ sub check_combined {
 # $e subordinate unit after a $n/$d/$c group (uses '. ' per meeting spec)
 {
     # Doc: Current: 111 2# $a Olympic Games $n (21st : $d 1976 : $c Montréal, Québec). $e Organizing Committee. $e Arts and Culture Program. $e Visual Arts Section.
-# render: [doc §5.4] 111 2# $a Olympic Games $n 21st $d 1976 $c Montréal, Québec $e Organizing Committee $e Arts and Culture Program $e Visual Arts Section
+# render: [doc §5.4 - derived] 111 2# $a Olympic Games $n 21st $d 1976 $c Montréal, Québec $e Organizing Committee $e Arts and Culture Program $e Visual Arts Section
     my $r = _decorate(
         '111', 'postfix',
         a => 'Olympic Games',

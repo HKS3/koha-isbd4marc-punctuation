@@ -450,11 +450,11 @@ fields:
       - doc: "§5.4"
         num: null
         kind: doc
-        status: doc
-        derived: false
+        status: derived
+        derived: true
         reason: ""
         testfile: "t/22-field-x11.t"
-        marker: "# render: [doc §5.4] 111 2# $a Olympic Games $n 21st $d 1976 $c Montréal, Québec $e Organizing Committee $e Arts and Culture Program $e Visual Arts Section"
+        marker: "# render: [doc §5.4 - derived] 111 2# $a Olympic Games $n 21st $d 1976 $c Montréal, Québec $e Organizing Committee $e Arts and Culture Program $e Visual Arts Section"
       - doc: null
         num: null
         kind: constructed
@@ -645,14 +645,14 @@ fields:
         reason: ""
         testfile: "t/23-field-210-222.t"
         marker: "# render: [doc §4.3 #1] 222 #0 $a Viva $b New York"
-      - doc: "§4.3"
+      - doc: "§4.3 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/23-field-210-222.t"
-        marker: "# render: [doc §4.3] 222 #4 $a Der Öffentliche Dienst $b Köln"
+        marker: "# render: [doc §4.3 #2] 222 #4 $a Der Öffentliche Dienst $b Köln"
       - doc: "§4.3 #3"
         num: null
         kind: doc
@@ -671,14 +671,14 @@ fields:
         marker: "# render: 222 #0 $a Viva"
   - tag: "240"
     examples:
-      - doc: "C.5"
+      - doc: "C.5a"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/24-field-130-240-242.t"
-        marker: "# render: [doc C.5] 240 10 $a Sonatas $m piano $j no. 8, op. 13 $r C minor $p Adagio cantabile $o arranged"
+        marker: "# render: [doc C.5a] 240 10 $a Sonatas $m piano $j no. 8, op. 13 $r C minor $p Adagio cantabile $o arranged"
       - doc: null
         num: null
         kind: constructed
@@ -813,38 +813,38 @@ fields:
         reason: ""
         testfile: "t/30-regression-245.t"
         marker: "# render: [doc §4.6 #1] 245 14 $a The plays of Oscar Wilde $c Alan Bird"
-      - doc: "§4.6"
+      - doc: "§4.6 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/30-regression-245.t"
-        marker: "# render: [doc §4.6] 245 10 $a Rock mechanics $b journal of the International Society for Rock Mechanics $r Felsmechanik"
-      - doc: "§4.6"
+        marker: "# render: [doc §4.6 #2] 245 10 $a Rock mechanics $b journal of the International Society for Rock Mechanics $r Felsmechanik"
+      - doc: "§4.6 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/30-regression-245.t"
-        marker: "# render: [doc §4.6] 245 00 $a Retail et volaille $c Bureau des statistiques de Québec $r Livestock and poultry $c Quebec Bureau of Statistics"
-      - doc: "§4.6"
+        marker: "# render: [doc §4.6 #3] 245 00 $a Retail et volaille $c Bureau des statistiques de Québec $r Livestock and poultry $c Quebec Bureau of Statistics"
+      - doc: "§4.6 #4"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/30-regression-245.t"
-        marker: "# render: [doc §4.6] 245 10 $a How to play chess $c Kevin Wicker $d with a foreword by David Pritchard $d illustrated by Karel Feuerstein"
-      - doc: "§4.6"
+        marker: "# render: [doc §4.6 #4] 245 10 $a How to play chess $c Kevin Wicker $d with a foreword by David Pritchard $d illustrated by Karel Feuerstein"
+      - doc: "§4.6 #7"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/30-regression-245.t"
-        marker: "# render: [doc §4.6] 245 10 $a Concerto per piano n. 21, K 467 $h sound recording $c W.A. Mozart $e L'assedio di Corinto $p Ouverture $c G. Rossini"
+        marker: "# render: [doc §4.6 #7] 245 10 $a Concerto per piano n. 21, K 467 $h sound recording $c W.A. Mozart $e L'assedio di Corinto $p Ouverture $c G. Rossini"
       - doc: null
         num: null
         kind: loc
@@ -961,14 +961,14 @@ fields:
         marker: "# render: [doc §4.7 #1] 246 1# $i Panel title $a Welcome to big Wyoming"
   - tag: "247"
     examples:
-      - doc: "§4.8"
+      - doc: "§4.8 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/31-regression-246-247.t"
-        marker: "# render: [doc §4.8] 247 10 $a Progress report under the joint program to improve accounting in the Federal Government $g varies slightly $f 1st-10th"
+        marker: "# render: [doc §4.8 #1] 247 10 $a Progress report under the joint program to improve accounting in the Federal Government $g varies slightly $f 1st-10th"
       - doc: null
         num: null
         kind: constructed
@@ -1019,14 +1019,14 @@ fields:
         marker: "# render: 247 10 $a Progress report $b subtitle $t Parallel subtitle"
   - tag: "250"
     examples:
-      - doc: "§4.9"
+      - doc: "§4.9 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/16-field-250.t"
-        marker: "# render: [doc §4.9] 250 ## $a Canadian ed. $r Éd. canadienne"
+        marker: "# render: [doc §4.9 #1] 250 ## $a Canadian ed. $r Éd. canadienne"
       - doc: "§4.9 #2"
         num: null
         kind: doc
@@ -1127,22 +1127,22 @@ fields:
         reason: ""
         testfile: "t/39-field-255-352.t"
         marker: "# render: [doc §4.11 #3] 255 ## $a Scale [ca. 1:13,835,000] $s 1 cm = 138 km $s 1 in. = 218 miles $b Chamberlin trimetric proj."
-      - doc: "§4.11"
+      - doc: "§4.11 #4"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/39-field-255-352.t"
-        marker: "# render: [doc §4.11] 255 ## $a Scale 1:22,000,000 $b Conic proj. $c E 72°--E 148°/N 13°--N 18°"
-      - doc: "§4.11"
+        marker: "# render: [doc §4.11 #4] 255 ## $a Scale 1:22,000,000 $b Conic proj. $c E 72°--E 148°/N 13°--N 18°"
+      - doc: "§4.11 #5"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/39-field-255-352.t"
-        marker: "# render: [doc §4.11] 255 ## $a Scale not given $d RA 0 hr. to 24 hr./Decl. +90° to -90° $e eq. 1980"
+        marker: "# render: [doc §4.11 #5] 255 ## $a Scale not given $d RA 0 hr. to 24 hr./Decl. +90° to -90° $e eq. 1980"
       - doc: null
         num: null
         kind: constructed
@@ -1227,14 +1227,14 @@ fields:
         reason: ""
         testfile: "t/12-field-260.t"
         marker: "# render: 260 ## $a New York $e a manufacturer $f a place $g 2005"
-      - doc: "§4.12"
+      - doc: "§4.12 #6"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/12-field-260.t"
-        marker: "# render: [doc §4.12] 260 ## $a Harmondsworth $b Penguin $c 1949 $g 1963 printing"
+        marker: "# render: [doc §4.12 #6] 260 ## $a Harmondsworth $b Penguin $c 1949 $g 1963 printing"
       - doc: null
         num: null
         kind: constructed
@@ -1259,14 +1259,14 @@ fields:
         reason: ""
         testfile: "t/12-field-260.t"
         marker: "# render: 260 ## $a London $b Arts Council $t Parallel publisher"
-      - doc: "§4.12"
+      - doc: "§4.12 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/32-regression-260-264.t"
-        marker: "# render: [doc §4.12] 260 ## $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $b For sale by the Supt. of Docs. U.S. G.P.O. $c 1981"
+        marker: "# render: [doc §4.12 #1] 260 ## $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $b For sale by the Supt. of Docs. U.S. G.P.O. $c 1981"
       - doc: "§4.12 #2"
         num: null
         kind: doc
@@ -1283,14 +1283,14 @@ fields:
         reason: ""
         testfile: "t/32-regression-260-264.t"
         marker: "# render: [doc §4.12 #3] 260 ## $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955"
-      - doc: "§4.12"
+      - doc: "§4.12 #4"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/32-regression-260-264.t"
-        marker: "# render: [doc §4.12] 260 ## $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979"
+        marker: "# render: [doc §4.12 #4] 260 ## $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979"
       - doc: "§4.12 #7"
         num: null
         kind: doc
@@ -1781,14 +1781,14 @@ fields:
         reason: ""
         testfile: "t/40-field-362.t"
         marker: "# render: [doc §4.17 #3] 362 0# $b Vol. 1, no. 1 $d Apr. 1983 $c v. 1, no. 3 $d June 1983"
-      - doc: "§4.17"
+      - doc: "§4.17 #4"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/40-field-362.t"
-        marker: "# render: [doc §4.17] 362 0# $b Vol. 1, no. 1 $d May 1981 $c v. 3, no. 1 $d May 1983 $e no. 1 $f no. 9"
+        marker: "# render: [doc §4.17 #4] 362 0# $b Vol. 1, no. 1 $d May 1981 $c v. 3, no. 1 $d May 1983 $e no. 1 $f no. 9"
       - doc: "§4.17 #5"
         num: null
         kind: doc
@@ -1813,14 +1813,14 @@ fields:
         reason: ""
         testfile: "t/40-field-362.t"
         marker: "# render: [doc §4.17 #7] 362 1# $i Began with $b v. 4, published in 1947"
-      - doc: "§4.17"
+      - doc: "§4.17 #8"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/40-field-362.t"
-        marker: "# render: [doc §4.17] 362 1# $a Began with 1930 issue $z Cf. Letter from Ak. State Highway Dept., Aug. 6, 1975"
+        marker: "# render: [doc §4.17 #8] 362 1# $a Began with 1930 issue $z Cf. Letter from Ak. State Highway Dept., Aug. 6, 1975"
       - doc: "§4.17 #9"
         num: null
         kind: doc
@@ -1969,14 +1969,14 @@ fields:
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
         marker: "# render: [doc §4.21 #2] 500 ## $i Date of issuance $a Feb. 23, 2009"
-      - doc: "§4.21"
+      - doc: "§4.21 #5"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.21] 500 ## $a "May 6, 2010" $z Cover"
+        marker: "# render: [doc §4.21 #5] 500 ## $a "May 6, 2010" $z Cover"
       - doc: "§4.21 #6"
         num: null
         kind: doc
@@ -2121,14 +2121,14 @@ fields:
         marker: "# render: 504 ## $a Includes index."
   - tag: "505"
     examples:
-      - doc: "§4.25"
+      - doc: "§4.25 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/19-field-505.t"
-        marker: "# render: [doc §4.25] 505 00 $t Future land use plan $t Recommended capital improvements $t Existing land use $t Existing zoning"
+        marker: "# render: [doc §4.25 #1] 505 00 $t Future land use plan $t Recommended capital improvements $t Existing land use $t Existing zoning"
       - doc: null
         num: null
         kind: constructed
@@ -2137,14 +2137,14 @@ fields:
         reason: ""
         testfile: "t/19-field-505.t"
         marker: "# render: 505 00 $t Area 1, Lone Pine to Big Pine $t Area 2, Bishop to Mammoth Lakes $t Area 3, June Lake to Bridgeport $t Area 4, White Mountains area"
-      - doc: "§4.25"
+      - doc: "§4.25 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/19-field-505.t"
-        marker: "# render: [doc §4.25] 505 00 $t Quatrain II $g 16:35 $t Water ways $g 1:57 $t Waves $g 10:49"
+        marker: "# render: [doc §4.25 #3] 505 00 $t Quatrain II $g 16:35 $t Water ways $g 1:57 $t Waves $g 10:49"
       - doc: "§4.25 #4"
         num: null
         kind: doc
@@ -2193,14 +2193,14 @@ fields:
         reason: ""
         testfile: "t/19-field-505.t"
         marker: "# render: 505 10 $g 16:35 $t Waves"
-      - doc: "§4.25"
+      - doc: "§4.25 #5"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/19-field-505.t"
-        marker: "# render: [doc §4.25] 505 10 $n Nr. 1 $t Region Neusiedlersee $n Nr. 2 $t Region Rosalia/Lithagebirge $n Nr. 3 $t Region Mettelburgenland $n Nr. 4 $t Region s\u00fcdliches Burgenland $n Nr. 5 $t Region S\u00fcdburgland"
+        marker: "# render: [doc §4.25 #5] 505 10 $n Nr. 1 $t Region Neusiedlersee $n Nr. 2 $t Region Rosalia/Lithagebirge $n Nr. 3 $t Region Mettelburgenland $n Nr. 4 $t Region südliches Burgenland $n Nr. 5 $t Region Südburgland"
       - doc: "§4.25 #6"
         num: null
         kind: doc
@@ -2669,14 +2669,14 @@ fields:
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
         marker: "# render: [doc §3.19 #1] 541 ## $3 Ref print $c Copyright deposit--RNR $d Received: 10/30/82 $a Copyright Collection"
-      - doc: "§3.19"
+      - doc: "§3.19 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.19] 541 0# $3 5 diaries $n 25 $o cubic feet $a Merriwether, Stuart $b 458 Yonkers Road, Poughkeepsie, NY 12601 $c Purchase at auction $d 1981/09/24 $e 81-325 $f Jonathan P. Merriwether Estate $h \$7,850"
+        marker: "# render: [doc §3.19 #2] 541 0# $3 5 diaries $n 25 $o cubic feet $a Merriwether, Stuart $b 458 Yonkers Road, Poughkeepsie, NY 12601 $c Purchase at auction $d 1981/09/24 $e 81-325 $f Jonathan P. Merriwether Estate $h \$7,850"
       - doc: "§3.19 #3"
         num: null
         kind: doc
@@ -2723,14 +2723,14 @@ fields:
         marker: "# render: 546 ## $3 English notes $b Zuni $b Pictograms"
   - tag: "547"
     examples:
-      - doc: "§4.32"
+      - doc: "§4.32 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.32] 547 8# $i Title varies $a 1716?-1858, Notizie del mondo--1860-71, 1912- Annuario pontificio (1872-1911, Gerarchia cattolica)"
+        marker: "# render: [doc §4.32 #1] 547 8# $i Title varies $a 1716?-1858, Notizie del mondo--1860-71, 1912- Annuario pontificio (1872-1911, Gerarchia cattolica)"
       - doc: "§4.32 #2"
         num: null
         kind: doc
@@ -2749,14 +2749,14 @@ fields:
         marker: "# render: 547 ## $a Title changed with issue 5."
   - tag: "550"
     examples:
-      - doc: "§4.33"
+      - doc: "§4.33 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.33] 550 8# $i Issued with $a Bureau de recherches géologiques et minières, 1972-"
+        marker: "# render: [doc §4.33 #1] 550 8# $i Issued with $a Bureau de recherches géologiques et minières, 1972-"
       - doc: "§4.33 #2"
         num: null
         kind: doc
@@ -2765,14 +2765,14 @@ fields:
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
         marker: "# render: [doc §4.33 #2] 550 8# $i Issued by $a Anthropos-Institut, 1935-"
-      - doc: "§4.33"
+      - doc: "§4.33 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.33] 550 ## $i Vols. for 1972- issued with $a Bureau de recherches géologiques et minières"
+        marker: "# render: [doc §4.33 #3] 550 ## $i Vols. for 1972- issued with $a Bureau de recherches géologiques et minières"
       - doc: null
         num: null
         kind: constructed
@@ -2791,14 +2791,14 @@ fields:
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
         marker: "# render: [doc §3.22 #1] 555 8# $a Finding aid available in the Manuscript Reading Room and on Internet $u http://example.org/findingaid"
-      - doc: "§3.22"
+      - doc: "§3.22 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.22] 555 0# $3 Claims settled under Treaty of Washington, May 8, 1871 $a Preliminary inventory prepared in 1962 $b Available in NARS central search room $b NARS Publications Sales Branch $d Ulibarri, George S."
+        marker: "# render: [doc §3.22 #3] 555 0# $3 Claims settled under Treaty of Washington, May 8, 1871 $a Preliminary inventory prepared in 1962 $b Available in NARS central search room $b NARS Publications Sales Branch $d Ulibarri, George S."
   - tag: "562"
     examples:
       - doc: "§3.23 #1"
@@ -2829,22 +2829,22 @@ fields:
         marker: "# render: [doc §3.24 - derived] 565 ## $3 Military petitioners files $a 11 $b name $b address $c pensioners $d Civil War (1861-65) veterans"
   - tag: "580"
     examples:
-      - doc: "§4.34"
+      - doc: "§4.34 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.34] 580 8# $i Cumulates $a Deutsche Bibliographie. Wöchentliches Verzeichnis"
-      - doc: "§4.34"
+        marker: "# render: [doc §4.34 #1] 580 8# $i Cumulates $a Deutsche Bibliographie. Wöchentliches Verzeichnis"
+      - doc: "§4.34 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.34] 580 8# $i Merged with $a Index chemicus (Philadelphia, Pa. : 1977) $i to form $a Current abstracts of chemistry and index chemicus (Philadelphia, Pa. : 1978)"
+        marker: "# render: [doc §4.34 #2] 580 8# $i Merged with $a Index chemicus (Philadelphia, Pa. : 1977) $i to form $a Current abstracts of chemistry and index chemicus (Philadelphia, Pa. : 1978)"
       - doc: "§4.34 #3"
         num: null
         kind: doc
@@ -3186,11 +3186,11 @@ fields:
       - doc: "§5.2"
         num: null
         kind: doc
-        status: doc
-        derived: false
+        status: derived
+        derived: true
         reason: ""
         testfile: "t/20-field-x00.t"
-        marker: "# render: [doc §5.2] 700 ## $a Salamín C., Marcel A."
+        marker: "# render: [doc §5.2 - derived] 700 ## $a Salamín C., Marcel A."
       - doc: "§5.2 #7"
         num: null
         kind: doc

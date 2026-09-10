@@ -31,7 +31,7 @@ ok( defined $rules_260, '260 rules loaded' );
 # --- Example 10: Multiple $b with $c ---
 # Doc: Current: 260 ## $a Washington, D.C. : $b U.S. Dept... : $b For sale by... , $c 1981
 {
-    # render: [doc §4.12] 260 ## $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $b For sale by the Supt. of Docs. U.S. G.P.O. $c 1981
+    # render: [doc §4.12 #1] 260 ## $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $b For sale by the Supt. of Docs. U.S. G.P.O. $c 1981
     my $field = make_field( '260', ' ', ' ',
         a => 'Washington, D.C.',
         b => 'U.S. Dept. of Agriculture, Forest Service',
@@ -116,7 +116,7 @@ ok( defined $rules_260, '260 rules loaded' );
 # --- Example 13: $q for address (between $a and $b) ---
 # Doc: Current: 260 ## $a Washington, D.C. ($q 1649 K St....) : $b Wider Opportunities... , $c 1979
 {
-    # render: [doc §4.12] 260 ## $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979
+    # render: [doc §4.12 #4] 260 ## $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979
     my $field = make_field( '260', ' ', ' ',
         a => 'Washington, D.C.',
         q => '1649 K St., N.W., Washington 20006',

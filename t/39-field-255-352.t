@@ -120,7 +120,7 @@ is( $R->{'352'}->{wrap}->{c}[1], ')', '352 $c wrap closes with )' );
 # Doc: Current: 255 ## $a Scale 1:22,000,000 ; $b Conic proj. $c (E 72°--E
 #                 148°/N 13°--N 18°).
 {
-    # render: [doc §4.11] 255 ## $a Scale 1:22,000,000 $b Conic proj. $c E 72°--E 148°/N 13°--N 18°
+    # render: [doc §4.11 #4] 255 ## $a Scale 1:22,000,000 $b Conic proj. $c E 72°--E 148°/N 13°--N 18°
     my $field = make_field( '255', ' ', ' ',
         a => 'Scale 1:22,000,000',
         b => 'Conic proj.',
@@ -145,7 +145,7 @@ is( $R->{'352'}->{wrap}->{c}[1], ')', '352 $c wrap closes with )' );
 # Doc: Current: 255 ## $a Scale not given $d (RA 0 hr. to 24 hr./Decl. +90° to
 #                 -90° ; $e eq. 1980).
 {
-    # render: [doc §4.11] 255 ## $a Scale not given $d RA 0 hr. to 24 hr./Decl. +90° to -90° $e eq. 1980
+    # render: [doc §4.11 #5] 255 ## $a Scale not given $d RA 0 hr. to 24 hr./Decl. +90° to -90° $e eq. 1980
     my $field = make_field( '255', ' ', ' ',
         a => 'Scale not given',
         d => 'RA 0 hr. to 24 hr./Decl. +90° to -90°',

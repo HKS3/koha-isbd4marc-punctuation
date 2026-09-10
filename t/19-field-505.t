@@ -27,7 +27,7 @@ ok( defined $rules_505, '505 rules loaded' );
 # Note: doc shows $a in current, but subfields are reconstructed as $t in future.
 # We test the $t-based future form reconstruction.
 {
-    # render: [doc §4.25] 505 00 $t Future land use plan $t Recommended capital improvements $t Existing land use $t Existing zoning
+    # render: [doc §4.25 #1] 505 00 $t Future land use plan $t Recommended capital improvements $t Existing land use $t Existing zoning
     my $field = make_field(
         '505', '0', '0',
         t => 'Future land use plan',
@@ -152,7 +152,7 @@ ok( defined $rules_505, '505 rules loaded' );
 # --- Example 3: $t + $g + $t + $g (enhanced, with timings) ---
 # Doc: Current: 505 00 $t Quatrain II (16:35) -- $t Water ways (1:57) -- $t Waves (10:49).
 {
-    # render: [doc §4.25] 505 00 $t Quatrain II $g 16:35 $t Water ways $g 1:57 $t Waves $g 10:49
+    # render: [doc §4.25 #3] 505 00 $t Quatrain II $g 16:35 $t Water ways $g 1:57 $t Waves $g 10:49
     my $field = make_field(
         '505', '0', '0',
         t => 'Quatrain II',
@@ -394,7 +394,7 @@ ok( defined $rules_505, '505 rules loaded' );
 #   that avoids firing on $i).
 # Combined string: "Nr. 1 -- Region Neusiedlersee -- Nr. 2 -- ..."
 {
-    # render: [doc §4.25] 505 10 $n Nr. 1 $t Region Neusiedlersee $n Nr. 2 $t Region Rosalia/Lithagebirge $n Nr. 3 $t Region Mettelburgenland $n Nr. 4 $t Region s\u00fcdliches Burgenland $n Nr. 5 $t Region S\u00fcdburgland
+    # render: [doc §4.25 #5] 505 10 $n Nr. 1 $t Region Neusiedlersee $n Nr. 2 $t Region Rosalia/Lithagebirge $n Nr. 3 $t Region Mettelburgenland $n Nr. 4 $t Region südliches Burgenland $n Nr. 5 $t Region Südburgland
     my $field = make_field(
         '505', '1', '0',
         n => 'Nr. 1',

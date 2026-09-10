@@ -171,13 +171,13 @@ ok( defined $rules_242, '242 rules loaded' );
     );
 }
 
-# --- 240 example 1 (§5.5 / Appendix C.5 worked example):
+# --- 240 example 1 (§5.5 / Appendix C.5a worked example):
 #      $a $m $j $r $p $o (music uniform title) ---
 #                        $p Adagio cantabile $o arranged
 # Doc: Current: 240 10 $a Sonatas, $m piano, $n no. 8, op. 13, $r C minor.
 #                        $p Adagio cantabile; $o arranged.
 {
-    # render: [doc C.5] 240 10 $a Sonatas $m piano $j no. 8, op. 13 $r C minor $p Adagio cantabile $o arranged
+    # render: [doc C.5a] 240 10 $a Sonatas $m piano $j no. 8, op. 13 $r C minor $p Adagio cantabile $o arranged
     my $field = make_field(
         '240', '1', '0',
         a => 'Sonatas',

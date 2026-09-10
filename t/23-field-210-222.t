@@ -167,7 +167,7 @@ ok( defined $rules_222, '222 rules loaded' );
 # --- 222 Example 2: $a + single $b (accented) ---
 # Doc: Current: 222 #4 $a Der Öffentliche Dienst $b (Köln)
 {
-    # render: [doc §4.3] 222 #4 $a Der Öffentliche Dienst $b Köln
+    # render: [doc §4.3 #2] 222 #4 $a Der Öffentliche Dienst $b Köln
     my $field = make_field(
         '222', '#', '4',
         a => 'Der Öffentliche Dienst',

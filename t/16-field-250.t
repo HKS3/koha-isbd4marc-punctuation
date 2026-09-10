@@ -18,9 +18,9 @@ my $rules_250 = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET)->{250}
 ok( defined $rules_250, '250 rules loaded' );
 
 # --- Example 1: $a + $r (parallel edition) ---
-# Doc: Current: 250 ## $a Canadian ed. = Éd. canadienne.
+# Doc: Current: 250 ## $a Canadian ed. = $b Éd. canadienne.
 {
-    # render: [doc §4.9] 250 ## $a Canadian ed. $r Éd. canadienne
+    # render: [doc §4.9 #1] 250 ## $a Canadian ed. $r Éd. canadienne
     my $field = make_field(
         '250', ' ', ' ',
         a => 'Canadian ed.',

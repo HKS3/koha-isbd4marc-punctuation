@@ -93,7 +93,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 500 ex 3: $z source takes preceding '--' (doc §4.21 ex 5) ---
 # Doc: Current: 500 ## $a "May 6, 2010"--Cover.
 {
-    # render: [doc §4.21] 500 ## $a "May 6, 2010" $z Cover
+    # render: [doc §4.21 #5] 500 ## $a "May 6, 2010" $z Cover
     my $field = make_field( '500', ' ', ' ', a => '"May 6, 2010"', z => 'Cover' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'postfix' );
@@ -670,7 +670,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 547 ## $a Title varies: 1716?-1858, Notizie del mondo--1860-71,
 #   1912- Annuario pontificio (1872-1911, Gerarchia cattolica).
 {
-    # render: [doc §4.32] 547 8# $i Title varies $a 1716?-1858, Notizie del mondo--1860-71, 1912- Annuario pontificio (1872-1911, Gerarchia cattolica)
+    # render: [doc §4.32 #1] 547 8# $i Title varies $a 1716?-1858, Notizie del mondo--1860-71, 1912- Annuario pontificio (1872-1911, Gerarchia cattolica)
     my $field = make_field( '547', '8', '#', i => 'Title varies', a => '1716?-1858, Notizie del mondo--1860-71, 1912- Annuario pontificio (1872-1911, Gerarchia cattolica)' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'547'}, 'postfix' );
@@ -724,7 +724,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 550 ## $a Issued with: Bureau de recherches géologiques et
 #   minières, 1972-
 {
-    # render: [doc §4.33] 550 8# $i Issued with $a Bureau de recherches géologiques et minières, 1972-
+    # render: [doc §4.33 #1] 550 8# $i Issued with $a Bureau de recherches géologiques et minières, 1972-
     my $field = make_field( '550', '8', '#', i => 'Issued with', a => 'Bureau de recherches géologiques et minières, 1972-' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'550'}, 'postfix' );
@@ -759,7 +759,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 550 ## $a Vols. for 1972- issued with: Bureau de recherches
 #   géologiques et minières.
 {
-    # render: [doc §4.33] 550 ## $i Vols. for 1972- issued with $a Bureau de recherches géologiques et minières
+    # render: [doc §4.33 #3] 550 ## $i Vols. for 1972- issued with $a Bureau de recherches géologiques et minières
     my $field = make_field( '550', ' ', ' ', i => 'Vols. for 1972- issued with', a => 'Bureau de recherches géologiques et minières' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'550'}, 'postfix' );
@@ -801,7 +801,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 580 ## $a Cumulates: Deutsche Bibliographie. Wöchentliches
 #   Verzeichnis.
 {
-    # render: [doc §4.34] 580 8# $i Cumulates $a Deutsche Bibliographie. Wöchentliches Verzeichnis
+    # render: [doc §4.34 #1] 580 8# $i Cumulates $a Deutsche Bibliographie. Wöchentliches Verzeichnis
     my $field = make_field( '580', '8', '#', i => 'Cumulates', a => 'Deutsche Bibliographie. Wöchentliches Verzeichnis' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'580'}, 'postfix' );
@@ -822,7 +822,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Note: the comma before "$i to form" ('(1977), to form') is NOT reproduced
 # (see KNOWN GAP above) — both $i get ': '.
 {
-    # render: [doc §4.34] 580 8# $i Merged with $a Index chemicus (Philadelphia, Pa. : 1977) $i to form $a Current abstracts of chemistry and index chemicus (Philadelphia, Pa. : 1978)
+    # render: [doc §4.34 #2] 580 8# $i Merged with $a Index chemicus (Philadelphia, Pa. : 1977) $i to form $a Current abstracts of chemistry and index chemicus (Philadelphia, Pa. : 1978)
     my $field = make_field(
         '580', '8', '#',
         i => 'Merged with',

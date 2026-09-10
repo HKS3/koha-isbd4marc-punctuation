@@ -109,7 +109,7 @@ is( $R->{'362'}->{pchrs}->{i},  '',   '362 i pchrs is empty (no colon, doc ambig
 #      Future:  362 0# $b Vol. 1, no. 1 $d May 1981 $c v. 3, no. 1 $d May 1983
 #                 $e no. 1 $f no. 9
 {
-    # render: [doc §4.17] 362 0# $b Vol. 1, no. 1 $d May 1981 $c v. 3, no. 1 $d May 1983 $e no. 1 $f no. 9
+    # render: [doc §4.17 #4] 362 0# $b Vol. 1, no. 1 $d May 1981 $c v. 3, no. 1 $d May 1983 $e no. 1 $f no. 9
     my $field = make_field( '362', '0', ' ',
         b => 'Vol. 1, no. 1',
         d => 'May 1981',
@@ -207,7 +207,7 @@ is( $R->{'362'}->{pchrs}->{i},  '',   '362 i pchrs is empty (no colon, doc ambig
 #      Future:  362 1# $a Began with 1930 issue $z Cf. Letter from Ak. State
 #                 Highway Dept., Aug. 6, 1975
 {
-    # render: [doc §4.17] 362 1# $a Began with 1930 issue $z Cf. Letter from Ak. State Highway Dept., Aug. 6, 1975
+    # render: [doc §4.17 #8] 362 1# $a Began with 1930 issue $z Cf. Letter from Ak. State Highway Dept., Aug. 6, 1975
     my $field = make_field( '362', '1', ' ',
         a => 'Began with 1930 issue',
         z => 'Cf. Letter from Ak. State Highway Dept., Aug. 6, 1975' );
