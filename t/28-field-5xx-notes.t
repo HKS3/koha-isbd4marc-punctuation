@@ -112,7 +112,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 #   from 1946-1971, by the Economic Behavior Prog., Survey Research Center,
 #   University of Michigan.
 {
-    # render: [doc §4.21] 500 ## $i Source of data $a Survey of Consumer Finances
+    # render: [doc §4.21 #6] 500 ## $i Source of data $a Survey of Consumer Finances
     my $field = make_field( '500', ' ', ' ', i => 'Source of data', a => 'Survey of Consumer Finances' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'postfix' );
@@ -130,7 +130,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 500 ## $a "The first American Jewish weekly of its kind"--The
 #   Jewish encyclopedia, v. 8.
 {
-    # render: [doc §4.21] 500 ## $a "The first American Jewish weekly of its kind" $z The Jewish encyclopedia, v. 8
+    # render: [doc §4.21 #7] 500 ## $a "The first American Jewish weekly of its kind" $z The Jewish encyclopedia, v. 8
     my $field = make_field( '500', ' ', ' ', a => '"The first American Jewish weekly of its kind"', z => 'The Jewish encyclopedia, v. 8' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'postfix' );
@@ -165,7 +165,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 500 ## $a Republican. Cf. Gutgesell, S. Guide to Ohio
 #   newspapers, 1974.
 {
-    # render: [doc §4.21] 500 ## $a Republican $z Cf. Gutgesell, S. Guide to Ohio newspapers, 1974
+    # render: [doc §4.21 #9] 500 ## $a Republican $z Cf. Gutgesell, S. Guide to Ohio newspapers, 1974
     my $field = make_field( '500', ' ', ' ', a => 'Republican', z => 'Cf. Gutgesell, S. Guide to Ohio newspapers, 1974' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'postfix' );
@@ -325,7 +325,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 508 ## $a Producer, Joseph N. Ermolieff ; director, Lesley
 #   Selander ; screenplay, Theodore St. John ; music director, Michel Michelet.
 {
-    # render: [doc §4.26] 508 ## $a Producer, Joseph N. Ermolieff $a director, Lesley Selander $a screenplay, Theodore St. John $a music director, Michel Michelet
+    # render: [doc §4.26 #1] 508 ## $a Producer, Joseph N. Ermolieff $a director, Lesley Selander $a screenplay, Theodore St. John $a music director, Michel Michelet
     my $field = make_field(
         '508', ' ', ' ',
         a => 'Producer, Joseph N. Ermolieff',
@@ -524,7 +524,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 515 ## $a None published 1941-1946. Cf. Brit. Mus. Gen. cat.
 #   of printed books.
 {
-    # render: [doc §4.28] 515 ## $a None published 1941-1946 $z Cf. Brit. Mus. Gen. cat. of printed books
+    # render: [doc §4.28 #1] 515 ## $a None published 1941-1946 $z Cf. Brit. Mus. Gen. cat. of printed books
     my $field = make_field( '515', ' ', ' ', a => 'None published 1941-1946', z => 'Cf. Brit. Mus. Gen. cat. of printed books' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'515'}, 'postfix' );
@@ -561,7 +561,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 525 ## $a Vols. for 1961- kept up to date by midyear
 #   supplements. Cf. New serial titles.
 {
-    # render: [doc §4.30] 525 ## $a Vols. for 1961- kept up to date by midyear supplements $z Cf. New serial titles
+    # render: [doc §4.30 #1] 525 ## $a Vols. for 1961- kept up to date by midyear supplements $z Cf. New serial titles
     my $field = make_field( '525', ' ', ' ', a => 'Vols. for 1961- kept up to date by midyear supplements', z => 'Cf. New serial titles' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'525'}, 'postfix' );
@@ -598,7 +598,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 538 ## $a Disk characteristics: Disk is single sided, double
 #   density, soft sectored.
 {
-    # render: [doc §4.31] 538 8# $i Disk characteristics $a Disk is single sided, double density, soft sectored
+    # render: [doc §4.31 #1] 538 8# $i Disk characteristics $a Disk is single sided, double density, soft sectored
     my $field = make_field( '538', '8', '#', i => 'Disk characteristics', a => 'Disk is single sided, double density, soft sectored' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'538'}, 'postfix' );
@@ -616,7 +616,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # Doc: Current: 538 ## $a System requirements: IBM 360 and 370; 9K bytes of
 #   internal memory; OS SVS and OSMVS.
 {
-    # render: [doc §4.31] 538 8# $i System requirements $a IBM 360 and 370; 9K bytes of internal memory; OS SVS and OSMVS
+    # render: [doc §4.31 #2] 538 8# $i System requirements $a IBM 360 and 370; 9K bytes of internal memory; OS SVS and OSMVS
     my $field = make_field( '538', '8', '#', i => 'System requirements', a => 'IBM 360 and 370; 9K bytes of internal memory; OS SVS and OSMVS' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'538'}, 'postfix' );
@@ -851,7 +851,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 #   laboratory under its later name: Institute for Telecommunication Sciences
 #   and Aeronomy.
 {
-    # render: [doc §4.34] 580 8# $i Continued by $a Ionospheric predictions $i issued by the laboratory under its later name $a Institute for Telecommunication Sciences and Aeronomy
+    # render: [doc §4.34 #3] 580 8# $i Continued by $a Ionospheric predictions $i issued by the laboratory under its later name $a Institute for Telecommunication Sciences and Aeronomy
     my $field = make_field(
         '580', '8', '#',
         i => 'Continued by',

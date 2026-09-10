@@ -439,14 +439,14 @@ fields:
         reason: ""
         testfile: "t/22-field-x11.t"
         marker: "# render: [doc §5.4 #2] 111 2# $a Governor's Conference on Aging $g N.Y. $d 1982 $c Albany, N.Y."
-      - doc: "§5.4"
+      - doc: "§5.4 #4"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/22-field-x11.t"
-        marker: "# render: [doc §5.4] 111 2# $a Military History Symposium $g U.S. $n 9th $d 1980 $c United States Air Force Academy"
+        marker: "# render: [doc §5.4 #4] 111 2# $a Military History Symposium $g U.S. $n 9th $d 1980 $c United States Air Force Academy"
       - doc: "§5.4"
         num: null
         kind: doc
@@ -697,14 +697,14 @@ fields:
         marker: "# render: 240 10 $a Sonatas"
   - tag: "242"
     examples:
-      - doc: "§4.4"
+      - doc: "§4.4 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/24-field-130-240-242.t"
-        marker: "# render: [doc §4.4] 242 00 $a Annals of chemistry $n Series C $p Organic chemistry and biochemistry $y eng"
+        marker: "# render: [doc §4.4 #1] 242 00 $a Annals of chemistry $n Series C $p Organic chemistry and biochemistry $y eng"
       - doc: null
         num: null
         kind: constructed
@@ -1111,22 +1111,22 @@ fields:
         reason: ""
         testfile: "t/39-field-255-352.t"
         marker: "# render: [doc §4.11 #1] 255 ## $a Scale approximately 1:90,000"
-      - doc: "§4.11"
+      - doc: "§4.11 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/39-field-255-352.t"
-        marker: "# render: [doc §4.11] 255 ## $a Scale 1:6,336,000 $s 1" = 100 miles $v Vertical scale 1:192,000 $s 1/16" = approximately 1000'"
-      - doc: "§4.11"
+        marker: "# render: [doc §4.11 #2] 255 ## $a Scale 1:6,336,000 $s 1" = 100 miles $v Vertical scale 1:192,000 $s 1/16" = approximately 1000'"
+      - doc: "§4.11 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/39-field-255-352.t"
-        marker: "# render: [doc §4.11] 255 ## $a Scale [ca. 1:13,835,000] $s 1 cm = 138 km $s 1 in. = 218 miles $b Chamberlin trimetric proj."
+        marker: "# render: [doc §4.11 #3] 255 ## $a Scale [ca. 1:13,835,000] $s 1 cm = 138 km $s 1 in. = 218 miles $b Chamberlin trimetric proj."
       - doc: "§4.11"
         num: null
         kind: doc
@@ -1497,14 +1497,14 @@ fields:
         reason: ""
         testfile: "t/38-field-307-343-351.t"
         marker: "# render: [doc §3.5 #1] 307 ## $a M, 8:30-6:00; Tu, 8:30-7:00; W-F, 8:30-6:00 $b not available on weekends"
-      - doc: "§3.5"
+      - doc: "§3.5 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/38-field-307-343-351.t"
-        marker: "# render: [doc §3.5] 307 ## $a M-F, 6:30am-9:00pm (EST) $b with brief interruptions for periodic update/backup of data"
+        marker: "# render: [doc §3.5 #2] 307 ## $a M-F, 6:30am-9:00pm (EST) $b with brief interruptions for periodic update/backup of data"
       - doc: "§3.5 #3"
         num: null
         kind: doc
@@ -1623,14 +1623,14 @@ fields:
         reason: ""
         testfile: "t/38-field-307-343-351.t"
         marker: "# render: [doc §3.6 #1] 343 ## $a Coordinate pair $b meters $c 22 $d 22"
-      - doc: "§3.6"
+      - doc: "§3.6 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/38-field-307-343-351.t"
-        marker: "# render: [doc §3.6] 343 ## $a Coordinate pair $e 30.0 $f 0.0001 $g Degrees, minutes and decimal seconds $h North $b U.S. feet"
+        marker: "# render: [doc §3.6 #2] 343 ## $a Coordinate pair $e 30.0 $f 0.0001 $g Degrees, minutes and decimal seconds $h North $b U.S. feet"
       - doc: "§3.6 #3"
         num: null
         kind: doc
@@ -1723,14 +1723,14 @@ fields:
         reason: ""
         testfile: "t/39-field-255-352.t"
         marker: "# render: [doc §3.8 #1] 352 ## $a Vector $b GT-polygon composed of chains $c 70"
-      - doc: "§3.8"
+      - doc: "§3.8 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/39-field-255-352.t"
-        marker: "# render: [doc §3.8] 352 ## $a Vector $b Point $c 13671 $b string $c 20171 $b GT-polygon composed of chains $c 13672 $q ARC/INFO export"
+        marker: "# render: [doc §3.8 #2] 352 ## $a Vector $b Point $c 13671 $b string $c 20171 $b GT-polygon composed of chains $c 13672 $q ARC/INFO export"
       - doc: "§3.8 #3"
         num: null
         kind: doc
@@ -1911,14 +1911,14 @@ fields:
         reason: ""
         testfile: "t/13-field-490.t"
         marker: "# render: [doc §4.18 #8] 490 1# $a Forschungen zur Geschichte Vorarlbergs $v 6. Bd. $y der ganzen Reihe 13 Bd."
-      - doc: "§4.18"
+      - doc: "§4.18 #9"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/13-field-490.t"
-        marker: "# render: [doc §4.18] 490 1# $a Lund studies in geography $x 1400-1144 $v 101 $n Ser. B $p Human geography $x 0076-1478 $v 48"
+        marker: "# render: [doc §4.18 #9] 490 1# $a Lund studies in geography $x 1400-1144 $v 101 $n Ser. B $p Human geography $x 0076-1478 $v 48"
       - doc: null
         num: null
         kind: constructed
@@ -1977,22 +1977,22 @@ fields:
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
         marker: "# render: [doc §4.21] 500 ## $a "May 6, 2010" $z Cover"
-      - doc: "§4.21"
+      - doc: "§4.21 #6"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.21] 500 ## $i Source of data $a Survey of Consumer Finances"
-      - doc: "§4.21"
+        marker: "# render: [doc §4.21 #6] 500 ## $i Source of data $a Survey of Consumer Finances"
+      - doc: "§4.21 #7"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.21] 500 ## $a "The first American Jewish weekly of its kind" $z The Jewish encyclopedia, v. 8"
+        marker: "# render: [doc §4.21 #7] 500 ## $a "The first American Jewish weekly of its kind" $z The Jewish encyclopedia, v. 8"
       - doc: "§4.21 #8"
         num: null
         kind: doc
@@ -2001,14 +2001,14 @@ fields:
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
         marker: "# render: [doc §4.21 #8] 500 ## $a "Evaluation and Investigations Program" $z Cover"
-      - doc: "§4.21"
+      - doc: "§4.21 #9"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.21] 500 ## $a Republican $z Cf. Gutgesell, S. Guide to Ohio newspapers, 1974"
+        marker: "# render: [doc §4.21 #9] 500 ## $a Republican $z Cf. Gutgesell, S. Guide to Ohio newspapers, 1974"
       - doc: null
         num: null
         kind: constructed
@@ -2145,14 +2145,14 @@ fields:
         reason: ""
         testfile: "t/19-field-505.t"
         marker: "# render: [doc §4.25] 505 00 $t Quatrain II $g 16:35 $t Water ways $g 1:57 $t Waves $g 10:49"
-      - doc: "§4.25"
+      - doc: "§4.25 #4"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/19-field-505.t"
-        marker: "# render: [doc §4.25] 505 20 $t Baptisms, 1816-1872 $t Church members, 1816-1831 $t History of the Second Presbyterian Church of West Durham $r by L.H. Fellows"
+        marker: "# render: [doc §4.25 #4] 505 20 $t Baptisms, 1816-1872 $t Church members, 1816-1831 $t History of the Second Presbyterian Church of West Durham $r by L.H. Fellows"
       - doc: null
         num: null
         kind: constructed
@@ -2201,14 +2201,14 @@ fields:
         reason: ""
         testfile: "t/19-field-505.t"
         marker: "# render: [doc §4.25] 505 10 $n Nr. 1 $t Region Neusiedlersee $n Nr. 2 $t Region Rosalia/Lithagebirge $n Nr. 3 $t Region Mettelburgenland $n Nr. 4 $t Region s\u00fcdliches Burgenland $n Nr. 5 $t Region S\u00fcdburgland"
-      - doc: "§4.25"
+      - doc: "§4.25 #6"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/19-field-505.t"
-        marker: "# render: [doc §4.25] 505 00 $i Contents of disc 1 $n Episode 1 $t The last of the free $n Episode 2 $t Hammers of the Scots $n Episode 3 $t Bishop makes kings"
+        marker: "# render: [doc §4.25 #6] 505 00 $i Contents of disc 1 $n Episode 1 $t The last of the free $n Episode 2 $t Hammers of the Scots $n Episode 3 $t Bishop makes kings"
       - doc: null
         num: null
         kind: constructed
@@ -2227,14 +2227,14 @@ fields:
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
         marker: "# render: [doc §3.9 #1] 506 ## $a Restricted access $c Written permission required $b Donor"
-      - doc: "§3.9"
+      - doc: "§3.9 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.9] 506 ## $a Classified under national security provisions $b Department of Defense $e Title 50, chapter 401, U.S.C"
+        marker: "# render: [doc §3.9 #2] 506 ## $a Classified under national security provisions $b Department of Defense $e Title 50, chapter 401, U.S.C"
       - doc: "§3.9 #3"
         num: null
         kind: doc
@@ -2271,14 +2271,14 @@ fields:
         marker: "# render: 507 ## $a Scale 1:24,000"
   - tag: "508"
     examples:
-      - doc: "§4.26"
+      - doc: "§4.26 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.26] 508 ## $a Producer, Joseph N. Ermolieff $a director, Lesley Selander $a screenplay, Theodore St. John $a music director, Michel Michelet"
+        marker: "# render: [doc §4.26 #1] 508 ## $a Producer, Joseph N. Ermolieff $a director, Lesley Selander $a screenplay, Theodore St. John $a music director, Michel Michelet"
       - doc: "§4.26 #2"
         num: null
         kind: doc
@@ -2383,14 +2383,14 @@ fields:
         marker: "# render: [doc §3.12 #1] 513 ## $a Interim report $b Jan.-July 1977"
   - tag: "515"
     examples:
-      - doc: "§4.28"
+      - doc: "§4.28 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.28] 515 ## $a None published 1941-1946 $z Cf. Brit. Mus. Gen. cat. of printed books"
+        marker: "# render: [doc §4.28 #1] 515 ## $a None published 1941-1946 $z Cf. Brit. Mus. Gen. cat. of printed books"
       - doc: null
         num: null
         kind: constructed
@@ -2401,22 +2401,22 @@ fields:
         marker: "# render: 515 ## $a Numbering irregular."
   - tag: "520"
     examples:
-      - doc: "§4.29"
+      - doc: "§4.29 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/14-field-520.t"
-        marker: "# render: [doc §4.29] 520 ## $a Papers "originally commissioned as course material for a series of continuing legal education seminars" $z Pref., v. 1"
-      - doc: "§4.29"
+        marker: "# render: [doc §4.29 #1] 520 ## $a Papers "originally commissioned as course material for a series of continuing legal education seminars" $z Pref., v. 1"
+      - doc: "§4.29 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/14-field-520.t"
-        marker: "# render: [doc §4.29] 520 1# $a "Combines the most frequently asked questions regarding AIDS with the most prominent US physician, former Surgeon General C. Everett Koop, resulting in an informative 38-minute production" $z Cf. Video rating guide for libraries, winter 1990"
+        marker: "# render: [doc §4.29 #2] 520 1# $a "Combines the most frequently asked questions regarding AIDS with the most prominent US physician, former Surgeon General C. Everett Koop, resulting in an informative 38-minute production" $z Cf. Video rating guide for libraries, winter 1990"
       - doc: null
         num: null
         kind: constructed
@@ -2435,14 +2435,14 @@ fields:
         marker: "# render: 520 ## $z Source only"
   - tag: "525"
     examples:
-      - doc: "§4.30"
+      - doc: "§4.30 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.30] 525 ## $a Vols. for 1961- kept up to date by midyear supplements $z Cf. New serial titles"
+        marker: "# render: [doc §4.30 #1] 525 ## $a Vols. for 1961- kept up to date by midyear supplements $z Cf. New serial titles"
       - doc: null
         num: null
         kind: constructed
@@ -2471,14 +2471,14 @@ fields:
         marker: "# render: 526 8# $i Reading level $a 3.2 $b Grade 3 $x nonpublic"
   - tag: "530"
     examples:
-      - doc: "§3.14"
+      - doc: "§3.14 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.14] 530 ## $a Photoreproduced facsimile version $b Published as Dudley, Cuthbert, ed., The Novel of Lord Ethelbert of Waxlot (Oxford University Press, 1973)"
+        marker: "# render: [doc §3.14 #1] 530 ## $a Photoreproduced facsimile version $b Published as Dudley, Cuthbert, ed., The Novel of Lord Ethelbert of Waxlot (Oxford University Press, 1973)"
       - doc: "§3.14"
         num: null
         kind: doc
@@ -2507,30 +2507,30 @@ fields:
         marker: "# render: 532 ## $a No restrictions on access"
   - tag: "533"
     examples:
-      - doc: "§3.15"
+      - doc: "§3.15 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/33-field-533-534.t"
-        marker: "# render: [doc §3.15] 533 ## $a Photocopy $b Seattle, Wash. $c University of Washington $d 1979 $e 28 cm"
-      - doc: "§3.15"
+        marker: "# render: [doc §3.15 #1] 533 ## $a Photocopy $b Seattle, Wash. $c University of Washington $d 1979 $e 28 cm"
+      - doc: "§3.15 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/33-field-533-534.t"
-        marker: "# render: [doc §3.15] 533 ## $a Microfilm $m 1962-1965 $b Ann Arbor, Mich. $c University Microfilms International $d 1988 $e 1 microfilm reel ; 35 mm"
-      - doc: "§3.15"
+        marker: "# render: [doc §3.15 #2] 533 ## $a Microfilm $m 1962-1965 $b Ann Arbor, Mich. $c University Microfilms International $d 1988 $e 1 microfilm reel ; 35 mm"
+      - doc: "§3.15 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/33-field-533-534.t"
-        marker: "# render: [doc §3.15] 533 ## $a Microfilm $m July 1919-Nov. 1925 $b Ann Arbor, Mich. $c University Microfilms $d 1966?-1980 $e 15 microfilm reels ; 35 mm $f Current periodical series ; publication no. 2313"
+        marker: "# render: [doc §3.15 #3] 533 ## $a Microfilm $m July 1919-Nov. 1925 $b Ann Arbor, Mich. $c University Microfilms $d 1966?-1980 $e 15 microfilm reels ; 35 mm $f Current periodical series ; publication no. 2313"
       - doc: null
         num: null
         kind: constructed
@@ -2557,22 +2557,22 @@ fields:
         reason: ""
         testfile: "t/33-field-533-534.t"
         marker: "# render: [doc §3.16 #1] 534 ## $p Originally published $c New York : Garland, 1987"
-      - doc: "§3.16"
+      - doc: "§3.16 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/33-field-533-534.t"
-        marker: "# render: [doc §3.16] 534 ## $p Originally issued $a Frederick, John $t Luck $n Published in: Argosy, 1919"
-      - doc: "§3.16"
+        marker: "# render: [doc §3.16 #2] 534 ## $p Originally issued $a Frederick, John $t Luck $n Published in: Argosy, 1919"
+      - doc: "§3.16 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/33-field-533-534.t"
-        marker: "# render: [doc §3.16] 534 ## $p Reprint. Originally published $c Oxford ; New York : Pergamon Press, 1963 $f International series of monographs on electromagnetic waves ; v. 4"
+        marker: "# render: [doc §3.16 #3] 534 ## $p Reprint. Originally published $c Oxford ; New York : Pergamon Press, 1963 $f International series of monographs on electromagnetic waves ; v. 4"
       - doc: null
         num: null
         kind: constructed
@@ -2583,40 +2583,40 @@ fields:
         marker: "# render: 534 ## $p Originally published"
   - tag: "535"
     examples:
-      - doc: "§3.17"
+      - doc: "§3.17 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.17] 535 2# $3 Harrison papers $a Western Reserve Historical Society $b 10825 East Blvd., Cleveland, OH 44106"
-      - doc: "§3.17"
+        marker: "# render: [doc §3.17 #1] 535 2# $3 Harrison papers $a Western Reserve Historical Society $b 10825 East Blvd., Cleveland, OH 44106"
+      - doc: "§3.17 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.17] 535 2# $3 German notebook $a Yale University Library, Department of Manuscripts and Archives $b Box 1603A Yale Station, New Haven, CT 06520 $c USA $d 203-436-4564"
+        marker: "# render: [doc §3.17 #2] 535 2# $3 German notebook $a Yale University Library, Department of Manuscripts and Archives $b Box 1603A Yale Station, New Haven, CT 06520 $c USA $d 203-436-4564"
   - tag: "538"
     examples:
-      - doc: "§4.31"
+      - doc: "§4.31 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.31] 538 8# $i Disk characteristics $a Disk is single sided, double density, soft sectored"
-      - doc: "§4.31"
+        marker: "# render: [doc §4.31 #1] 538 8# $i Disk characteristics $a Disk is single sided, double density, soft sectored"
+      - doc: "§4.31 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.31] 538 8# $i System requirements $a IBM 360 and 370; 9K bytes of internal memory; OS SVS and OSMVS"
+        marker: "# render: [doc §4.31 #2] 538 8# $i System requirements $a IBM 360 and 370; 9K bytes of internal memory; OS SVS and OSMVS"
       - doc: "§4.31 #3"
         num: null
         kind: doc
@@ -2635,14 +2635,14 @@ fields:
         marker: "# render: 538 ## $a Requires Unix."
   - tag: "540"
     examples:
-      - doc: "§3.18"
+      - doc: "§3.18 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.18] 540 ## $3 Recorded radio programs $a There are copyright and contractual restrictions applying to the reproduction of most of these recordings $b Department of Treasury $c Treasury contracts 7-A130 through 39-A179"
+        marker: "# render: [doc §3.18 #1] 540 ## $3 Recorded radio programs $a There are copyright and contractual restrictions applying to the reproduction of most of these recordings $b Department of Treasury $c Treasury contracts 7-A130 through 39-A179"
       - doc: "§3.18 #2"
         num: null
         kind: doc
@@ -2651,14 +2651,14 @@ fields:
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
         marker: "# render: [doc §3.18 #2] 540 ## $3 Diaries $a Photocopying prohibited $d Executor of estate"
-      - doc: "§3.18"
+      - doc: "§3.18 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.18] 540 ## $a Reproduction is restricted through October 2014. See Restrictions Statement for more information $u http://lcweb.loc.gov/rr/print/res/273_brum.html"
+        marker: "# render: [doc §3.18 #3] 540 ## $a Reproduction is restricted through October 2014. See Restrictions Statement for more information $u http://lcweb.loc.gov/rr/print/res/273_brum.html"
   - tag: "541"
     examples:
       - doc: "§3.19 #1"
@@ -2677,32 +2677,32 @@ fields:
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
         marker: "# render: [doc §3.19] 541 0# $3 5 diaries $n 25 $o cubic feet $a Merriwether, Stuart $b 458 Yonkers Road, Poughkeepsie, NY 12601 $c Purchase at auction $d 1981/09/24 $e 81-325 $f Jonathan P. Merriwether Estate $h \$7,850"
-      - doc: "§3.19"
+      - doc: "§3.19 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.19] 541 ## $a Wisconsin Office of the Commissioner of Insurance $e 81-141002 $c Records Center transfer $n 54 $o cubic feet $n 12 $o reels of computer tape $d 1981/05/11"
+        marker: "# render: [doc §3.19 #3] 541 ## $a Wisconsin Office of the Commissioner of Insurance $e 81-141002 $c Records Center transfer $n 54 $o cubic feet $n 12 $o reels of computer tape $d 1981/05/11"
   - tag: "544"
     examples:
-      - doc: "§3.20"
+      - doc: "§3.20 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.20] 544 ## $d William Fords Provenance $e Freen College $b 727 Prologue Blvd., History City, MA $c USA"
-      - doc: "§3.20"
+        marker: "# render: [doc §3.20 #1] 544 ## $d William Fords Provenance $e Freen College $b 727 Prologue Blvd., History City, MA $c USA"
+      - doc: "§3.20 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.20] 544 ## $d Records of the Rhode Island Loan Office of the Bureau of Public Debt, 1776-1817 $a Newport Historical Society $b 82 Touro Street, Newport, RI 02840 $c USA $e Not transferred to the Second Bank of the United States at the time of its establishment, March 3, 1817"
+        marker: "# render: [doc §3.20 #3] 544 ## $d Records of the Rhode Island Loan Office of the Bureau of Public Debt, 1776-1817 $a Newport Historical Society $b 82 Touro Street, Newport, RI 02840 $c USA $e Not transferred to the Second Bank of the United States at the time of its establishment, March 3, 1817"
   - tag: "546"
     examples:
       - doc: "§3.21 #1"
@@ -2801,14 +2801,14 @@ fields:
         marker: "# render: [doc §3.22] 555 0# $3 Claims settled under Treaty of Washington, May 8, 1871 $a Preliminary inventory prepared in 1962 $b Available in NARS central search room $b NARS Publications Sales Branch $d Ulibarri, George S."
   - tag: "562"
     examples:
-      - doc: "§3.23"
+      - doc: "§3.23 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.23] 562 ## $e 3 copies kept $b Labelled as president's desk copy, board of directors' working file copy, and public release copy"
+        marker: "# render: [doc §3.23 #1] 562 ## $e 3 copies kept $b Labelled as president's desk copy, board of directors' working file copy, and public release copy"
       - doc: "§3.23 #2"
         num: null
         kind: doc
@@ -2845,14 +2845,14 @@ fields:
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
         marker: "# render: [doc §4.34] 580 8# $i Merged with $a Index chemicus (Philadelphia, Pa. : 1977) $i to form $a Current abstracts of chemistry and index chemicus (Philadelphia, Pa. : 1978)"
-      - doc: "§4.34"
+      - doc: "§4.34 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
-        marker: "# render: [doc §4.34] 580 8# $i Continued by $a Ionospheric predictions $i issued by the laboratory under its later name $a Institute for Telecommunication Sciences and Aeronomy"
+        marker: "# render: [doc §4.34 #3] 580 8# $i Continued by $a Ionospheric predictions $i issued by the laboratory under its later name $a Institute for Telecommunication Sciences and Aeronomy"
       - doc: null
         num: null
         kind: loc
@@ -2879,22 +2879,22 @@ fields:
         marker: "# render: 580 ## $a Continues: Titel X."
   - tag: "584"
     examples:
-      - doc: "§3.25"
+      - doc: "§3.25 #1"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.25] 584 ## $3 General subject files $a 45 cu. ft. average annual accumulation 1970-1979 $a 5.4 cu. ft. average monthly accumulation, 1979-82 $a Current average monthly accumulation is 2 cu. ft."
-      - doc: "§3.25"
+        marker: "# render: [doc §3.25 #1] 584 ## $3 General subject files $a 45 cu. ft. average annual accumulation 1970-1979 $a 5.4 cu. ft. average monthly accumulation, 1979-82 $a Current average monthly accumulation is 2 cu. ft."
+      - doc: "§3.25 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
-        marker: "# render: [doc §3.25] 584 ## $b An average of 15 reference requests per month, with peak demand during June and December $b Total reference requests for 1984: 179"
+        marker: "# render: [doc §3.25 #2] 584 ## $b An average of 15 reference requests per month, with peak demand during June and December $b Total reference requests for 1984: 179"
   - tag: "600"
     examples:
       - doc: null
@@ -3281,14 +3281,14 @@ fields:
         reason: ""
         testfile: "t/21-field-x10.t"
         marker: "# render: 710 ## $a United Nations $g General Assembly $e observer"
-      - doc: "§5.5"
+      - doc: "§5.5 #7"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/21-field-x10.t"
-        marker: "# render: [doc §5.5] 710 ## $a Ecuador $t Plan Nacional de Desarrollo, 1980-1984 $n Parte 1 $p Grandes objetivos nacionales $l English"
+        marker: "# render: [doc §5.5 #7] 710 ## $a Ecuador $t Plan Nacional de Desarrollo, 1980-1984 $n Parte 1 $p Grandes objetivos nacionales $l English"
   - tag: "711"
     examples:
       - doc: "§5.4 #3"
@@ -3417,14 +3417,14 @@ fields:
         marker: "# render: [doc §4.35 #1] 775 0# $a Mellor, Alec $t Strange masonic stories $e eng"
   - tag: "776"
     examples:
-      - doc: "§4.35"
+      - doc: "§4.35 #2"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/34-field-76x-78x.t"
-        marker: "# render: [doc §4.35] 776 08 $i Print version $a McConnell, John H $t How to design, implement, and interpret an employee survey $d New York : AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412"
+        marker: "# render: [doc §4.35 #2] 776 08 $i Print version $a McConnell, John H $t How to design, implement, and interpret an employee survey $d New York : AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412"
   - tag: "777"
     examples:
       - doc: null
@@ -3437,14 +3437,14 @@ fields:
         marker: "# render: 777 ## $t The Standard $x 1234-5678"
   - tag: "780"
     examples:
-      - doc: "§4.35"
+      - doc: "§4.35 #3"
         num: null
         kind: doc
         status: doc
         derived: false
         reason: ""
         testfile: "t/34-field-76x-78x.t"
-        marker: "# render: [doc §4.35] 780 07 $a British Columbia. Ministry of Provincial Secretary and Government Services $t Annual report $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433"
+        marker: "# render: [doc §4.35 #3] 780 07 $a British Columbia. Ministry of Provincial Secretary and Government Services $t Annual report $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433"
   - tag: "785"
     examples:
       - doc: null

@@ -55,7 +55,7 @@ is( $R->{534}{post}{p}, ': ', '534 $p has trailing ": " via post' );
 # Doc: Current: 533 ## $a Photocopy. $b Seattle, Wash. : $c University of
 #   Washington, $d 1979. $e 28 cm.
 {
-    # render: [doc §3.15] 533 ## $a Photocopy $b Seattle, Wash. $c University of Washington $d 1979 $e 28 cm
+    # render: [doc §3.15 #1] 533 ## $a Photocopy $b Seattle, Wash. $c University of Washington $d 1979 $e 28 cm
     my $field = make_field( '533', ' ', ' ', a => 'Photocopy', b => 'Seattle, Wash.', c => 'University of Washington', d => '1979', e => '28 cm' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{533}, 'postfix' );
@@ -80,7 +80,7 @@ is( $R->{534}{post}{p}, ': ', '534 $p has trailing ": " via post' );
 #   $c University Microfilms International, $d 1988. $e 1 microfilm reel ;
 #   35 mm.
 {
-    # render: [doc §3.15] 533 ## $a Microfilm $m 1962-1965 $b Ann Arbor, Mich. $c University Microfilms International $d 1988 $e 1 microfilm reel ; 35 mm
+    # render: [doc §3.15 #2] 533 ## $a Microfilm $m 1962-1965 $b Ann Arbor, Mich. $c University Microfilms International $d 1988 $e 1 microfilm reel ; 35 mm
     my $field = make_field( '533', ' ', ' ', a => 'Microfilm', m => '1962-1965', b => 'Ann Arbor, Mich.', c => 'University Microfilms International', d => '1988', e => '1 microfilm reel ; 35 mm' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{533}, 'postfix' );
@@ -107,7 +107,7 @@ is( $R->{534}{post}{p}, ': ', '534 $p has trailing ": " via post' );
 #   Mich. : $c University Microfilms, $d 1966?-1980. $e 15 microfilm reels ;
 #   35 mm. $f (Current periodical series ; publication no. 2313).
 {
-    # render: [doc §3.15] 533 ## $a Microfilm $m July 1919-Nov. 1925 $b Ann Arbor, Mich. $c University Microfilms $d 1966?-1980 $e 15 microfilm reels ; 35 mm $f Current periodical series ; publication no. 2313
+    # render: [doc §3.15 #3] 533 ## $a Microfilm $m July 1919-Nov. 1925 $b Ann Arbor, Mich. $c University Microfilms $d 1966?-1980 $e 15 microfilm reels ; 35 mm $f Current periodical series ; publication no. 2313
     my $field = make_field( '533', ' ', ' ', a => 'Microfilm', m => 'July 1919-Nov. 1925', b => 'Ann Arbor, Mich.', c => 'University Microfilms', d => '1966?-1980', e => '15 microfilm reels ; 35 mm', f => 'Current periodical series ; publication no. 2313' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{533}, 'postfix' );
@@ -183,7 +183,7 @@ is( $R->{534}{post}{p}, ': ', '534 $p has trailing ": " via post' );
 # Doc: Current: 534 ## $p Originally issued: $a Frederick, John. $t Luck.
 #   $n Published in: Argosy, 1919.
 {
-    # render: [doc §3.16] 534 ## $p Originally issued $a Frederick, John $t Luck $n Published in: Argosy, 1919
+    # render: [doc §3.16 #2] 534 ## $p Originally issued $a Frederick, John $t Luck $n Published in: Argosy, 1919
     my $field = make_field( '534', ' ', ' ', p => 'Originally issued', a => 'Frederick, John', t => 'Luck', n => 'Published in: Argosy, 1919' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{534}, 'postfix' );
@@ -206,7 +206,7 @@ is( $R->{534}{post}{p}, ': ', '534 $p has trailing ": " via post' );
 #   York : Pergamon Press, 1963. $f (International series of monographs on
 #   electromagnetic waves ; v. 4).
 {
-    # render: [doc §3.16] 534 ## $p Reprint. Originally published $c Oxford ; New York : Pergamon Press, 1963 $f International series of monographs on electromagnetic waves ; v. 4
+    # render: [doc §3.16 #3] 534 ## $p Reprint. Originally published $c Oxford ; New York : Pergamon Press, 1963 $f International series of monographs on electromagnetic waves ; v. 4
     my $field = make_field( '534', ' ', ' ', p => 'Reprint. Originally published', c => 'Oxford ; New York : Pergamon Press, 1963', f => 'International series of monographs on electromagnetic waves ; v. 4' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{534}, 'postfix' );

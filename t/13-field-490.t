@@ -205,7 +205,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 9: $a + $x + $v + $n + $p + $x + $v (Example 9 from doc, abbreviated) ---
 # Doc: Current: 490 1# $a Lund studies in geography, $x 1400-1144 ; $v 101. $a Ser. B, Human geography, $x 0076-1478 ; $v 48
 {
-    # render: [doc §4.18] 490 1# $a Lund studies in geography $x 1400-1144 $v 101 $n Ser. B $p Human geography $x 0076-1478 $v 48
+    # render: [doc §4.18 #9] 490 1# $a Lund studies in geography $x 1400-1144 $v 101 $n Ser. B $p Human geography $x 0076-1478 $v 48
     my $field = make_field( '490', '1', ' ',
         a => 'Lund studies in geography',
         x => '1400-1144',

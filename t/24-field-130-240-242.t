@@ -281,7 +281,7 @@ ok( defined $rules_242, '242 rules loaded' );
 # Doc: Current: 242 00 $a Annals of chemistry. $n Series C, $p Organic
 #                        chemistry and biochemistry. $y eng
 {
-    # render: [doc §4.4] 242 00 $a Annals of chemistry $n Series C $p Organic chemistry and biochemistry $y eng
+    # render: [doc §4.4 #1] 242 00 $a Annals of chemistry $n Series C $p Organic chemistry and biochemistry $y eng
     my $field = make_field(
         '242', '0', '0',
         a => 'Annals of chemistry',

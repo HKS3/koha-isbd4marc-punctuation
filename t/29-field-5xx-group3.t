@@ -93,7 +93,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 506 ex 2 (doc §3.9) ---
 # Doc: Current: 506 ## $a Classified under national security provisions; $b Department of Defense; $e Title 50, chapter 401, U.S.C.
 {
-    # render: [doc §3.9] 506 ## $a Classified under national security provisions $b Department of Defense $e Title 50, chapter 401, U.S.C
+    # render: [doc §3.9 #2] 506 ## $a Classified under national security provisions $b Department of Defense $e Title 50, chapter 401, U.S.C
     my $field = make_field( '506', ' ', ' ', a => 'Classified under national security provisions', b => 'Department of Defense', e => 'Title 50, chapter 401, U.S.C' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'506'}, 'postfix' );
@@ -310,7 +310,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 530 ex 1 (doc §3.14) ---
 # Doc: Current: 530 ## $a Photoreproduced facsimile version; $b Published as Dudley, Cuthbert, ed., The Novel of Lord Ethelbert of Waxlot (Oxford University Press, 1973).
 {
-    # render: [doc §3.14] 530 ## $a Photoreproduced facsimile version $b Published as Dudley, Cuthbert, ed., The Novel of Lord Ethelbert of Waxlot (Oxford University Press, 1973)
+    # render: [doc §3.14 #1] 530 ## $a Photoreproduced facsimile version $b Published as Dudley, Cuthbert, ed., The Novel of Lord Ethelbert of Waxlot (Oxford University Press, 1973)
     my $field = make_field( '530', ' ', ' ', a => 'Photoreproduced facsimile version', b => 'Published as Dudley, Cuthbert, ed., The Novel of Lord Ethelbert of Waxlot (Oxford University Press, 1973)' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'530'}, 'postfix' );
@@ -392,7 +392,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 535 ex 1: $3 + $a + $b (doc §3.17) ---
 # Doc: Current: 535 2# $3 Harrison papers $a Western Reserve Historical Society; $b 10825 East Blvd., Cleveland, OH 44106
 {
-    # render: [doc §3.17] 535 2# $3 Harrison papers $a Western Reserve Historical Society $b 10825 East Blvd., Cleveland, OH 44106
+    # render: [doc §3.17 #1] 535 2# $3 Harrison papers $a Western Reserve Historical Society $b 10825 East Blvd., Cleveland, OH 44106
     my $field = make_field( '535', '2', '#', '3' => 'Harrison papers', a => 'Western Reserve Historical Society', b => '10825 East Blvd., Cleveland, OH 44106' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'535'}, 'postfix' );
@@ -411,7 +411,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 535 ex 2: $b/$c/$d chain (doc §3.17) ---
 # Doc: Current: 535 2# $3 German notebook $a Yale University Library, Department of Manuscripts and Archives; $b Box 1603A Yale Station, New Haven, CT 06520; $c USA; $d 203-436-4564
 {
-    # render: [doc §3.17] 535 2# $3 German notebook $a Yale University Library, Department of Manuscripts and Archives $b Box 1603A Yale Station, New Haven, CT 06520 $c USA $d 203-436-4564
+    # render: [doc §3.17 #2] 535 2# $3 German notebook $a Yale University Library, Department of Manuscripts and Archives $b Box 1603A Yale Station, New Haven, CT 06520 $c USA $d 203-436-4564
     my $field = make_field( '535', '2', '#', '3' => 'German notebook', a => 'Yale University Library, Department of Manuscripts and Archives', b => 'Box 1603A Yale Station, New Haven, CT 06520', c => 'USA', d => '203-436-4564' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'535'}, 'postfix' );
@@ -440,7 +440,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 540 ex 1: $b/$c (doc §3.18) ---
 # Doc: Current: 540 ## $3 Recorded radio programs $a There are copyright and contractual restrictions applying to the reproduction of most of these recordings; $b Department of Treasury; $c Treasury contracts 7-A130 through 39-A179.
 {
-    # render: [doc §3.18] 540 ## $3 Recorded radio programs $a There are copyright and contractual restrictions applying to the reproduction of most of these recordings $b Department of Treasury $c Treasury contracts 7-A130 through 39-A179
+    # render: [doc §3.18 #1] 540 ## $3 Recorded radio programs $a There are copyright and contractual restrictions applying to the reproduction of most of these recordings $b Department of Treasury $c Treasury contracts 7-A130 through 39-A179
     my $field = make_field( '540', ' ', ' ', '3' => 'Recorded radio programs', a => 'There are copyright and contractual restrictions applying to the reproduction of most of these recordings', b => 'Department of Treasury', c => 'Treasury contracts 7-A130 through 39-A179' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'540'}, 'postfix' );
@@ -480,7 +480,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 540 ex 3: $u (doc §3.18) ---
 # Doc: Current: 540 ## $a Reproduction is restricted through October 2014. See Restrictions Statement for more information: $u http://lcweb.loc.gov/rr/print/res/273_brum.html
 {
-    # render: [doc §3.18] 540 ## $a Reproduction is restricted through October 2014. See Restrictions Statement for more information $u http://lcweb.loc.gov/rr/print/res/273_brum.html
+    # render: [doc §3.18 #3] 540 ## $a Reproduction is restricted through October 2014. See Restrictions Statement for more information $u http://lcweb.loc.gov/rr/print/res/273_brum.html
     my $field = make_field( '540', ' ', ' ', a => 'Reproduction is restricted through October 2014. See Restrictions Statement for more information', u => 'http://lcweb.loc.gov/rr/print/res/273_brum.html' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'540'}, 'postfix' );
@@ -557,7 +557,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 541 constructed: repeatable $n/$o runs (doc §3.19 ex 3) ---
 # Doc: Current: 541 ## $a Wisconsin Office of the Commissioner of Insurance; $e 81-141002; $c Records Center transfer; $n 54 $o cubic feet; $n 12 $o reels of computer tape; $d 1981/05/11.
 {
-    # render: [doc §3.19] 541 ## $a Wisconsin Office of the Commissioner of Insurance $e 81-141002 $c Records Center transfer $n 54 $o cubic feet $n 12 $o reels of computer tape $d 1981/05/11
+    # render: [doc §3.19 #3] 541 ## $a Wisconsin Office of the Commissioner of Insurance $e 81-141002 $c Records Center transfer $n 54 $o cubic feet $n 12 $o reels of computer tape $d 1981/05/11
     my $field = make_field( '541', ' ', ' ', a => 'Wisconsin Office of the Commissioner of Insurance', e => '81-141002', c => 'Records Center transfer', n => '54', o => 'cubic feet', n => '12', o => 'reels of computer tape', d => '1981/05/11' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'541'}, 'postfix' );
@@ -592,7 +592,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 544 ex 1: $d/$e/$b/$c (doc §3.20) ---
 # Doc: Current: 544 ## $d William Fords Provenance; $e Freen College; $b 727 Prologue Blvd., History City, MA $c USA.
 {
-    # render: [doc §3.20] 544 ## $d William Fords Provenance $e Freen College $b 727 Prologue Blvd., History City, MA $c USA
+    # render: [doc §3.20 #1] 544 ## $d William Fords Provenance $e Freen College $b 727 Prologue Blvd., History City, MA $c USA
     my $field = make_field( '544', ' ', ' ', d => 'William Fords Provenance', e => 'Freen College', b => '727 Prologue Blvd., History City, MA', c => 'USA' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'544'}, 'postfix' );
@@ -613,7 +613,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 544 ex 2: $d/$a/$b/$c/$e (doc §3.20 ex 3) ---
 # Doc: Current: 544 ## $d Records of the Rhode Island Loan Office of the Bureau of Public Debt, 1776-1817; $a Newport Historical Society; $b 82 Touro Street, Newport, RI 02840; $c USA; $e Not transferred to the Second Bank of the United States at the time of its establishment, March 3, 1817.
 {
-    # render: [doc §3.20] 544 ## $d Records of the Rhode Island Loan Office of the Bureau of Public Debt, 1776-1817 $a Newport Historical Society $b 82 Touro Street, Newport, RI 02840 $c USA $e Not transferred to the Second Bank of the United States at the time of its establishment, March 3, 1817
+    # render: [doc §3.20 #3] 544 ## $d Records of the Rhode Island Loan Office of the Bureau of Public Debt, 1776-1817 $a Newport Historical Society $b 82 Touro Street, Newport, RI 02840 $c USA $e Not transferred to the Second Bank of the United States at the time of its establishment, March 3, 1817
     my $field = make_field( '544', ' ', ' ', d => 'Records of the Rhode Island Loan Office of the Bureau of Public Debt, 1776-1817', a => 'Newport Historical Society', b => '82 Touro Street, Newport, RI 02840', c => 'USA', e => 'Not transferred to the Second Bank of the United States at the time of its establishment, March 3, 1817' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'544'}, 'postfix' );
@@ -731,7 +731,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 562 ex 1: $e then $b (doc §3.23) ---
 # Doc: Current: 562 ## $e 3 copies kept; $b Labelled as president's desk copy, board of directors' working file copy, and public release copy.
 {
-    # render: [doc §3.23] 562 ## $e 3 copies kept $b Labelled as president's desk copy, board of directors' working file copy, and public release copy
+    # render: [doc §3.23 #1] 562 ## $e 3 copies kept $b Labelled as president's desk copy, board of directors' working file copy, and public release copy
     my $field = make_field( '562', ' ', ' ', e => '3 copies kept', b => 'Labelled as president\'s desk copy, board of directors\' working file copy, and public release copy' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'562'}, 'postfix' );
@@ -801,7 +801,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 584 ex 1: $3 + repeatable $a (doc §3.25) ---
 # Doc: Current: 584 ## $3 General subject files $a 45 cu. ft. average annual accumulation 1970-1979. $a 5.4 cu. ft. average monthly accumulation, 1979-82. $a Current average monthly accumulation is 2 cu. ft.
 {
-    # render: [doc §3.25] 584 ## $3 General subject files $a 45 cu. ft. average annual accumulation 1970-1979 $a 5.4 cu. ft. average monthly accumulation, 1979-82 $a Current average monthly accumulation is 2 cu. ft.
+    # render: [doc §3.25 #1] 584 ## $3 General subject files $a 45 cu. ft. average annual accumulation 1970-1979 $a 5.4 cu. ft. average monthly accumulation, 1979-82 $a Current average monthly accumulation is 2 cu. ft.
     my $field = make_field( '584', ' ', ' ', '3' => 'General subject files', a => '45 cu. ft. average annual accumulation 1970-1979', a => '5.4 cu. ft. average monthly accumulation, 1979-82', a => 'Current average monthly accumulation is 2 cu. ft.' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'584'}, 'postfix' );
@@ -822,7 +822,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 584 ex 2: repeatable $b (doc §3.25 ex 2) ---
 # Doc: Current: 584 ## $b An average of 15 reference requests per month, with peak demand during June and December. $b Total reference requests for 1984: 179.
 {
-    # render: [doc §3.25] 584 ## $b An average of 15 reference requests per month, with peak demand during June and December $b Total reference requests for 1984: 179
+    # render: [doc §3.25 #2] 584 ## $b An average of 15 reference requests per month, with peak demand during June and December $b Total reference requests for 1984: 179
     my $field = make_field( '584', ' ', ' ', b => 'An average of 15 reference requests per month, with peak demand during June and December', b => 'Total reference requests for 1984: 179' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'584'}, 'postfix' );

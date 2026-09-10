@@ -438,7 +438,7 @@ sub check_combined {
 # $t + $n + $p + $l — the §5.5 Ecuador 710 example
 {
     # Doc: Current: 710 1# $a Ecuador. $t Plan Nacional de Desarrollo, 1980-1984. $n Parte 1, $p Grandes objetivos nacionales. $l English.
-# render: [doc §5.5] 710 ## $a Ecuador $t Plan Nacional de Desarrollo, 1980-1984 $n Parte 1 $p Grandes objetivos nacionales $l English
+# render: [doc §5.5 #7] 710 ## $a Ecuador $t Plan Nacional de Desarrollo, 1980-1984 $n Parte 1 $p Grandes objetivos nacionales $l English
     my $r = _decorate(
         '710', 'postfix',
         a => 'Ecuador',

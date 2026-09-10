@@ -64,7 +64,7 @@ is( $R->{'351'}->{pchrs}->{b}, '; ', '351 $b pchrs is "; "' );
 # --- 307 ex 2 (doc §3.5) ---
 # Doc: Current: 307 ## $a M-F, 6:30am-9:00pm (EST); $b with brief interruptions for periodic update/backup of data.
 {
-    # render: [doc §3.5] 307 ## $a M-F, 6:30am-9:00pm (EST) $b with brief interruptions for periodic update/backup of data
+    # render: [doc §3.5 #2] 307 ## $a M-F, 6:30am-9:00pm (EST) $b with brief interruptions for periodic update/backup of data
     my $field = make_field( '307', ' ', ' ', a => 'M-F, 6:30am-9:00pm (EST)', b => 'with brief interruptions for periodic update/backup of data' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'307'}, 'postfix' );
@@ -167,7 +167,7 @@ is( $R->{'351'}->{pchrs}->{b}, '; ', '351 $b pchrs is "; "' );
 # --- 343 ex 2 (doc §3.6) ---
 # Doc: Current: 343 ## $a Coordinate pair; $e 30.0; $f 0.0001; $g Degrees, minutes and decimal seconds; $h North; $b U.S. feet.
 {
-    # render: [doc §3.6] 343 ## $a Coordinate pair $e 30.0 $f 0.0001 $g Degrees, minutes and decimal seconds $h North $b U.S. feet
+    # render: [doc §3.6 #2] 343 ## $a Coordinate pair $e 30.0 $f 0.0001 $g Degrees, minutes and decimal seconds $h North $b U.S. feet
     my $field = make_field( '343', ' ', ' ', a => 'Coordinate pair', e => '30.0', f => '0.0001', g => 'Degrees, minutes and decimal seconds', h => 'North', b => 'U.S. feet' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'343'}, 'postfix' );

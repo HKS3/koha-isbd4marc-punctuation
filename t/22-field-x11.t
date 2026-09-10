@@ -99,7 +99,7 @@ sub check_combined {
 # ex 4: $g + $n/$d/$c full group
 {
     # Doc: Current: 111 2# $a Military History Symposium (U.S.) $n (9th : $d 1980 : $c United States Air Force Academy)
-# render: [doc §5.4] 111 2# $a Military History Symposium $g U.S. $n 9th $d 1980 $c United States Air Force Academy
+# render: [doc §5.4 #4] 111 2# $a Military History Symposium $g U.S. $n 9th $d 1980 $c United States Air Force Academy
     my $r = _decorate(
         '111', 'postfix',
         a => 'Military History Symposium',

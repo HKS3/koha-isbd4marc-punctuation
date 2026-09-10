@@ -205,7 +205,7 @@ ok( defined $rules_505, '505 rules loaded' );
 # --- Example 4: $t + $t + $t + $r (titles with statement of responsibility) ---
 # Doc: Current: 505 20 $t Baptisms, 1816-1872 -- $t Church members, 1816-1831 -- $t History of the Second Presbyterian Church of West Durham / $r by L.H. Fellows.
 {
-    # render: [doc §4.25] 505 20 $t Baptisms, 1816-1872 $t Church members, 1816-1831 $t History of the Second Presbyterian Church of West Durham $r by L.H. Fellows
+    # render: [doc §4.25 #4] 505 20 $t Baptisms, 1816-1872 $t Church members, 1816-1831 $t History of the Second Presbyterian Church of West Durham $r by L.H. Fellows
     my $field = make_field(
         '505', '2', '0',
         t => 'Baptisms, 1816-1872',
@@ -464,7 +464,7 @@ ok( defined $rules_505, '505 rules loaded' );
 # Doc: Current: 505 0# $a Contents of disc 1: Episode 1. The last of the free -- Episode 2. Hammers of the Scots -- Episode 3. Bishop makes kings.
 # $i gets ": " via cb_pre. $n gets " -- " when $t follows (pchrs t). $t gets " -- " when $n follows (COMPOUND key tn).
 {
-    # render: [doc §4.25] 505 00 $i Contents of disc 1 $n Episode 1 $t The last of the free $n Episode 2 $t Hammers of the Scots $n Episode 3 $t Bishop makes kings
+    # render: [doc §4.25 #6] 505 00 $i Contents of disc 1 $n Episode 1 $t The last of the free $n Episode 2 $t Hammers of the Scots $n Episode 3 $t Bishop makes kings
     my $field = make_field(
         '505', '0', '0',
         i => 'Contents of disc 1',

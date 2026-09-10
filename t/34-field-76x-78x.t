@@ -98,7 +98,7 @@ for my $t (qw(762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
 #   design, implement, and interpret an employee survey. $d New York :
 #   AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412
 {
-    # render: [doc §4.35] 776 08 $i Print version $a McConnell, John H $t How to design, implement, and interpret an employee survey $d New York : AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412
+    # render: [doc §4.35 #2] 776 08 $i Print version $a McConnell, John H $t How to design, implement, and interpret an employee survey $d New York : AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412
     my $field = make_field( '776', '0', '8', i => 'Print version', a => 'McConnell, John H', t => 'How to design, implement, and interpret an employee survey', d => 'New York : AMACOM, c2003', z => '0814407099', w => '(DLC)##2002153914#', w => '(OCoLC)51020412' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{776}, 'postfix' );
@@ -129,7 +129,7 @@ for my $t (qw(762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
 #   and Government Services. $t Annual report $x 0226-0883 $w (DLC)###80649039#
 #   $w (OCoLC)6270433
 {
-    # render: [doc §4.35] 780 07 $a British Columbia. Ministry of Provincial Secretary and Government Services $t Annual report $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433
+    # render: [doc §4.35 #3] 780 07 $a British Columbia. Ministry of Provincial Secretary and Government Services $t Annual report $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433
     my $field = make_field( '780', '0', '7', a => 'British Columbia. Ministry of Provincial Secretary and Government Services', t => 'Annual report', x => '0226-0883', w => '(DLC)###80649039#', w => '(OCoLC)6270433' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{780}, 'postfix' );

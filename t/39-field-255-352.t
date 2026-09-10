@@ -68,7 +68,7 @@ is( $R->{'352'}->{wrap}->{c}[1], ')', '352 $c wrap closes with )' );
 # Doc: Current: 255 ## $a Scale 1:6,336,000. 1" = 100 miles. Vertical scale
 #                 1:192,000. 1/16" = approximately 1000'.
 {
-    # render: [doc §4.11] 255 ## $a Scale 1:6,336,000 $s 1" = 100 miles $v Vertical scale 1:192,000 $s 1/16" = approximately 1000'
+    # render: [doc §4.11 #2] 255 ## $a Scale 1:6,336,000 $s 1" = 100 miles $v Vertical scale 1:192,000 $s 1/16" = approximately 1000'
     my $field = make_field( '255', ' ', ' ',
         a => 'Scale 1:6,336,000',
         s => '1" = 100 miles',
@@ -94,7 +94,7 @@ is( $R->{'352'}->{wrap}->{c}[1], ')', '352 $c wrap closes with )' );
 # Doc: Current: 255 ## $a Scale [ca. 1:13,835,000]. 1 cm = 138 km. 1 in. = 218
 #                 miles ; $b Chamberlin trimetric proj.
 {
-    # render: [doc §4.11] 255 ## $a Scale [ca. 1:13,835,000] $s 1 cm = 138 km $s 1 in. = 218 miles $b Chamberlin trimetric proj.
+    # render: [doc §4.11 #3] 255 ## $a Scale [ca. 1:13,835,000] $s 1 cm = 138 km $s 1 in. = 218 miles $b Chamberlin trimetric proj.
     my $field = make_field( '255', ' ', ' ',
         a => 'Scale [ca. 1:13,835,000]',
         s => '1 cm = 138 km',
@@ -235,7 +235,7 @@ is( $R->{'352'}->{wrap}->{c}[1], ')', '352 $c wrap closes with )' );
 # Doc: Current: 352 ## $a Vector : $b Point $c (13671), $b string $c (20171),
 #                 $b GT-polygon composed of chains $c (13672) ; $q ARC/INFO export.
 {
-    # render: [doc §3.8] 352 ## $a Vector $b Point $c 13671 $b string $c 20171 $b GT-polygon composed of chains $c 13672 $q ARC/INFO export
+    # render: [doc §3.8 #2] 352 ## $a Vector $b Point $c 13671 $b string $c 20171 $b GT-polygon composed of chains $c 13672 $q ARC/INFO export
     my $field = make_field( '352', ' ', ' ',
         a => 'Vector',
         b => 'Point',
