@@ -90,12 +90,12 @@ while ( my $line = <$fh> ) {
 }
 close $fh;
 
-is( $total, 419, "summary.total_examples == 419 (the count when Phase 1 was written)" )
+is( $total, 423, "summary.total_examples == 423 (the count after the 260 LoC regressions)" )
     or note( "If new markers were added intentionally, regenerate + update this literal." );
 
 my $exp_kinds = {
     doc          => 226,
-    loc          => 28,
+    loc          => 32,
     constructed  => 165,
     not_handled  => 0,
 };

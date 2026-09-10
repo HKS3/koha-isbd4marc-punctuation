@@ -12,10 +12,10 @@ meta:
     "num" (per-section example number) is null until the coverage pass
     pins each [doc §X.Y #N] marker; "status" mirrors kind until then.
 summary:
-  total_examples: 419
+  total_examples: 423
   doc: 226
   derived: 0
-  loc: 28
+  loc: 32
   constructed: 165
   not_handled: 0
 fields:
@@ -1235,6 +1235,38 @@ fields:
         reason: ""
         testfile: "t/12-field-260.t"
         marker: "# render: [doc §4.12 #6] 260 ## $a Harmondsworth $b Penguin $c 1949 $g 1963 printing"
+      - doc: null
+        num: null
+        kind: loc
+        status: loc
+        derived: true
+        reason: ""
+        testfile: "t/12-field-260.t"
+        marker: "# render: [LoC - derived] 260 ## $a [Pennsylvania $b s.n.] $c 1878-[1927?] $e Gettysburg $f J.E. Wible, Printer"
+      - doc: null
+        num: null
+        kind: loc
+        status: loc
+        derived: true
+        reason: ""
+        testfile: "t/12-field-260.t"
+        marker: "# render: [LoC - derived] 260 ## $a New York $b Published by W. Schaus $c c1860 $e Boston $f Printed at J.H. Bufford's"
+      - doc: null
+        num: null
+        kind: loc
+        status: loc
+        derived: true
+        reason: ""
+        testfile: "t/12-field-260.t"
+        marker: "# render: [LoC - derived] 260 ## $a London $b Arts Council of Great Britain $c 1976 $e Twickenham $f CTD Printers $g 1974"
+      - doc: null
+        num: null
+        kind: loc
+        status: loc
+        derived: true
+        reason: ""
+        testfile: "t/12-field-260.t"
+        marker: "# render: [LoC - derived] 260 ## $a Bethesda, Md. $b Toxicology Information Program, National Library of Medicine [producer] $a Springfield, Va. $b National Technical Information Service [distributor] $c 1974- $e Oak Ridge, Tenn. $f Oak Ridge National Laboratory [generator]"
       - doc: null
         num: null
         kind: constructed

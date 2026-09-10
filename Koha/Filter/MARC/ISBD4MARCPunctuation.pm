@@ -362,17 +362,35 @@ sub _decorate_260_pre {
     my ( $sf, $value, $i, $subfields, $last_sf_ref ) = @_;
     my $last_sf = $$last_sf_ref;
 
+    # Does a LATER group subfield (e/f/g) follow the current one? If not,
+    # this subfield is the LAST of the (e : f , g) group, so it must CLOSE
+    # the parenthetical. Previously only $g closed the group; $e/$f without a
+    # trailing $g never emitted the ')' -> real LoC records left the paren OPEN
+    # (e.g. 260 $e Gettysburg $f J.E. Wible, Printer -> "(Gettysburg : ..." with
+    # no close). Fixed 2026-09-10 (real LoC records supplied by user).
+    my $group_continues = 0;
+    for my $j ( $i + 1 .. $#$subfields ) {
+        my $code = $subfields->[$j][0];
+        if ( $code eq 'e' || $code eq 'f' || $code eq 'g' ) {
+            $group_continues = 1;
+            last;
+        }
+    }
+
    # $e/$f/$g grouping: open parenthetical
    #
    # KNOWN GAPS:
    #  - Double SPACE: $e emits a trailing space (" ($value ") and $f/$g emit a
    #    leading space, so clean data yields "(Twickenham  : CTD Printers" (two
-   #    spaces before ':'). Not fixed — clean-up is risky and low-value.
+   #    spaces before ':'). Not fixed - clean-up is risky and low-value.
    #  - Messy records where the cataloguer already typed '(' in $e / ')' in $f/g
    #    (e.g. glued "1974-(Oak") produce a DOUBLE '('. Data-dependent; cannot be
    #    uniquely decoded, left for cataloguers (leader/18).
     if ( $sf eq 'e' ) {
         $value = " ($value ";
+        if ( !$group_continues ) {
+            $value = " ($value)";   # $e is last of the group: (e) - no trailing space
+        }
     }
     if ( $sf eq 'f' ) {
         if ( $last_sf eq 'e' ) {
@@ -381,6 +399,7 @@ sub _decorate_260_pre {
         else {
             $value = " ($value";
         }
+        $value .= ')' unless $group_continues;   # $f is last of the group: (e : f)
     }
     if ( $sf eq 'g' ) {
         # Close the group. The leading separator depends on whether the
