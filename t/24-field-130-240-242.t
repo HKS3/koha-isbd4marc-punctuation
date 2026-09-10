@@ -45,7 +45,7 @@ ok( defined $rules_242, '242 rules loaded' );
 # --- 130 example 1 (§5.5): $a + single $b + $p ---
 # Doc: Current: 130 0# $a Statistical bulletin (Bamako, Mali). $p Supplement.
 {
-    # render: [doc §5.5] 130 0# $a Statistical bulletin $b Bamako, Mali $p Supplement
+    # render: [doc §5.5 #8] 130 0# $a Statistical bulletin $b Bamako, Mali $p Supplement
     my $field = make_field(
         '130', '0', '#',
         a => 'Statistical bulletin',
@@ -80,7 +80,7 @@ ok( defined $rules_242, '242 rules loaded' );
 # --- 130 example 2 (§5.5): $a + single $b ---
 # Doc: Current: 130 0# $a San Francisco journal (1980)
 {
-    # render: [doc §5.5] 130 0# $a San Francisco journal $b 1980
+    # render: [doc §5.5 #9] 130 0# $a San Francisco journal $b 1980
     my $field = make_field(
         '130', '0', '#',
         a => 'San Francisco journal',
@@ -108,7 +108,7 @@ ok( defined $rules_242, '242 rules loaded' );
 # --- 130 example 3 (§5.5): $a + TWO $b (multiple qualifiers, ' : ') + $l ---
 # Doc: Current: 130 0# $a Dialogue (Montreal, Quebec : 1962). $l English.
 {
-    # render: [doc §5.5] 130 0# $a Dialogue $b Montreal, Quebec $b 1962 $l English
+    # render: [doc §5.5 #10] 130 0# $a Dialogue $b Montreal, Quebec $b 1962 $l English
     my $field = make_field(
         '130', '0', '#',
         a => 'Dialogue',

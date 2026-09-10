@@ -45,7 +45,7 @@ sub check_combined {
 
 {
     # Doc: Current: 100 1# $a El Saffar, Ruth S., $d 1941-
-    # render: [doc §5.2] 100 ## $a El Saffar $h Ruth S. $d 1941-
+    # render: [doc §5.2 #2] 100 ## $a El Saffar $h Ruth S. $d 1941-
     my $r = _decorate( '100', 'postfix', a => 'El Saffar', h => 'Ruth S.', d => '1941-' );
     is( $r->[1], 'El Saffar, ', '100: $a before $h (inverted name)' );
     is( $r->[3], 'Ruth S., ',   '100: $h before $d' );
@@ -60,7 +60,7 @@ sub check_combined {
 
 {
     # Doc: Current: 100 1# $a Beethoven, Ludwig van, $d 1770-1827 $c (Spirit)
-    # render: [doc §5.2] 100 ## $a Beethoven $h Ludwig van $d 1770-1827 $g Spirit
+    # render: [doc §5.2 #10] 100 ## $a Beethoven $h Ludwig van $d 1770-1827 $g Spirit
     my $r = _decorate( '100', 'postfix',
         a => 'Beethoven', h => 'Ludwig van', d => '1770-1827', g => 'Spirit' );
     is( $r->[1], 'Beethoven, ', '100: $a before $h' );
@@ -152,7 +152,7 @@ sub check_combined {
 
 {
     # Doc: Current: 100 1# $a Beeton, $c Mrs. $q (Isabella Mary), $d 1836-1865.
-    # render: [doc §5.2] 100 ## $a Beeton $c Mrs. $q Isabella Mary $d 1836-1865
+    # render: [doc §5.2 #14] 100 ## $a Beeton $c Mrs. $q Isabella Mary $d 1836-1865
     my $r = _decorate(
         '100', 'postfix',
         a => 'Beeton',
@@ -175,7 +175,7 @@ sub check_combined {
 
 {
     # Doc: Current: 100 0# $a H. D. $q (Hilda Doolittle), $d 1886-1961.
-    # render: [doc §5.2] 100 ## $a H. D. $q Hilda Doolittle $d 1886-1961
+    # render: [doc §5.2 #13] 100 ## $a H. D. $q Hilda Doolittle $d 1886-1961
     my $r = _decorate(
         '100', 'postfix',
         a => 'H. D.',
@@ -252,7 +252,7 @@ sub check_combined {
 
 {
     # Doc: Current: 700 0# $a Charles Edward, $c Prince, grandson of James II, King of England, $d 1720-1788.
-# render: [doc §5.2] 700 ## $a Charles Edward $c Prince, grandson of James II, King of England $d 1720-1788
+# render: [doc §5.2 #7] 700 ## $a Charles Edward $c Prince, grandson of James II, King of England $d 1720-1788
     my $r = _decorate(
         '700', 'postfix',
         a => 'Charles Edward',

@@ -22,7 +22,7 @@ ok( defined $rules, '245 rules loaded' );
 # --- Example 1: $a + $c (simple responsibility) ---
 # Doc: Current: 245 14 $a The plays of Oscar Wilde / $c Alan Bird.
 {
-    # render: [doc §4.6] 245 14 $a The plays of Oscar Wilde $c Alan Bird
+    # render: [doc §4.6 #1] 245 14 $a The plays of Oscar Wilde $c Alan Bird
     my $field = make_field( '245', '1', '4',
         a => 'The plays of Oscar Wilde',
         c => 'Alan Bird',

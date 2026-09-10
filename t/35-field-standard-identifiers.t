@@ -48,7 +48,7 @@ ok( exists $R->{'024'}->{cb_pre}, '024 defines a $q group cb_pre' );
 # --- 015 ex 1 (doc §3.1), $q single + $2 source ---
 # Doc: Current: 015 ## $a GB6720988 $q (pbk.) $2 bnb
 {
-    # render: [doc §3.1] 015 ## $a GB6720988 $q pbk. $2 bnb
+    # render: [doc §3.1 #1] 015 ## $a GB6720988 $q pbk. $2 bnb
     my $field = make_field( '015', ' ', ' ', a => 'GB6720988', q => 'pbk.', b => '' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'015'}, 'postfix' );
@@ -65,7 +65,7 @@ ok( exists $R->{'024'}->{cb_pre}, '024 defines a $q group cb_pre' );
 # --- 015 ex 2 (doc §3.1) ---
 # Doc: Current: 015 ## $a 06709455 $q (v. 2) $2 bnf
 {
-    # render: [doc §3.1] 015 ## $a 06709455 $q v. 2
+    # render: [doc §3.1 #2] 015 ## $a 06709455 $q v. 2
     my $field = make_field( '015', ' ', ' ', a => '06709455', q => 'v. 2' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'015'}, 'postfix' );
@@ -136,7 +136,7 @@ ok( exists $R->{'024'}->{cb_pre}, '024 defines a $q group cb_pre' );
 # --- 024 ex 1 (doc §3.3) ---
 # Doc: Current: 024 1# $a 090266842629 $q (v. 4)
 {
-    # render: [doc §3.3] 024 1# $a 090266842629 $q v. 4
+    # render: [doc §3.3 #1] 024 1# $a 090266842629 $q v. 4
     my $field = make_field( '024', '1', '#', a => '090266842629', q => 'v. 4' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'024'}, 'postfix' );

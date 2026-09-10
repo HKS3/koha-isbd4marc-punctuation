@@ -165,7 +165,7 @@ is( $R->{534}{post}{p}, ': ', '534 $p has trailing ": " via post' );
 # --- 534 ex 1 (doc §3.16) --- $p trailing colon + colon-skip on $c
 # Doc: Current: 534 ## $p Originally published: $c New York : Garland, 1987.
 {
-    # render: [doc §3.16] 534 ## $p Originally published $c New York : Garland, 1987
+    # render: [doc §3.16 #1] 534 ## $p Originally published $c New York : Garland, 1987
     my $field = make_field( '534', ' ', ' ', p => 'Originally published', c => 'New York : Garland, 1987' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{534}, 'postfix' );

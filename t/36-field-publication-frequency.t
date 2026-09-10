@@ -43,7 +43,7 @@ is_deeply( $R->{'321'}->{wrap}->{n}, [ '(', ')' ], '321 $n is wrapped in ()' );
 # --- 310 ex 1 (doc §4.15) ---
 # Doc: Current: 310 ## $a Monthly, $b 1958-
 {
-    # render: [doc §4.15] 310 ## $a Monthly $b 1958-
+    # render: [doc §4.15 #1] 310 ## $a Monthly $b 1958-
     my $field = make_field( '310', ' ', ' ', a => 'Monthly', b => '1958-' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'310'}, 'postfix' );
@@ -60,7 +60,7 @@ is_deeply( $R->{'321'}->{wrap}->{n}, [ '(', ')' ], '321 $n is wrapped in ()' );
 # --- 310 ex 2 (doc §4.15) ---
 # Doc: Current: 310 ## $a Updated quarterly, $b Jan.-Mar. 2001-
 {
-    # render: [doc §4.15] 310 ## $a Updated quarterly $b Jan.-Mar. 2001-
+    # render: [doc §4.15 #2] 310 ## $a Updated quarterly $b Jan.-Mar. 2001-
     my $field = make_field( '310', ' ', ' ', a => 'Updated quarterly', b => 'Jan.-Mar. 2001-' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'310'}, 'postfix' );
@@ -77,7 +77,7 @@ is_deeply( $R->{'321'}->{wrap}->{n}, [ '(', ')' ], '321 $n is wrapped in ()' );
 # --- 310 ex 3 (doc §4.15) ---
 # Doc: Current: 310 ## $a Monthly (except July and Aug.)
 {
-    # render: [doc §4.15] 310 ## $a Monthly $n except July and Aug.
+    # render: [doc §4.15 #3] 310 ## $a Monthly $n except July and Aug.
     my $field = make_field( '310', ' ', ' ', a => 'Monthly', n => 'except July and Aug.' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'310'}, 'postfix' );
@@ -131,7 +131,7 @@ is_deeply( $R->{'321'}->{wrap}->{n}, [ '(', ')' ], '321 $n is wrapped in ()' );
 # --- 321 ex 1 (doc §4.16) ---
 # Doc: Current: 321 ## $a Bimonthly, $b June 1, 1967-July 15, 1976
 {
-    # render: [doc §4.16] 321 ## $a Bimonthly $b June 1, 1967-July 15, 1976
+    # render: [doc §4.16 #1] 321 ## $a Bimonthly $b June 1, 1967-July 15, 1976
     my $field = make_field( '321', ' ', ' ', a => 'Bimonthly', b => 'June 1, 1967-July 15, 1976' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'321'}, 'postfix' );
@@ -148,7 +148,7 @@ is_deeply( $R->{'321'}->{wrap}->{n}, [ '(', ')' ], '321 $n is wrapped in ()' );
 # --- 321 ex 2 (doc §4.16) ---
 # Doc: Current: 321 ## $a Frequency varies, $b 1966-1983
 {
-    # render: [doc §4.16] 321 ## $a Frequency varies $b 1966-1983
+    # render: [doc §4.16 #2] 321 ## $a Frequency varies $b 1966-1983
     my $field = make_field( '321', ' ', ' ', a => 'Frequency varies', b => '1966-1983' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'321'}, 'postfix' );
@@ -165,7 +165,7 @@ is_deeply( $R->{'321'}->{wrap}->{n}, [ '(', ')' ], '321 $n is wrapped in ()' );
 # --- 321 ex 3 (doc §4.16) ---
 # Doc: Current: 321 ## $a Daily (Monday through Friday), $b <1965>-Jan. 31, 1975
 {
-    # render: [doc §4.16] 321 ## $a Daily $n Monday through Friday $b <1965>-Jan. 31, 1975
+    # render: [doc §4.16 #3] 321 ## $a Daily $n Monday through Friday $b <1965>-Jan. 31, 1975
     my $field = make_field( '321', ' ', ' ', a => 'Daily', n => 'Monday through Friday', b => '<1965>-Jan. 31, 1975' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'321'}, 'postfix' );

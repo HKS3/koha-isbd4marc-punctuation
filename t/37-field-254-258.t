@@ -41,7 +41,7 @@ is( $R->{'258'}->{pchrs}->{b}, ' : ', '258 $b pchrs is " : "' );
 # --- 254 ex 1 (doc §4.10) ---
 # Doc: Current: 254 ## Jatszopartitura = Playing score.
 {
-    # render: [doc §4.10] 254 ## $a Jatszopartitura $r Playing score
+    # render: [doc §4.10 #1] 254 ## $a Jatszopartitura $r Playing score
     my $field = make_field( '254', ' ', ' ', a => 'Jatszopartitura', r => 'Playing score' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'254'}, 'postfix' );
@@ -95,7 +95,7 @@ is( $R->{'258'}->{pchrs}->{b}, ' : ', '258 $b pchrs is " : "' );
 # --- 258 ex 1 (doc §3.4) ---
 # Doc: Current: 258 ## $a Newfoundland : $b 5 pence.
 {
-    # render: [doc §3.4] 258 ## $a Newfoundland $b 5 pence
+    # render: [doc §3.4 #1] 258 ## $a Newfoundland $b 5 pence
     my $field = make_field( '258', ' ', ' ', a => 'Newfoundland', b => '5 pence' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'258'}, 'postfix' );

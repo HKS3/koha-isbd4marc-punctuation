@@ -55,11 +55,11 @@ ok( defined $rules_260, '260 rules loaded' );
 }
 
 # --- Example 11: Multiple $a with $b and $c ---
-# Doc: Current: 260 ## $a New York ; $a Berlin : $b Springer Verlag , $c 1977
+# Doc: Current: 260 ## $a New York ; $a Berlin : $b Springer Verlag, $c 1977.
 # Note: " ; " is appended to the FIRST $a via the COMPOUND pchrs key aa
 # (postfix), and moves to the second $a only in prefix mode.
 {
-    # render: [doc §4.12] 260 ## $a New York $a Berlin $b Springer Verlag $c 1977
+    # render: [doc §4.12 #2] 260 ## $a New York $a Berlin $b Springer Verlag $c 1977
     my $field = make_field( '260', ' ', ' ',
         a => 'New York',
         a => 'Berlin',
@@ -83,11 +83,11 @@ ok( defined $rules_260, '260 rules loaded' );
 }
 
 # --- Example 12: Interleaved $a/$b ---
-# Doc: Current: 260 ## $a Paris : $b Gauthier-Villars ; $a Chicago : $b University of Chicago Press , $c 1955
+# Doc: Current: 260 ## $a Paris : $b Gauthier-Villars ; $a Chicago : $b University of Chicago Press, $c 1955.
 # Note: " ; " is appended to $b when followed by $a (compound ba) in postfix,
 # and moves to the second $a (prepended) in prefix mode.
 {
-    # render: [doc §4.12] 260 ## $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955
+    # render: [doc §4.12 #3] 260 ## $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955
     my $field = make_field( '260', ' ', ' ',
         a => 'Paris',
         b => 'Gauthier-Villars',
@@ -140,9 +140,9 @@ ok( defined $rules_260, '260 rules loaded' );
 }
 
 # --- Example 16: $3 (materials specified) ---
-# Doc: Current: 260 3# $3 June 1993-: $a London : $b Elle
+# Doc: Current: 260 3# $3 June 1993- : $a London : $b Elle
 {
-    # render: [doc §4.12] 260 3# $3 June 1993- $a London $b Elle
+    # render: [doc §4.12 #7] 260 3# $3 June 1993- $a London $b Elle
     my $field = make_field( '260', '3', '#',
         '3' => 'June 1993-',
         a   => 'London',

@@ -74,7 +74,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 506 ex 1 (doc §3.9) ---
 # Doc: Current: 506 ## $a Restricted access; $c Written permission required; $b Donor.
 {
-    # render: [doc §3.9] 506 ## $a Restricted access $c Written permission required $b Donor
+    # render: [doc §3.9 #1] 506 ## $a Restricted access $c Written permission required $b Donor
     my $field = make_field( '506', ' ', ' ', a => 'Restricted access', c => 'Written permission required', b => 'Donor' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'506'}, 'postfix' );
@@ -112,7 +112,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 506 ex 3: $f '. ' + $2 passthrough (doc §3.9) ---
 # Doc: Current: 506 ## $a Closed until January 1, 2068. $f No online access $2 star
 {
-    # render: [doc §3.9] 506 ## $a Closed until January 1, 2068 $f No online access $2 star
+    # render: [doc §3.9 #3] 506 ## $a Closed until January 1, 2068 $f No online access $2 star
     my $field = make_field( '506', ' ', ' ', a => 'Closed until January 1, 2068', f => 'No online access', '2' => 'star' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'506'}, 'postfix' );
@@ -152,7 +152,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 507 ex 1 (doc §3.10) ---
 # Doc: Current: 507 ## $a Scale 1:500,000; $b 1 in. equals 8 miles.
 {
-    # render: [doc §3.10] 507 ## $a Scale 1:500,000 $b 1 in. equals 8 miles
+    # render: [doc §3.10 #1] 507 ## $a Scale 1:500,000 $b 1 in. equals 8 miles
     my $field = make_field( '507', ' ', ' ', a => 'Scale 1:500,000', b => '1 in. equals 8 miles' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'507'}, 'postfix' );
@@ -188,7 +188,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 510 ex 1: $x then $b (doc §3.11) ---
 # Doc: Current: 510 1# $a Index Medicus, $x 0019-3879, $b v1n1, 1984-
 {
-    # render: [doc §3.11] 510 1# $a Index Medicus $x 0019-3879 $b v1n1, 1984-
+    # render: [doc §3.11 #1] 510 1# $a Index Medicus $x 0019-3879 $b v1n1, 1984-
     my $field = make_field( '510', '1', '#', a => 'Index Medicus', x => '0019-3879', b => 'v1n1, 1984-' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'510'}, 'postfix' );
@@ -207,7 +207,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 510 ex 2: $c (doc §3.11) ---
 # Doc: Current: 510 4# $a LC Treasure maps (2nd ed.), $c 13
 {
-    # render: [doc §3.11] 510 4# $a LC Treasure maps (2nd ed.) $c 13
+    # render: [doc §3.11 #2] 510 4# $a LC Treasure maps (2nd ed.) $c 13
     my $field = make_field( '510', '4', '#', a => 'LC Treasure maps (2nd ed.)', c => '13' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'510'}, 'postfix' );
@@ -224,7 +224,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 510 ex 3: $c (doc §3.11) ---
 # Doc: Current: 510 4# $a Goff, $c A-970
 {
-    # render: [doc §3.11] 510 4# $a Goff $c A-970
+    # render: [doc §3.11 #3] 510 4# $a Goff $c A-970
     my $field = make_field( '510', '4', '#', a => 'Goff', c => 'A-970' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'510'}, 'postfix' );
@@ -246,7 +246,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 513 ex 1 (doc §3.12) ---
 # Doc: Current: 513 ## $a Interim report; $b Jan.-July 1977.
 {
-    # render: [doc §3.12] 513 ## $a Interim report $b Jan.-July 1977
+    # render: [doc §3.12 #1] 513 ## $a Interim report $b Jan.-July 1977
     my $field = make_field( '513', ' ', ' ', a => 'Interim report', b => 'Jan.-July 1977' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'513'}, 'postfix' );
@@ -268,7 +268,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 526 ex 1 (doc §3.13) ---
 # Doc: Current: 526 8# $i January 1999 selection for: $a Happy Valley Reading Club.
 {
-    # render: [doc §3.13] 526 8# $i January 1999 selection for $a Happy Valley Reading Club
+    # render: [doc §3.13 #1] 526 8# $i January 1999 selection for $a Happy Valley Reading Club
     my $field = make_field( '526', '8', '#', i => 'January 1999 selection for', a => 'Happy Valley Reading Club' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'526'}, 'postfix' );
@@ -461,7 +461,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 540 ex 2: $d (doc §3.18) ---
 # Doc: Current: 540 ## $3 Diaries $a Photocopying prohibited; $d Executor of estate.
 {
-    # render: [doc §3.18] 540 ## $3 Diaries $a Photocopying prohibited $d Executor of estate
+    # render: [doc §3.18 #2] 540 ## $3 Diaries $a Photocopying prohibited $d Executor of estate
     my $field = make_field( '540', ' ', ' ', '3' => 'Diaries', a => 'Photocopying prohibited', d => 'Executor of estate' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'540'}, 'postfix' );
@@ -502,7 +502,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 541 ex 1: $3 + $c/$d/$a (doc §3.19) ---
 # Doc: Current: 541 ## $3 Ref print $c Copyright deposit--RNR; $d Received: 10/30/82; $a Copyright Collection.
 {
-    # render: [doc §3.19] 541 ## $3 Ref print $c Copyright deposit--RNR $d Received: 10/30/82 $a Copyright Collection
+    # render: [doc §3.19 #1] 541 ## $3 Ref print $c Copyright deposit--RNR $d Received: 10/30/82 $a Copyright Collection
     my $field = make_field( '541', ' ', ' ', '3' => 'Ref print', c => 'Copyright deposit--RNR', d => 'Received: 10/30/82', a => 'Copyright Collection' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'541'}, 'postfix' );
@@ -641,7 +641,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 546 ex 1: $3 + repeatable $b (doc §3.21) ---
 # Doc: Current: 546 ## $3 John P. Harrington field notebooks $a Zuni; $b Pictograms; $b Phonetic alphabet.
 {
-    # render: [doc §3.21] 546 ## $3 John P. Harrington field notebooks $a Zuni $b Pictograms $b Phonetic alphabet
+    # render: [doc §3.21 #1] 546 ## $3 John P. Harrington field notebooks $a Zuni $b Pictograms $b Phonetic alphabet
     my $field = make_field( '546', ' ', ' ', '3' => 'John P. Harrington field notebooks', a => 'Zuni', b => 'Pictograms', b => 'Phonetic alphabet' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'546'}, 'postfix' );
@@ -686,7 +686,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 555 ex 1: $u '. ' (doc §3.22) ---
 # Doc: Current: 555 8# $a Finding aid available in the Manuscript Reading Room and on Internet. $u ...
 {
-    # render: [doc §3.22] 555 8# $a Finding aid available in the Manuscript Reading Room and on Internet $u http://example.org/findingaid
+# render: [doc §3.22 #1] 555 8# $a Finding aid available in the Manuscript Reading Room and on Internet $u http://example.org/findingaid
     my $field = make_field( '555', '8', '#', a => 'Finding aid available in the Manuscript Reading Room and on Internet', u => 'http://example.org/findingaid' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'555'}, 'postfix' );
@@ -748,7 +748,7 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
 # --- 562 ex 2: $b then $e (doc §3.23) ---
 # Doc: Current: 562 ## $b Marked: "For internal circulation only"; $e 2 copies.
 {
-    # render: [doc §3.23] 562 ## $b Marked: "For internal circulation only" $e 2 copies
+    # render: [doc §3.23 #2] 562 ## $b Marked: "For internal circulation only" $e 2 copies
     my $field = make_field( '562', ' ', ' ', b => 'Marked: \"For internal circulation only\"', e => '2 copies' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'562'}, 'postfix' );

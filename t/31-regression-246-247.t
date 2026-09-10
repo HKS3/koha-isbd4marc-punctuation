@@ -24,7 +24,7 @@ ok( defined $rules_246, '246 rules loaded' );
 # --- Example 8: $i + $a ---
 # Doc: Current: 246 1# $i Panel title: $a Welcome to big Wyoming
 {
-    # render: [doc §4.7] 246 1# $i Panel title $a Welcome to big Wyoming
+    # render: [doc §4.7 #1] 246 1# $i Panel title $a Welcome to big Wyoming
     my $field = make_field( '246', '1', ' ',
         i => 'Panel title',
         a => 'Welcome to big Wyoming',

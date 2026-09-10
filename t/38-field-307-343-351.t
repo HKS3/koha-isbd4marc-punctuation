@@ -44,7 +44,7 @@ is( $R->{'351'}->{pchrs}->{b}, '; ', '351 $b pchrs is "; "' );
 # --- 307 ex 1 (doc §3.5) ---
 # Doc: Current: 307 ## $a M, 8:30-6:00; Tu, 8:30-7:00; W-F, 8:30-6:00; $b not available on weekends.
 {
-    # render: [doc §3.5] 307 ## $a M, 8:30-6:00; Tu, 8:30-7:00; W-F, 8:30-6:00 $b not available on weekends
+    # render: [doc §3.5 #1] 307 ## $a M, 8:30-6:00; Tu, 8:30-7:00; W-F, 8:30-6:00 $b not available on weekends
     my $field = make_field( '307', ' ', ' ', a => 'M, 8:30-6:00; Tu, 8:30-7:00; W-F, 8:30-6:00', b => 'not available on weekends' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'307'}, 'postfix' );
@@ -84,7 +84,7 @@ is( $R->{'351'}->{pchrs}->{b}, '; ', '351 $b pchrs is "; "' );
 # --- 307 ex 3 (doc §3.5) ---
 # Doc: Current: 307 ## $a Daily, 7am-7pm; $b text files only.
 {
-    # render: [doc §3.5] 307 ## $a Daily, 7am-7pm $b text files only
+    # render: [doc §3.5 #3] 307 ## $a Daily, 7am-7pm $b text files only
     my $field = make_field( '307', ' ', ' ', a => 'Daily, 7am-7pm', b => 'text files only' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'307'}, 'postfix' );
@@ -146,7 +146,7 @@ is( $R->{'351'}->{pchrs}->{b}, '; ', '351 $b pchrs is "; "' );
 # --- 343 ex 1 (doc §3.6) ---
 # Doc: Current: 343 ## $a Coordinate pair; $b meters; $c 22; $d 22.
 {
-    # render: [doc §3.6] 343 ## $a Coordinate pair $b meters $c 22 $d 22
+    # render: [doc §3.6 #1] 343 ## $a Coordinate pair $b meters $c 22 $d 22
     my $field = make_field( '343', ' ', ' ', a => 'Coordinate pair', b => 'meters', c => '22', d => '22' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'343'}, 'postfix' );
@@ -194,7 +194,7 @@ is( $R->{'351'}->{pchrs}->{b}, '; ', '351 $b pchrs is "; "' );
 # --- 343 ex 3 (doc §3.6) ---
 # Doc: Current: 343 ## $a Coordinate pair; $c 3.224549805355; $d 3.224549805355; $f 0.0001; $b meters.
 {
-    # render: [doc §3.6] 343 ## $a Coordinate pair $c 3.224549805355 $d 3.224549805355 $f 0.0001 $b meters
+    # render: [doc §3.6 #3] 343 ## $a Coordinate pair $c 3.224549805355 $d 3.224549805355 $f 0.0001 $b meters
     my $field = make_field( '343', ' ', ' ', a => 'Coordinate pair', c => '3.224549805355', d => '3.224549805355', f => '0.0001', b => 'meters' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'343'}, 'postfix' );
@@ -320,7 +320,7 @@ is( $R->{'351'}->{pchrs}->{b}, '; ', '351 $b pchrs is "; "' );
 # --- 351 ex 1 (doc §3.7) ---
 # Doc: Current: 351 ## $a Hierarchical; $b Geographic area or cruise number.
 {
-    # render: [doc §3.7] 351 ## $a Hierarchical $b Geographic area or cruise number
+    # render: [doc §3.7 #1] 351 ## $a Hierarchical $b Geographic area or cruise number
     my $field = make_field( '351', ' ', ' ', a => 'Hierarchical', b => 'Geographic area or cruise number' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'351'}, 'postfix' );
@@ -337,7 +337,7 @@ is( $R->{'351'}->{pchrs}->{b}, '; ', '351 $b pchrs is "; "' );
 # --- 351 ex 2 (doc §3.7) ---
 # Doc: Current: 351 ## $c Series; $b Alphabetical by sitter.
 {
-    # render: [doc §3.7] 351 ## $c Series $b Alphabetical by sitter
+    # render: [doc §3.7 #2] 351 ## $c Series $b Alphabetical by sitter
     my $field = make_field( '351', ' ', ' ', c => 'Series', b => 'Alphabetical by sitter' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'351'}, 'postfix' );
@@ -354,7 +354,7 @@ is( $R->{'351'}->{pchrs}->{b}, '; ', '351 $b pchrs is "; "' );
 # --- 351 ex 3 (doc §3.7) ---
 # Doc: Current: 351 ## $c Series; $a Organized into five subseries; $b Arranged by form of material.
 {
-    # render: [doc §3.7] 351 ## $c Series $a Organized into five subseries $b Arranged by form of material
+    # render: [doc §3.7 #3] 351 ## $c Series $a Organized into five subseries $b Arranged by form of material
     my $field = make_field( '351', ' ', ' ', c => 'Series', a => 'Organized into five subseries', b => 'Arranged by form of material' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'351'}, 'postfix' );

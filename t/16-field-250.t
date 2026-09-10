@@ -57,7 +57,7 @@ ok( defined $rules_250, '250 rules loaded' );
 # --- Example 2: $a + $c (statement of responsibility) ---
 # Doc: Current: 250 ## $a 3rd draft / $b edited by Paul Watson.
 {
-    # render: [doc §4.9] 250 ## $a 3rd draft $c edited by Paul Watson
+    # render: [doc §4.9 #2] 250 ## $a 3rd draft $c edited by Paul Watson
     my $field = make_field(
         '250', ' ', ' ',
         a => '3rd draft',
@@ -91,7 +91,7 @@ ok( defined $rules_250, '250 rules loaded' );
 # --- Example 3: $a + $c (edition with reviser) ---
 # Doc: Current: 250 ## $a 4th ed. / $b revised by J.G. Le Mesurier and E. McIntosh.
 {
-    # render: [doc §4.9] 250 ## $a 4th ed. $c revised by J.G. Le Mesurier and E. McIntosh
+    # render: [doc §4.9 #3] 250 ## $a 4th ed. $c revised by J.G. Le Mesurier and E. McIntosh
     my $field = make_field(
         '250', ' ', ' ',
         a => '4th ed.',
@@ -125,7 +125,7 @@ ok( defined $rules_250, '250 rules loaded' );
 # --- Example 4: $a + $c (edition with revisions note) ---
 # Doc: Current: 250 ## $a Rev. ed. / $b with revisions, an introduction, and a chapter on writing by E.B. White.
 {
-    # render: [doc §4.9] 250 ## $a Rev. ed. $c with revisions, an introduction, and a chapter on writing by E.B. White
+    # render: [doc §4.9 #4] 250 ## $a Rev. ed. $c with revisions, an introduction, and a chapter on writing by E.B. White
     my $field = make_field(
         '250', ' ', ' ',
         a => 'Rev. ed.',

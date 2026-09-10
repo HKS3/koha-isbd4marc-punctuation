@@ -65,7 +65,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # Note: our output 'Equilibrium(Economics)' differs from the doc's
 # 'Equilibrium (Economics)' only by the known qualifier leading-space gap.
 {
-    # render: [doc §5.6] 650 ## $a Equilibrium $g Economics
+    # render: [doc §5.6 #4] 650 ## $a Equilibrium $g Economics
     my $field = make_field( '650', ' ', ' ', a => 'Equilibrium', g => 'Economics' );
 
     my @result =
@@ -104,7 +104,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 650 ex 3: inverted text $h + remaining text $j (doc §5.6 ex 1) ---
 # Doc: Current: 650 #0 $a Animals, Mythical, in art.
 {
-    # render: [doc §5.6] 650 ## $a Animals $h Mythical $j in art
+    # render: [doc §5.6 #1] 650 ## $a Animals $h Mythical $j in art
     my $field = make_field( '650', ' ', ' ', a => 'Animals', h => 'Mythical', j => 'in art' );
 
     my @result =
@@ -125,7 +125,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 650 ex 4: $h + $c + $d (doc §5.6 ex 5: Fredericksburg) ---
 # Doc: Current: 650 #0 $a Fredericksburg, Battle of, Fredericksburg, Va., 1862.
 {
-    # render: [doc §5.6] 650 ## $a Fredericksburg $h Battle of $c Fredericksburg, Va. $d 1862
+    # render: [doc §5.6 #5] 650 ## $a Fredericksburg $h Battle of $c Fredericksburg, Va. $d 1862
     my $field = make_field(
         '650', ' ', ' ',
         a => 'Fredericksburg',
@@ -156,7 +156,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # NOTE: our combined 'Korean War, 1950-1953Participation, American' has NO
 # space between $d and $x (N/A subdivision) — the known spacing gap.
 {
-    # render: [doc §5.6] 650 ## $a Korean War $d 1950-1953 $x Participation $h American
+    # render: [doc §5.6 #7] 650 ## $a Korean War $d 1950-1953 $x Participation $h American
     my $field = make_field(
         '650', ' ', ' ',
         a => 'Korean War',
@@ -185,7 +185,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 650 ex 6: $a keeps internal punctuation, $h gets ", " (doc §5.6 ex 2) ---
 # Doc: Current: 650 #0 $a Associations, institutions, etc., Foreign.
 {
-    # render: [doc §5.6] 650 ## $a Associations, institutions, etc. $h Foreign
+    # render: [doc §5.6 #2] 650 ## $a Associations, institutions, etc. $h Foreign
     my $field = make_field( '650', ' ', ' ', a => 'Associations, institutions, etc.', h => 'Foreign' );
 
     my @result =
@@ -353,7 +353,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # Doc: Current: 655 #7 $a Fantasy comedies (Motion pictures) $2 lcgft
 # NOTE: our 'Fantasy comedies(Motion pictures)' lacks the space before '('.
 {
-    # render: [doc §5.7] 655 ## $a Fantasy comedies $g Motion pictures $2 lcgft
+    # render: [doc §5.7 #1] 655 ## $a Fantasy comedies $g Motion pictures $2 lcgft
     my $field = make_field( '655', ' ', ' ', a => 'Fantasy comedies', g => 'Motion pictures', '2' => 'lcgft' );
 
     my @result =
@@ -374,7 +374,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 655 ex 2: $h inverted text (doc §5.7 ex: Poems) ---
 # Doc: Current: 655 #7 $a Poems, English $y 19th century. $2 rbgenr
 {
-    # render: [doc §5.7] 655 ## $a Poems $h English $y 19th century $2 rbgenr
+    # render: [doc §5.7 #6] 655 ## $a Poems $h English $y 19th century $2 rbgenr
     my $field = make_field( '655', ' ', ' ', a => 'Poems', h => 'English', y => '19th century', '2' => 'rbgenr' );
 
     my @result =
@@ -395,7 +395,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 655 ex 3: $g + N/A subdivisions (doc §5.7 ex: Signing patterns) ---
 # Doc: Current: 655 #7 $a Signing patterns (Printing) $z Germany $y 18th century. $2 rbpri
 {
-    # render: [doc §5.7] 655 ## $a Signing patterns $g Printing $z Germany $y 18th century $2 rbpri
+    # render: [doc §5.7 #3] 655 ## $a Signing patterns $g Printing $z Germany $y 18th century $2 rbpri
     my $field = make_field( '655', ' ', ' ',
         a => 'Signing patterns', g => 'Printing', z => 'Germany', y => '18th century', '2' => 'rbpri' );
 
@@ -444,7 +444,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 656 ex 2: doc §5.7 ex (Plastic surgeons) — $g after N/A $z ---
 # Doc: Current: 656 #7 $a Plastic surgeons $z Los Angeles (Calif.) $2 <thesaurus code>
 {
-    # render: [doc §5.7] 656 ## $a Plastic surgeons $z Los Angeles $g Calif.
+    # render: [doc §5.7 #4] 656 ## $a Plastic surgeons $z Los Angeles $g Calif.
     my $field = make_field( '656', ' ', ' ', a => 'Plastic surgeons', z => 'Los Angeles', g => 'Calif.' );
 
     my @result =

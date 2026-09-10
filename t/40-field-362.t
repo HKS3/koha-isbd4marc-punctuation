@@ -45,7 +45,7 @@ is( $R->{'362'}->{pchrs}->{i},  '',   '362 i pchrs is empty (no colon, doc ambig
 # Doc: Current: 362 0# $a Volume 1, number 1 (April 1981)-
 #      Future:  362 0# $b Volume 1, number 1 $d April 1981
 {
-    # render: [doc §4.17] 362 0# $b Volume 1, number 1 $d April 1981
+    # render: [doc §4.17 #1] 362 0# $b Volume 1, number 1 $d April 1981
     my $field = make_field( '362', '0', ' ',
         b => 'Volume 1, number 1',
         d => 'April 1981' );
@@ -65,7 +65,7 @@ is( $R->{'362'}->{pchrs}->{i},  '',   '362 i pchrs is empty (no colon, doc ambig
 # Doc: Current: 362 0# $a 1968-
 #      Future:  362 0# $b 1968
 {
-    # render: [doc §4.17] 362 0# $b 1968
+    # render: [doc §4.17 #2] 362 0# $b 1968
     my $field = make_field( '362', '0', ' ', b => '1968' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'362'}, 'postfix' );
@@ -81,7 +81,7 @@ is( $R->{'362'}->{pchrs}->{i},  '',   '362 i pchrs is empty (no colon, doc ambig
 # Doc: Current: 362 0# $a Vol. 1, no. 1 (Apr. 1983)-v. 1, no. 3 (June 1983).
 #      Future:  362 0# $b Vol. 1, no. 1 $d Apr. 1983 $c v. 1, no. 3 $d June 1983
 {
-    # render: [doc §4.17] 362 0# $b Vol. 1, no. 1 $d Apr. 1983 $c v. 1, no. 3 $d June 1983
+    # render: [doc §4.17 #3] 362 0# $b Vol. 1, no. 1 $d Apr. 1983 $c v. 1, no. 3 $d June 1983
     my $field = make_field( '362', '0', ' ',
         b => 'Vol. 1, no. 1',
         d => 'Apr. 1983',
@@ -141,7 +141,7 @@ is( $R->{'362'}->{pchrs}->{i},  '',   '362 i pchrs is empty (no colon, doc ambig
 # Doc: Current: 362 0# $a Oct. 1970-Dec. 1980 ; new ser., v. 1, no. 1 (Jan. 1981)-
 #      Future:  362 0# $b Oct. 1970 $c Dec. 1980
 {
-    # render: [doc §4.17] 362 0# $b Oct. 1970 $c Dec. 1980
+    # render: [doc §4.17 #5] 362 0# $b Oct. 1970 $c Dec. 1980
     my $field = make_field( '362', '0', ' ',
         b => 'Oct. 1970',
         c => 'Dec. 1980' );
@@ -161,7 +161,7 @@ is( $R->{'362'}->{pchrs}->{i},  '',   '362 i pchrs is empty (no colon, doc ambig
 # Doc: Current: 362 1# $a Ceased with 2 (1964).
 #      Future:  362 1# $i Ceased with $c 2 $d 1964
 {
-    # render: [doc §4.17] 362 1# $i Ceased with $c 2 $d 1964
+    # render: [doc §4.17 #6] 362 1# $i Ceased with $c 2 $d 1964
     my $field = make_field( '362', '1', ' ',
         i => 'Ceased with',
         c => '2',
@@ -185,7 +185,7 @@ is( $R->{'362'}->{pchrs}->{i},  '',   '362 i pchrs is empty (no colon, doc ambig
 #      Future:  362 1# $i Began with $b v. 4, published in 1947
 #              [no actual date designation is present]
 {
-    # render: [doc §4.17] 362 1# $i Began with $b v. 4, published in 1947
+    # render: [doc §4.17 #7] 362 1# $i Began with $b v. 4, published in 1947
     my $field = make_field( '362', '1', ' ',
         i => 'Began with',
         b => 'v. 4, published in 1947' );
@@ -229,7 +229,7 @@ is( $R->{'362'}->{pchrs}->{i},  '',   '362 i pchrs is empty (no colon, doc ambig
 # Doc: Current: 362 1# $a Ceased in 2007.
 #      Future:  362 1# $a Ceased in 2007
 {
-    # render: [doc §4.17] 362 1# $a Ceased in 2007
+    # render: [doc §4.17 #9] 362 1# $a Ceased in 2007
     my $field = make_field( '362', '1', ' ', a => 'Ceased in 2007' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'362'}, 'postfix' );

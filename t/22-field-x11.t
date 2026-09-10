@@ -53,7 +53,7 @@ sub check_combined {
 # ex 1: $n + $d within one paren group
 {
     # Doc: Current: 111 2# $a Brussels Hemoglobin Symposium $n (1st : $d 1983)
-    # render: [doc §5.4] 111 2# $a Brussels Hemoglobin Symposium $n 1st $d 1983
+    # render: [doc §5.4 #1] 111 2# $a Brussels Hemoglobin Symposium $n 1st $d 1983
     my $r = _decorate(
         '111', 'postfix',
         a => 'Brussels Hemoglobin Symposium',
@@ -75,7 +75,7 @@ sub check_combined {
 # ex 2: $g qualifier + $d/$c group
 {
     # Doc: Current: 111 2# $a Governor's Conference on Aging (N.Y.) $d (1982 : $c Albany, N.Y.)
-# render: [doc §5.4] 111 2# $a Governor's Conference on Aging $g N.Y. $d 1982 $c Albany, N.Y.
+# render: [doc §5.4 #2] 111 2# $a Governor's Conference on Aging $g N.Y. $d 1982 $c Albany, N.Y.
     my $r = _decorate(
         '111', 'postfix',
         a => "Governor's Conference on Aging",
@@ -259,7 +259,7 @@ sub check_combined {
 # ===== 711 (Added Entry - Meeting Name) - aliases 111 =====
 {
     # Doc: Current: 711 2# $a Theatertreffen Berlin (Festival)
-    # render: [doc §5.4] 711 2# $a Theatertreffen Berlin $g Festival
+    # render: [doc §5.4 #3] 711 2# $a Theatertreffen Berlin $g Festival
     my $r = _decorate(
         '711', 'postfix',
         a => 'Theatertreffen Berlin',

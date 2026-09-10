@@ -59,7 +59,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 500 ex 1: $i display text (doc §4.21 ex 1) ---
 # Doc: Current: 500 ## $a At head of title: STP-PT-023.
 {
-    # render: [doc §4.21] 500 ## $i At head of title $a STP-PT-023
+    # render: [doc §4.21 #1] 500 ## $i At head of title $a STP-PT-023
     my $field = make_field( '500', ' ', ' ', i => 'At head of title', a => 'STP-PT-023' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'postfix' );
@@ -76,7 +76,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 500 ex 2: $i display text (doc §4.21 ex 2) ---
 # Doc: Current: 500 ## $a Date of issuance: Feb. 23, 2009.
 {
-    # render: [doc §4.21] 500 ## $i Date of issuance $a Feb. 23, 2009
+    # render: [doc §4.21 #2] 500 ## $i Date of issuance $a Feb. 23, 2009
     my $field = make_field( '500', ' ', ' ', i => 'Date of issuance', a => 'Feb. 23, 2009' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'postfix' );
@@ -147,7 +147,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 500 ex 6: $z source (doc §4.21 ex 8) ---
 # Doc: Current: 500 ## $a "Evaluation and Investigations Program"--Cover.
 {
-    # render: [doc §4.21] 500 ## $a "Evaluation and Investigations Program" $z Cover
+    # render: [doc §4.21 #8] 500 ## $a "Evaluation and Investigations Program" $z Cover
     my $field = make_field( '500', ' ', ' ', a => '"Evaluation and Investigations Program"', z => 'Cover' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'postfix' );
@@ -201,7 +201,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 501 ex 1: $i display text (doc §4.22 ex 1) ---
 # Doc: Current: 501 ## $a With (on verso): Motor road map of south-east England.
 {
-    # render: [doc §4.22] 501 8# $i With (on verso) $a Motor road map of south-east England
+    # render: [doc §4.22 #1] 501 8# $i With (on verso) $a Motor road map of south-east England
     my $field = make_field( '501', '8', '#', i => 'With (on verso)', a => 'Motor road map of south-east England' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'501'}, 'postfix' );
@@ -218,7 +218,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 501 ex 2: $i display text (doc §4.22 ex 2) ---
 # Doc: Current: 501 ## $a On reel with: They're in the Army now.
 {
-    # render: [doc §4.22] 501 8# $i On reel with $a They're in the Army now
+    # render: [doc §4.22 #2] 501 8# $i On reel with $a They're in the Army now
     my $field = make_field( '501', '8', '#', i => 'On reel with', a => "They're in the Army now" );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'501'}, 'postfix' );
@@ -254,7 +254,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 504 ex 1: $i display text (doc §4.24 ex 1) ---
 # Doc: Current: 504 ## $a Bibliography: p. 238-239.
 {
-    # render: [doc §4.24] 504 8# $i Bibliography $a p. 238-239
+    # render: [doc §4.24 #1] 504 8# $i Bibliography $a p. 238-239
     my $field = make_field( '504', '8', '#', i => 'Bibliography', a => 'p. 238-239' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'504'}, 'postfix' );
@@ -271,7 +271,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 504 ex 2: $i display text (doc §4.24 ex 2) ---
 # Doc: Current: 504 ## $a Discography: p. 105-111.
 {
-    # render: [doc §4.24] 504 8# $i Discography $a p. 105-111
+    # render: [doc §4.24 #2] 504 8# $i Discography $a p. 105-111
     my $field = make_field( '504', '8', '#', i => 'Discography', a => 'p. 105-111' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'504'}, 'postfix' );
@@ -288,7 +288,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 504 ex 3: $i display text (doc §4.24 ex 3) ---
 # Doc: Current: 504 ## $a Filmography: v. 2, p. 344-360.
 {
-    # render: [doc §4.24] 504 8# $i Filmography $a v. 2, p. 344-360
+    # render: [doc §4.24 #3] 504 8# $i Filmography $a v. 2, p. 344-360
     my $field = make_field( '504', '8', '#', i => 'Filmography', a => 'v. 2, p. 344-360' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'504'}, 'postfix' );
@@ -352,7 +352,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 508 ex 2: two $a runs (doc §4.26 ex 2) ---
 # Doc: Current: 508 ## $a Film editor, Martyn Down ; consultant, Robert F. Miller.
 {
-    # render: [doc §4.26] 508 ## $a Film editor, Martyn Down $a consultant, Robert F. Miller
+    # render: [doc §4.26 #2] 508 ## $a Film editor, Martyn Down $a consultant, Robert F. Miller
     my $field = make_field( '508', ' ', ' ', a => 'Film editor, Martyn Down', a => 'consultant, Robert F. Miller' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'508'}, 'postfix' );
@@ -408,7 +408,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 511 ex 1: two $a runs (doc §4.27 ex 1) ---
 # Doc: Current: 511 0# $a Marshall Moss, violin ; Neil Roberts, harpsichord.
 {
-    # render: [doc §4.27] 511 ## $a Marshall Moss, violin $a Neil Roberts, harpsichord
+    # render: [doc §4.27 #1] 511 ## $a Marshall Moss, violin $a Neil Roberts, harpsichord
     my $field = make_field( '511', ' ', ' ', a => 'Marshall Moss, violin', a => 'Neil Roberts, harpsichord' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'511'}, 'postfix' );
@@ -633,7 +633,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 538 ex 3: $i display text (doc §4.31 ex 3) ---
 # Doc: Current: 538 ## $a Mode of access: World Wide Web.
 {
-    # render: [doc §4.31] 538 8# $i Mode of access $a World Wide Web
+    # render: [doc §4.31 #3] 538 8# $i Mode of access $a World Wide Web
     my $field = make_field( '538', '8', '#', i => 'Mode of access', a => 'World Wide Web' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'538'}, 'postfix' );
@@ -687,7 +687,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 547 ex 2: $i display text (doc §4.32 ex 2) ---
 # Doc: Current: 547 ## $a Edition varies: 1916, New York edition.
 {
-    # render: [doc §4.32] 547 8# $i Edition varies $a 1916, New York edition
+    # render: [doc §4.32 #2] 547 8# $i Edition varies $a 1916, New York edition
     my $field = make_field( '547', '8', '#', i => 'Edition varies', a => '1916, New York edition' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'547'}, 'postfix' );
@@ -741,7 +741,7 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
 # --- 550 ex 2: $i display text (doc §4.33 ex 2) ---
 # Doc: Current: 550 ## $a Issued by: Anthropos-Institut, 1935-
 {
-    # render: [doc §4.33] 550 8# $i Issued by $a Anthropos-Institut, 1935-
+    # render: [doc §4.33 #2] 550 8# $i Issued by $a Anthropos-Institut, 1935-
     my $field = make_field( '550', '8', '#', i => 'Issued by', a => 'Anthropos-Institut, 1935-' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'550'}, 'postfix' );

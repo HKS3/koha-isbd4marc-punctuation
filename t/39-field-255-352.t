@@ -52,7 +52,7 @@ is( $R->{'352'}->{wrap}->{c}[1], ')', '352 $c wrap closes with )' );
 # --- 255 ex 1 (doc §4.11) ---
 # Doc: Current: 255 ## $a Scale approximately 1:90,000.
 {
-    # render: [doc §4.11] 255 ## $a Scale approximately 1:90,000
+    # render: [doc §4.11 #1] 255 ## $a Scale approximately 1:90,000
     my $field = make_field( '255', ' ', ' ', a => 'Scale approximately 1:90,000' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'255'}, 'postfix' );
@@ -212,7 +212,7 @@ is( $R->{'352'}->{wrap}->{c}[1], ')', '352 $c wrap closes with )' );
 # --- 352 ex 1 (doc §3.8) ---
 # Doc: Current: 352 ## $a Vector : $b GT-polygon composed of chains $c (70).
 {
-    # render: [doc §3.8] 352 ## $a Vector $b GT-polygon composed of chains $c 70
+    # render: [doc §3.8 #1] 352 ## $a Vector $b GT-polygon composed of chains $c 70
     my $field = make_field( '352', ' ', ' ',
         a => 'Vector',
         b => 'GT-polygon composed of chains',
@@ -280,7 +280,7 @@ is( $R->{'352'}->{wrap}->{c}[1], ')', '352 $c wrap closes with )' );
 # --- 352 ex 3 (doc §3.8) ---
 # Doc: Current: 352 ## $a Raster : $b pixel $d (5,000 x $e 5,000) ; $q TIFF.
 {
-    # render: [doc §3.8] 352 ## $a Raster $b pixel $d 5,000 $e 5,000 $q TIFF
+    # render: [doc §3.8 #3] 352 ## $a Raster $b pixel $d 5,000 $e 5,000 $q TIFF
     my $field = make_field( '352', ' ', ' ',
         a => 'Raster',
         b => 'pixel',

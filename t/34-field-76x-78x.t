@@ -75,7 +75,7 @@ for my $t (qw(762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
 # =====================================================================
 # Doc: Current: 775 0# $a Mellor, Alec. $t Strange masonic stories $e eng
 {
-    # render: [doc §4.35] 775 0# $a Mellor, Alec $t Strange masonic stories $e eng
+    # render: [doc §4.35 #1] 775 0# $a Mellor, Alec $t Strange masonic stories $e eng
     my $field = make_field( '775', '0', '#', a => 'Mellor, Alec', t => 'Strange masonic stories', e => 'eng' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{775}, 'postfix' );

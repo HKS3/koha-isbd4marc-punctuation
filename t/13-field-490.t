@@ -41,7 +41,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 2: $a followed by $c (Example 1 from doc) ---
 # Doc: Current: 490 1# $a Bulletin / U.S. Department of Labor, Bureau of Labor Statistics
 {
-    # render: [doc §4.18] 490 1# $a Bulletin $c U.S. Department of Labor, Bureau of Labor Statistics
+    # render: [doc §4.18 #1] 490 1# $a Bulletin $c U.S. Department of Labor, Bureau of Labor Statistics
     my $field = make_field( '490', '1', ' ',
         a => 'Bulletin',
         c => 'U.S. Department of Labor, Bureau of Labor Statistics',
@@ -61,7 +61,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 3: $3 with $a and $v (Example 2 from doc) ---
 # Doc: Current: 490 1# $3 v. 9-<10>: $a MPCHT art and anthropological monographs ; $v no. 35
 {
-    # render: [doc §4.18] 490 1# $3 v. 9-<10> $a MPCHT art and anthropological monographs $v no. 35
+    # render: [doc §4.18 #2] 490 1# $3 v. 9-<10> $a MPCHT art and anthropological monographs $v no. 35
     my $field = make_field( '490', '1', ' ',
         '3' => 'v. 9-<10>',
         a   => 'MPCHT art and anthropological monographs',
@@ -84,7 +84,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 4: $a followed by $b followed by $v (Example 3 from doc) ---
 # Doc: Current: 490 1# $a Detroit area study, 1971 : social problems and social change in Detroit ; $v no. 19
 {
-    # render: [doc §4.18] 490 1# $a Detroit area study, 1971 $b social problems and social change in Detroit $v no. 19
+    # render: [doc §4.18 #3] 490 1# $a Detroit area study, 1971 $b social problems and social change in Detroit $v no. 19
     my $field = make_field( '490', '1', ' ',
         a => 'Detroit area study, 1971',
         b => 'social problems and social change in Detroit',
@@ -107,7 +107,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 5: $3 with $a and $c (Example 4 from doc) ---
 # Doc: Current: 490 1# $3 1972/73-1975-76: $a Research report / National Education Association Research
 {
-    # render: [doc §4.18] 490 1# $3 1972/73-1975-76 $a Research report $c National Education Association Research
+    # render: [doc §4.18 #4] 490 1# $3 1972/73-1975-76 $a Research report $c National Education Association Research
     my $field = make_field( '490', '1', ' ',
         '3' => '1972/73-1975-76',
         a   => 'Research report',
@@ -130,7 +130,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 6: $a with $v and $x (Example 6 from doc) ---
 # Doc: Current: 490 1# $a Annual census of manufactures = $a Recensement des manufactures, $x 0315-5587
 {
-    # render: [doc §4.18] 490 1# $a Annual census of manufactures $r Recensement des manufactures $x 0315-5587
+    # render: [doc §4.18 #6] 490 1# $a Annual census of manufactures $r Recensement des manufactures $x 0315-5587
     my $field = make_field( '490', '1', ' ',
         a => 'Annual census of manufactures',
         r => 'Recensement des manufactures',
@@ -182,7 +182,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 8: $a + $v + $y (Example 8 from doc) ---
 # Doc: Current: 490 1# $a Forschungen zur Geschichte Vorarlbergs ; $v 6. Bd. = der ganzen Reihe 13 Bd.
 {
-    # render: [doc §4.18] 490 1# $a Forschungen zur Geschichte Vorarlbergs $v 6. Bd. $y der ganzen Reihe 13 Bd.
+    # render: [doc §4.18 #8] 490 1# $a Forschungen zur Geschichte Vorarlbergs $v 6. Bd. $y der ganzen Reihe 13 Bd.
     my $field = make_field( '490', '1', ' ',
         a => 'Forschungen zur Geschichte Vorarlbergs',
         v => '6. Bd.',
