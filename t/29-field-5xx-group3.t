@@ -366,6 +366,29 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
     check_combined( \@result, \@result_pr, '530 constructed: combined string identical' );
 }
 
+# --- 530 ex 3: $3 + $a + $b + $d + $c (doc §3.14, non-alphabetical order) ---
+# Doc: Current: 530 ## $3 Dispatches from U.S. consuls in Batavia, Java, Netherlands East Indies, 1818-1906 $a Available in microfilm; $b National Archives; $d M449; $c Standing order account required.
+{
+    # render: [doc §3.14 #3] 530 ## $3 Dispatches from U.S. consuls in Batavia, Java, Netherlands East Indies, 1818-1906 $a Available in microfilm $b National Archives $d M449 $c Standing order account required
+    my $field = make_field( '530', ' ', ' ', '3' => 'Dispatches from U.S. consuls in Batavia, Java, Netherlands East Indies, 1818-1906', a => 'Available in microfilm', b => 'National Archives', d => 'M449', c => 'Standing order account required' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'530'}, 'postfix' );
+    is( $result[1], 'Dispatches from U.S. consuls in Batavia, Java, Netherlands East Indies, 1818-1906', '530 ex3 postfix: $3 unchanged (lead-in suppressed)' );
+    is( $result[3], 'Available in microfilm; ', '530 ex3 postfix: $a gets "; " for $b' );
+    is( $result[5], 'National Archives; ', '530 ex3 postfix: $b gets "; " for $d' );
+    is( $result[7], 'M449; ', '530 ex3 postfix: $d gets "; " for $c' );
+    is( $result[9], 'Standing order account required', '530 ex3 postfix: $c unchanged (last sf)' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'530'}, 'prefix' );
+    is( $result_pr[1], 'Dispatches from U.S. consuls in Batavia, Java, Netherlands East Indies, 1818-1906', '530 ex3 prefix: $3 unchanged' );
+    is( $result_pr[3], 'Available in microfilm', '530 ex3 prefix: $a unchanged' );
+    is( $result_pr[5], '; National Archives', '530 ex3 prefix: $b gets "; " prepended' );
+    is( $result_pr[7], '; M449', '530 ex3 prefix: $d gets "; " prepended' );
+    is( $result_pr[9], '; Standing order account required', '530 ex3 prefix: $c gets "; " prepended' );
+
+    check_combined( \@result, \@result_pr, '530 ex3: combined string identical' );
+}
+
 # =====================================================================
 # 532 – Accessibility Note (all N/A; explicit empty block)
 # =====================================================================
@@ -429,6 +452,29 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
     is( $result_pr[9], '; 203-436-4564', '535 ex2 prefix: $d gets "; " prepended' );
 
     check_combined( \@result, \@result_pr, '535 ex2: combined string identical' );
+}
+
+# --- 535 ex 3: $3 + $a + $b + $d + $g (doc §3.17, ends in N/A $g) ---
+# Doc: Current: 535 1# $3 Company histories $a U.S. Army Military History Institute; $b Carlisle Barracks, PA 17013; $d 717-245-3601, 3434 $g pau
+{
+    # render: [doc §3.17 #3] 535 1# $3 Company histories $a U.S. Army Military History Institute $b Carlisle Barracks, PA 17013 $d 717-245-3601, 3434 $g pau
+    my $field = make_field( '535', '1', '#', '3' => 'Company histories', a => 'U.S. Army Military History Institute', b => 'Carlisle Barracks, PA 17013', d => '717-245-3601, 3434', g => 'pau' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'535'}, 'postfix' );
+    is( $result[1], 'Company histories', '535 ex3 postfix: $3 unchanged (lead-in suppressed)' );
+    is( $result[3], 'U.S. Army Military History Institute; ', '535 ex3 postfix: $a gets "; " for $b' );
+    is( $result[5], 'Carlisle Barracks, PA 17013; ', '535 ex3 postfix: $b gets "; " for $d' );
+    is( $result[7], '717-245-3601, 3434', '535 ex3 postfix: $d unchanged (followed by N/A $g)' );
+    is( $result[9], 'pau', '535 ex3 postfix: $g unchanged (N/A, no punct)' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'535'}, 'prefix' );
+    is( $result_pr[1], 'Company histories', '535 ex3 prefix: $3 unchanged' );
+    is( $result_pr[3], 'U.S. Army Military History Institute', '535 ex3 prefix: $a unchanged' );
+    is( $result_pr[5], '; Carlisle Barracks, PA 17013', '535 ex3 prefix: $b gets "; " prepended' );
+    is( $result_pr[7], '; 717-245-3601, 3434', '535 ex3 prefix: $d gets "; " prepended' );
+    is( $result_pr[9], 'pau', '535 ex3 prefix: $g unchanged (N/A)' );
+
+    check_combined( \@result, \@result_pr, '535 ex3: combined string identical' );
 }
 
 
@@ -633,6 +679,23 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
     check_combined( \@result, \@result_pr, '544 ex2: combined string identical' );
 }
 
+# --- 544 ex 3: $d/$e (doc §3.20 #2) ---
+# Doc: Current: 544 ## $d Series 462 (Register of criminal actions, 1929-1942); $e Not included in the initial transfer, accessioned as a separate series.
+{
+    # render: [doc §3.20 #2] 544 ## $d Series 462 (Register of criminal actions, 1929-1942) $e Not included in the initial transfer, accessioned as a separate series
+    my $field = make_field( '544', ' ', ' ', d => 'Series 462 (Register of criminal actions, 1929-1942)', e => 'Not included in the initial transfer, accessioned as a separate series' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'544'}, 'postfix' );
+    is( $result[1], 'Series 462 (Register of criminal actions, 1929-1942); ', '544 ex3 postfix: $d gets "; " for $e' );
+    is( $result[3], 'Not included in the initial transfer, accessioned as a separate series', '544 ex3 postfix: $e unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'544'}, 'prefix' );
+    is( $result_pr[1], 'Series 462 (Register of criminal actions, 1929-1942)', '544 ex3 prefix: $d unchanged' );
+    is( $result_pr[3], '; Not included in the initial transfer, accessioned as a separate series', '544 ex3 prefix: $e gets "; " prepended' );
+
+    check_combined( \@result, \@result_pr, '544 ex3: combined string identical' );
+}
+
 # =====================================================================
 # 546 – Language Note (spec §3.21)
 # $b '; '. $a N/A. $3 lead-in suppressed.
@@ -723,6 +786,23 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
     check_combined( \@result, \@result_pr, '555 ex2: combined string identical' );
 }
 
+# --- 555 ex 3: $a + $c (doc §3.22 #2) ---
+# Doc: Current: 555 0# $a Card files (on approx. 187,000 cards and 5,339 rolls of microfilm); $c Item level control.
+{
+    # render: [doc §3.22 #2] 555 0# $a Card files (on approx. 187,000 cards and 5,339 rolls of microfilm) $c Item level control
+    my $field = make_field( '555', '0', '#', a => 'Card files (on approx. 187,000 cards and 5,339 rolls of microfilm)', c => 'Item level control' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'555'}, 'postfix' );
+    is( $result[1], 'Card files (on approx. 187,000 cards and 5,339 rolls of microfilm); ', '555 ex3 postfix: $a gets "; " for $c' );
+    is( $result[3], 'Item level control', '555 ex3 postfix: $c unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'555'}, 'prefix' );
+    is( $result_pr[1], 'Card files (on approx. 187,000 cards and 5,339 rolls of microfilm)', '555 ex3 prefix: $a unchanged' );
+    is( $result_pr[3], '; Item level control', '555 ex3 prefix: $c gets "; " prepended' );
+
+    check_combined( \@result, \@result_pr, '555 ex3: combined string identical' );
+}
+
 # =====================================================================
 # 562 – Copy and Version Identification Note (spec §3.23)
 # $b/$c/$d/$e '; '. $a N/A. $3 lead-in suppressed.
@@ -760,6 +840,23 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
     is( $result_pr[3], '; 2 copies', '562 ex2 prefix: $e gets "; " prepended' );
 
     check_combined( \@result, \@result_pr, '562 ex2: combined string identical' );
+}
+
+# --- 562 ex 3: $c then $e (doc §3.23 #3) ---
+# Doc: Current: 562 ## $c Version with air-brushed color illustrations; $e 3 copies.
+{
+    # render: [doc §3.23 #3] 562 ## $c Version with air-brushed color illustrations $e 3 copies
+    my $field = make_field( '562', ' ', ' ', c => 'Version with air-brushed color illustrations', e => '3 copies' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'562'}, 'postfix' );
+    is( $result[1], 'Version with air-brushed color illustrations; ', '562 ex3 postfix: $c gets "; " for $e' );
+    is( $result[3], '3 copies', '562 ex3 postfix: $e unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'562'}, 'prefix' );
+    is( $result_pr[1], 'Version with air-brushed color illustrations', '562 ex3 prefix: $c unchanged' );
+    is( $result_pr[3], '; 3 copies', '562 ex3 prefix: $e gets "; " prepended' );
+
+    check_combined( \@result, \@result_pr, '562 ex3: combined string identical' );
 }
 
 

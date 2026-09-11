@@ -179,6 +179,40 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
     check_combined( \@result, \@result_pr, '500 ex7: combined string identical' );
 }
 
+# --- 500 ex 8: $i display text (doc §4.21 ex 3) ---
+# Doc: Current: 500 ## $a Originally published: 1993.
+{
+    # render: [doc §4.21 #3] 500 ## $i Originally published $a 1993
+    my $field = make_field( '500', ' ', ' ', i => 'Originally published', a => '1993' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'postfix' );
+    is( $result[1], 'Originally published: ', '500 ex8 postfix: $i gets ": "' );
+    is( $result[3], '1993', '500 ex8 postfix: $a unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'prefix' );
+    is( $result_pr[1], 'Originally published: ', '500 ex8 prefix: $i gets ": "' );
+    is( $result_pr[3], '1993', '500 ex8 prefix: $a unchanged' );
+
+    check_combined( \@result, \@result_pr, '500 ex8: combined string identical' );
+}
+
+# --- 500 ex 9: $i display text (doc §4.21 ex 4) ---
+# Doc: Current: 500 ## $a Number of players: 1-2.
+{
+    # render: [doc §4.21 #4] 500 ## $i Number of players $a 1-2
+    my $field = make_field( '500', ' ', ' ', i => 'Number of players', a => '1-2' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'postfix' );
+    is( $result[1], 'Number of players: ', '500 ex9 postfix: $i gets ": "' );
+    is( $result[3], '1-2', '500 ex9 postfix: $a unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'500'}, 'prefix' );
+    is( $result_pr[1], 'Number of players: ', '500 ex9 prefix: $i gets ": "' );
+    is( $result_pr[3], '1-2', '500 ex9 prefix: $a unchanged' );
+
+    check_combined( \@result, \@result_pr, '500 ex9: combined string identical' );
+}
+
 # --- 500 edge: $a alone (no $i / $z) ---
 {
     # render: 500 ## $a A general note.
@@ -230,6 +264,23 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
     is( $result_pr[3], "They're in the Army now", '501 ex2 prefix: $a unchanged' );
 
     check_combined( \@result, \@result_pr, '501 ex2: combined string identical' );
+}
+
+# --- 501 ex 3: $i display text (doc §4.22 #3) ---
+# Doc: Current: 501 ## $a Mounted on a wooden stand to form a pair with: Bale's New celestial globe, 1845.
+{
+    # render: [doc §4.22 #3] 501 8# $i Mounted on a wooden stand to form a pair with $a Bale's New celestial globe, 1845
+    my $field = make_field( '501', '8', '#', i => 'Mounted on a wooden stand to form a pair with', a => "Bale's New celestial globe, 1845" );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'501'}, 'postfix' );
+    is( $result[1], 'Mounted on a wooden stand to form a pair with: ', '501 ex3 postfix: $i gets ": "' );
+    is( $result[3], "Bale's New celestial globe, 1845", '501 ex3 postfix: $a unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'501'}, 'prefix' );
+    is( $result_pr[1], 'Mounted on a wooden stand to form a pair with: ', '501 ex3 prefix: $i gets ": "' );
+    is( $result_pr[3], "Bale's New celestial globe, 1845", '501 ex3 prefix: $a unchanged' );
+
+    check_combined( \@result, \@result_pr, '501 ex3: combined string identical' );
 }
 
 # --- 501 edge: $a alone ---
@@ -364,6 +415,23 @@ for my $t ( qw(500 501 504 508 511 515 525 538 547 550 580) ) {
     is( $result_pr[3], ' ; consultant, Robert F. Miller', '508 ex2 prefix: $a2 gets " ; " prepended' );
 
     check_combined( \@result, \@result_pr, '508 ex2: combined string identical' );
+}
+
+# --- 508 ex 3: two $a runs (doc §4.26 #3) ---
+# Doc: Current: 508 ## $a Photographer, Richard Beymer ; film editor, Charles Pavlich.
+{
+    # render: [doc §4.26 #3] 508 ## $a Photographer, Richard Beymer $a film editor, Charles Pavlich
+    my $field = make_field( '508', ' ', ' ', a => 'Photographer, Richard Beymer', a => 'film editor, Charles Pavlich' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'508'}, 'postfix' );
+    is( $result[1], 'Photographer, Richard Beymer ; ', '508 ex3 postfix: $a1 gets " ; "' );
+    is( $result[3], 'film editor, Charles Pavlich', '508 ex3 postfix: $a2 unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'508'}, 'prefix' );
+    is( $result_pr[1], 'Photographer, Richard Beymer', '508 ex3 prefix: $a1 unchanged' );
+    is( $result_pr[3], ' ; film editor, Charles Pavlich', '508 ex3 prefix: $a2 gets " ; " prepended' );
+
+    check_combined( \@result, \@result_pr, '508 ex3: combined string identical' );
 }
 
 # --- 508 LoC-derived: real-world two-$a split ---

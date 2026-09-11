@@ -88,8 +88,9 @@ ok( defined $rules_505, '505 rules loaded' );
 }
 
 # --- Example 2: Multiple $t (area titles, same pattern) ---
+# Doc: Current: 505 0# $a Area 1, Lone Pine to Big Pine -- Area 2, Bishop to Mammoth Lakes -- Area 3, June Lake to Bridgeport -- Area 4, White Mountains area.
 {
-    # render: 505 00 $t Area 1, Lone Pine to Big Pine $t Area 2, Bishop to Mammoth Lakes $t Area 3, June Lake to Bridgeport $t Area 4, White Mountains area
+    # render: [doc §4.25 #2] 505 00 $t Area 1, Lone Pine to Big Pine $t Area 2, Bishop to Mammoth Lakes $t Area 3, June Lake to Bridgeport $t Area 4, White Mountains area
     my $field = make_field(
         '505', '0', '0',
         t => 'Area 1, Lone Pine to Big Pine',

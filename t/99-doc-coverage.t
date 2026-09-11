@@ -90,15 +90,15 @@ while ( my $line = <$fh> ) {
 }
 close $fh;
 
-is( $total, 438, "summary.total_examples == 438 (after the 260 LoC regressions + t/not-automated.t + §4.13 264 pins + §4.35 embedded NOT-HANDLED)" )
+is( $total, 460, "summary.total_examples == 460 (after the 260 LoC regressions + t/not-automated.t + §4.13 264 pins + §4.35 embedded NOT-HANDLED + §4.21 500 #3/#4 pins + §5.2 #3/#4/#5/#6/#8 pins + §4.6 #6 alt-title \$o + §5.7 #2/#5 pins + §5.6 #3/#6 pins + §3.2 #5/#6 pins + §4.18 #5 DECISION + §3.14 #3 pin + §3.17 #3 pin + §3.20 #2 pin + §3.22 #2 pin + §3.23 #3 pin + §4.22 #3 pin + §4.25 #2 pin + §4.26 #3 pin)" )
     or note( "If new markers were added intentionally, regenerate + update this literal." );
 
 my $exp_kinds = {
-    doc          => 232,
+    doc          => 253,
     loc          => 31,
-    constructed  => 160,
-    not_handled  => 12,
-    decision     => 3,
+    constructed  => 159,
+    not_handled  => 13,
+    decision     => 4,
 };
 for my $k ( sort keys %$exp_kinds ) {
     is( $kind_total{$k} // 0, $exp_kinds->{$k},

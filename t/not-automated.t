@@ -73,6 +73,40 @@ sub decorate_pair {
     check_combined( $post, $pre, '245 $o: combined string identical' );
 }
 
+# --- Case 1b: 245 $o conjunction, alternative-title variant (NOT HANDLED) ---
+# The $o row lists two sub-cases: same-author ( ; ) - Case 1 - and
+# alternative-title (, ) - this one. #6 also carries $q (alternative
+# title). $o is not decodable from MARC; the same WON'T-DO applies.
+{
+    # Doc: Current: 245 10 $a Under the hill, or, The story of Venus and Tannhauser.
+    # render: [doc section 4.6 - NOT HANDLED: $o conjunction (alternative-title variant)] 245 10 $a Under the hill $o or $q The story of Venus and Tannhauser
+    my $rules =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET)->{245};
+    ok( defined $rules, '245 rules loaded (case 1b)' );
+
+    my ( $post, $pre ) = decorate_pair( '245', '1', '0', $rules,
+        a => 'Under the hill', o => 'or',
+        q => 'The story of Venus and Tannhauser' );
+
+    # is(): regression-pin - $a misses the leading comma; $o gets ', '
+    # from the following $q; $q unchanged.
+    is( $post->[1], 'Under the hill',
+        '245 $o alt: $a unchanged (misses leading ", " )' );
+    is( $post->[3], 'or, ',
+        '245 $o alt: $o gets ", " from the following $q' );
+    is( $post->[5], 'The story of Venus and Tannhauser',
+        '245 $o alt: $q unchanged (last sf)' );
+
+    # isnot(): gap-gate - ideal has "hill, or," (comma after the title).
+    isnt(
+        combined_string(@$post),
+        'Under the hill, or, The story of Venus and Tannhauser.',
+        '245 $o alt: still NOT the ideal (gap open)'
+    );
+    check_combined( $post, $pre,
+        '245 $o alt: combined string identical' );
+}
+
 # --- Case 2: 242 $o conjunction (NOT HANDLED) ---
 {
     # Doc: Current: 245 10 $a Under the hill, or, The story of Venus and Tannhauser.
@@ -440,6 +474,33 @@ sub decorate_pair {
         '780 emb: still NOT reconstructed to the ISBD ideal (gap open)'
     );
     check_combined( $post, $pre, '780 emb: combined string identical' );
+}
+
+# --- Case 16: 490 $p repeated-$v (DECISION, doc section 4.18 #5) ---
+# The doc's Example #5 uses the '. ' (period) reading of $p between $v and $p.
+# We keep ', ' (comma) for 490 $p consistently (same decision as Case 6), so
+# our '7846, Department' differs from the doc's '7846. Department'.
+{
+    # Doc: Current: 490 1# $a Department of State publication ; $v 7846. $a Department and Foreign Service series ; $v 128
+    # render: [doc section 4.18 - DECISION: $p part context (we keep ', '; doc uses '. ')] 490 1# $a Department of State publication $v 7846 $p Department and Foreign Service series $v 128
+    my $rules = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET)->{490};
+    ok( defined $rules, '490 rules loaded (case 16)' );
+
+    my ( $post, $pre ) = decorate_pair( '490', '1', ' ', $rules,
+        a => 'Department of State publication', v => '7846',
+        p => 'Department and Foreign Service series', v => '128' );
+
+    is( $post->[1], 'Department of State publication ; ',    '490 $p: $a gets "; " for $v' );
+    is( $post->[3], '7846, ',                                '490 $p: $v gets ", " (kept decision; doc uses ". " for $p)' );
+    is( $post->[5], 'Department and Foreign Service series ; ', '490 $p: $p gets "; " for $v' );
+    is( $post->[7], '128',                                   '490 $p: $v unchanged (last sf)' );
+
+    isnt(
+        combined_string(@$post),
+        'Department of State publication ; 7846. Department and Foreign Service series ; 128',
+        '490 $p: keeps ", " (the doc\'s ". " variant is not produced)'
+    );
+    check_combined( $post, $pre, '490 $p: combined string identical' );
 }
 
 done_testing();

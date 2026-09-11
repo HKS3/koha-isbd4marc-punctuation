@@ -59,6 +59,65 @@ sub check_combined {
 }
 
 {
+    # Doc: Current: 100 1# $a P-Orridge, Genesis, $d 1950-
+    # render: [doc §5.2 #3] 100 ## $a P-Orridge $h Genesis $d 1950-
+    my $r = _decorate( '100', 'postfix', a => 'P-Orridge', h => 'Genesis', d => '1950-' );
+    is( $r->[1], 'P-Orridge, ', '100: $a before $h' );
+    is( $r->[3], 'Genesis, ',   '100: $h before $d' );
+    is( $r->[5], '1950-',       '100: $d last' );
+    check_combined(
+        '100', '100: $a+$h+$d (P-Orridge)',
+        a => 'P-Orridge',
+        h => 'Genesis',
+        d => '1950-'
+    )
+}
+
+{
+    # Doc: Current: 100 1# $a Blackbeard, Author of, $d 1777-1852.
+    # render: [doc §5.2 #4] 100 ## $a Blackbeard $h Author of $d 1777-1852
+    my $r = _decorate( '100', 'postfix', a => 'Blackbeard', h => 'Author of', d => '1777-1852' );
+    is( $r->[1], 'Blackbeard, ', '100: $a before $h' );
+    is( $r->[3], 'Author of, ',  '100: $h before $d' );
+    is( $r->[5], '1777-1852',    '100: $d last' );
+    check_combined(
+        '100', '100: $a+$h+$d (Blackbeard)',
+        a => 'Blackbeard',
+        h => 'Author of',
+        d => '1777-1852'
+    )
+}
+
+{
+    # Doc: Current: 100 1# $a Walle-Lissnijder, $c van de.
+    # render: [doc §5.2 #6] 100 ## $a Walle-Lissnijder $c van de
+    my $r = _decorate( '100', 'postfix', a => 'Walle-Lissnijder', c => 'van de' );
+    is( $r->[1], 'Walle-Lissnijder, ', '100: $a before $c (terminal $c)' );
+    is( $r->[3], 'van de',             '100: $c last (no separator after)' );
+    check_combined(
+        '100', '100: $a+$c (terminal)',
+        a => 'Walle-Lissnijder',
+        c => 'van de'
+    )
+}
+
+{
+    # Doc: Current: 100 0# $a Claude, $c d'Abbeville, père, $d d. 1632.
+    # render: [doc §5.2 #8] 100 ## $a Claude $c d'Abbeville, père $d d. 1632
+    my $r = _decorate( '100', 'postfix',
+        a => 'Claude', c => "d'Abbeville, père", d => 'd. 1632' );
+    is( $r->[1], 'Claude, ',          '100: $a before $c' );
+    is( $r->[3], "d'Abbeville, père, ", '100: $c before $d' );
+    is( $r->[5], 'd. 1632',           '100: $d last' );
+    check_combined(
+        '100', '100: $a+$c+$d (Claude)',
+        a => 'Claude',
+        c => "d'Abbeville, père",
+        d => 'd. 1632'
+    )
+}
+
+{
     # Doc: Current: 100 1# $a Beethoven, Ludwig van, $d 1770-1827 $c (Spirit)
     # render: [doc §5.2 #10] 100 ## $a Beethoven $h Ludwig van $d 1770-1827 $g Spirit
     my $r = _decorate( '100', 'postfix',
@@ -354,6 +413,19 @@ sub check_combined {
         x => 'E',
         y => '17',
         z => 'E'
+    )
+}
+
+{
+    # Doc: Current: 600 30 $a Norfolk, Dukes of.
+    # render: [doc §5.2 #5] 600 ## $a Norfolk $h Dukes of
+    my $r = _decorate( '600', 'postfix', a => 'Norfolk', h => 'Dukes of' );
+    is( $r->[1], 'Norfolk, ', '600: $a before $h (inverted name)' );
+    is( $r->[3], 'Dukes of',  '600: $h last' );
+    check_combined(
+        '600', '600: $a+$h',
+        a => 'Norfolk',
+        h => 'Dukes of'
     )
 }
 
