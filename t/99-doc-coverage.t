@@ -90,14 +90,15 @@ while ( my $line = <$fh> ) {
 }
 close $fh;
 
-is( $total, 423, "summary.total_examples == 423 (the count after the 260 LoC regressions)" )
+is( $total, 435, "summary.total_examples == 435 (after the 260 LoC regressions + t/not-automated.t)" )
     or note( "If new markers were added intentionally, regenerate + update this literal." );
 
 my $exp_kinds = {
     doc          => 226,
     loc          => 32,
     constructed  => 165,
-    not_handled  => 0,
+    not_handled  => 9,
+    decision     => 3,
 };
 for my $k ( sort keys %$exp_kinds ) {
     is( $kind_total{$k} // 0, $exp_kinds->{$k},

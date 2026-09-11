@@ -12,12 +12,13 @@ meta:
     "num" (per-section example number) is null until the coverage pass
     pins each [doc §X.Y #N] marker; "status" mirrors kind until then.
 summary:
-  total_examples: 423
+  total_examples: 435
   doc: 226
   derived: 0
   loc: 32
   constructed: 165
-  not_handled: 0
+  not_handled: 9
+  decision: 3
 fields:
   - tag: "015"
     examples:
@@ -421,6 +422,14 @@ fields:
         reason: ""
         testfile: "t/21-field-x10.t"
         marker: "# render: [doc §5.5 - derived] 110 ## $a Philharmonia $t Sonatas $r E major"
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "$g combined with $n/$c/$d in one paren; manual"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 5.4 - NOT HANDLED: $g combined with $n/$c/$d in one paren; manual] 110 2  $a National Conference on Physical Measurement of the Disabled $n 2nd $c Mayo Clinic $d 1981 $g Projected, not held"
   - tag: "111"
     examples:
       - doc: "§5.4 #1"
@@ -695,6 +704,22 @@ fields:
         reason: ""
         testfile: "t/24-field-130-240-242.t"
         marker: "# render: 240 10 $a Sonatas"
+      - doc: null
+        num: null
+        kind: decision
+        status: decision
+        derived: false
+        reason: "$p part context (we keep ', '; the . variant is not produced)"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 5.5 - DECISION: $p part context (we keep ', '; the . variant is not produced)] 240 10 $a Bible $p N.T."
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "$d date of treaty signing; rule unclear (( ) or , )"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 5.5 - NOT HANDLED: $d date of treaty signing; rule unclear (( ) or , )] 240 10 $a Treaty of London $d 1913"
   - tag: "242"
     examples:
       - doc: "§4.4 #1"
@@ -721,6 +746,30 @@ fields:
         reason: ""
         testfile: "t/24-field-130-240-242.t"
         marker: "# render: 242 00 $a Annals of chemistry"
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "$o conjunction (alt title)"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 4.4 - NOT HANDLED: $o conjunction (alt title)] 242 10 $a Under the hill $o or $q The story of Venus and Tannhauser"
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "$a same-author shares the title statement; ; not decodable"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 4.4 - NOT HANDLED: $a same-author shares the title statement; ; not decodable] 242 10 $a The first title $a A second title"
+      - doc: null
+        num: null
+        kind: decision
+        status: decision
+        derived: false
+        reason: "$p part context (we keep ', ')"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 4.4 - DECISION: $p part context (we keep ', ')] 242 10 $a Some work $p Part one"
   - tag: "243"
     examples:
       - doc: null
@@ -861,6 +910,14 @@ fields:
         reason: ""
         testfile: "t/30-regression-245.t"
         marker: "# render: [LoC - derived] 245 10 $k Employment applications $g Jan.-Dec. 1985"
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "$o conjunction (same-author vs alt title not decodable)"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 4.6 - NOT HANDLED: $o conjunction (same-author vs alt title not decodable)] 245 00 $a Lord Macaulay's essays $o and $a Lays of ancient Rome"
   - tag: "246"
     examples:
       - doc: null
@@ -1519,6 +1576,14 @@ fields:
         reason: ""
         testfile: "t/18-field-300.t"
         marker: "# render: 300 ## $a 1 score (30 p.) $a 16 parts"
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "lone $i/$j (no $h) - no parens, bare ' ; ' may leak"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 4.14 - NOT HANDLED: lone $i/$j (no $h) - no parens, bare ' ; ' may leak] 300 ## $a volumes $i illustrations $j maps"
   - tag: "307"
     examples:
       - doc: "§3.5 #1"
@@ -1983,6 +2048,14 @@ fields:
         reason: ""
         testfile: "t/13-field-490.t"
         marker: "# render: 490 1# $a Census of manufactures $t Recensement des manufactures"
+      - doc: null
+        num: null
+        kind: decision
+        status: decision
+        derived: false
+        reason: "$p part context (we keep ', ')"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 4.2 - DECISION: $p part context (we keep ', ')] 490 10 $a Series title $p Part one $v 3"
   - tag: "500"
     examples:
       - doc: "§4.21 #1"
@@ -2909,6 +2982,14 @@ fields:
         reason: ""
         testfile: "t/28-field-5xx-notes.t"
         marker: "# render: 580 ## $a Continues: Titel X."
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "comma before a later $i ("... , to form") not reproduced"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc 4.34 - NOT HANDLED: comma before a later $i ("... , to form") not reproduced] 580 ## $i Merged with $a Index chemicus (Philadelphia, Pa. : 1977) $i to form $a Current abstracts of chemistry"
   - tag: "584"
     examples:
       - doc: "§3.25 #1"
@@ -3295,6 +3376,14 @@ fields:
         reason: ""
         testfile: "t/20-field-x00.t"
         marker: "# render: [doc §5.5 - derived] 700 ## $a Shakespeare, William $d 1564-1616 $t Works $l German"
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "700 $i relationship info (colon-space not added)"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 5.2 - NOT HANDLED: 700 $i relationship info (colon-space not added)] 700 1  $a Smith, John $i editor"
   - tag: "710"
     examples:
       - doc: "§5.3 #1"
@@ -3595,3 +3684,13 @@ fields:
         reason: ""
         testfile: "t/25-field-243-730-830.t"
         marker: "# render: 830 #0 $a Lecture notes in physics"
+  - tag: "880"
+    examples:
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "880 alternate script (no $6 dispatch; pass-through)"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc 3.26 - NOT HANDLED: 880 alternate script (no $6 dispatch; pass-through)] 880 ## $a Moskva $b Izd-vo "Nauka" $c 1982"

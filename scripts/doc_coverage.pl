@@ -52,16 +52,21 @@ for my $file (@testfiles) {
         next unless $line =~ /^\s*#\s*render:/;
         my $marker = $line;
 
-        # Detect a NOT-HANDLED marker (no render body): line form
+        # Detect a NOT-HANDLED / DECISION marker (no render body): line forms
         #   # render: [doc §X.Y #N - NOT HANDLED: reason]
-        if ( $marker =~ /\[(doc|LoC)\b[^\]]*\bNOT\s+HANDLED\b[^\]]*\]/i ) {
-            my ($tok)   = $marker =~ /render:\s*(\[(?:doc|LoC)\b[^\]]*\])/i;
-            my ($tag)   = $tok =~ /(?:doc|LoC)\b[^\]]*?\b([0-9]{3})\b/i
-              ? $1 : '';
-            my ($reason) = $marker =~ /-\s*NOT\s+HANDLED:\s*(.+?)\s*\]\s*$/i;
+        #   # render: [doc §X.Y - DECISION: reason]
+        if ( $marker =~ /\[(doc|LoC)\b[^\]]*\b(?:NOT\s+HANDLED|DECISION)\b[^\]]*\]/i ) {
+            # Tag is the 3-digit field code AFTER the [doc ...] provenance
+            # token (the marker has no render body, so the tag is the only
+            # field info on the line).
+            my ($tag) = $marker =~ /render:\s*(?:\[[^\]]*\]\s*)?(\d{3})\b/;
+            $tag = '' unless defined $tag;
+            my $kind = ( $marker =~ /\bDECISION\b/i ) ? 'decision' : 'not_handled';
+            my ($reason) = $marker =~ /-\s*(?:NOT\s+HANDLED|DECISION):\s*([^\]]*)\]/i;
+            $reason = '' unless defined $reason;
             push @collect, {
                 tag      => $tag,
-                kind     => 'not_handled',
+                kind     => $kind,
                 section  => '',
                 derived  => 0,
                 num      => undef,
@@ -132,7 +137,7 @@ push @out, '    "num" (per-section example number) is null until the coverage pa
 push @out, '    pins each [doc §X.Y #N] marker; "status" mirrors kind until then.';
 push @out, 'summary:';
 push @out, '  total_examples: ' . scalar(@collect);
-for my $k (qw(doc derived loc constructed not_handled)) {
+for my $k (qw(doc derived loc constructed not_handled decision)) {
     push @out, sprintf( '  %s: %d', $k, $bykind{$k} || 0 );
 }
 push @out, 'fields:';
