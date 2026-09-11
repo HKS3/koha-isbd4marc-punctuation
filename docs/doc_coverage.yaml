@@ -12,12 +12,12 @@ meta:
     "num" (per-section example number) is null until the coverage pass
     pins each [doc §X.Y #N] marker; "status" mirrors kind until then.
 summary:
-  total_examples: 435
-  doc: 226
+  total_examples: 438
+  doc: 232
   derived: 0
-  loc: 32
-  constructed: 165
-  not_handled: 9
+  loc: 31
+  constructed: 160
+  not_handled: 12
   decision: 3
 fields:
   - tag: "015"
@@ -1308,14 +1308,14 @@ fields:
         reason: ""
         testfile: "t/12-field-260.t"
         marker: "# render: [LoC - derived] 260 ## $a New York $b Published by W. Schaus $c c1860 $e Boston $f Printed at J.H. Bufford's"
-      - doc: null
+      - doc: "§4.12 #5"
         num: null
-        kind: loc
-        status: loc
-        derived: true
+        kind: doc
+        status: doc
+        derived: false
         reason: ""
         testfile: "t/12-field-260.t"
-        marker: "# render: [LoC - derived] 260 ## $a London $b Arts Council of Great Britain $c 1976 $e Twickenham $f CTD Printers $g 1974"
+        marker: "# render: [doc §4.12 #5] 260 ## $a London $b Arts Council of Great Britain $c 1976 $e Twickenham $f CTD Printers $g 1974"
       - doc: null
         num: null
         kind: loc
@@ -1390,46 +1390,46 @@ fields:
         marker: "# render: [doc §4.12 #7] 260 3# $3 June 1993- $a London $b Elle"
   - tag: "264"
     examples:
-      - doc: null
+      - doc: "§4.13 #1"
         num: null
-        kind: constructed
-        status: constructed
+        kind: doc
+        status: doc
         derived: false
         reason: ""
         testfile: "t/32-regression-260-264.t"
-        marker: "# render: 264 #1 $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $c 1981"
-      - doc: null
+        marker: "# render: [doc §4.13 #1] 264 #1 $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $c 1981"
+      - doc: "§4.13 #2"
         num: null
-        kind: constructed
-        status: constructed
+        kind: doc
+        status: doc
         derived: false
         reason: ""
         testfile: "t/32-regression-260-264.t"
-        marker: "# render: 264 #1 $a New York $a Berlin $b Springer Verlag $c 1977"
-      - doc: null
+        marker: "# render: [doc §4.13 #2] 264 #1 $a New York $a Berlin $b Springer Verlag $c 1977"
+      - doc: "§4.13 #3"
         num: null
-        kind: constructed
-        status: constructed
+        kind: doc
+        status: doc
         derived: false
         reason: ""
         testfile: "t/32-regression-260-264.t"
-        marker: "# render: 264 #1 $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955"
-      - doc: null
+        marker: "# render: [doc §4.13 #3] 264 #1 $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955"
+      - doc: "§4.13 #4"
         num: null
-        kind: constructed
-        status: constructed
+        kind: doc
+        status: doc
         derived: false
         reason: ""
         testfile: "t/32-regression-260-264.t"
-        marker: "# render: 264 #1 $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979"
-      - doc: null
+        marker: "# render: [doc §4.13 #4] 264 #1 $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979"
+      - doc: "§4.13 #5"
         num: null
-        kind: constructed
-        status: constructed
+        kind: doc
+        status: doc
         derived: false
         reason: ""
         testfile: "t/32-regression-260-264.t"
-        marker: "# render: 264 31 $3 June 1993- $a London $b Elle"
+        marker: "# render: [doc §4.13 #5] 264 31 $3 June 1993- $a London $b Elle"
       - doc: null
         num: null
         kind: constructed
@@ -3536,6 +3536,14 @@ fields:
         reason: ""
         testfile: "t/34-field-76x-78x.t"
         marker: "# render: [doc §4.35 #1] 775 0# $a Mellor, Alec $t Strange masonic stories $e eng"
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "$j embedded-field + $h given-name cannot be reconstructed"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 4.35 - NOT HANDLED: $j embedded-field + $h given-name cannot be reconstructed] 775 0# $j 1001# $a Mellor $h Alec $j 24510 $a Strange masonic stories $j 7750# $e eng"
   - tag: "776"
     examples:
       - doc: "§4.35 #2"
@@ -3546,6 +3554,14 @@ fields:
         reason: ""
         testfile: "t/34-field-76x-78x.t"
         marker: "# render: [doc §4.35 #2] 776 08 $i Print version $a McConnell, John H $t How to design, implement, and interpret an employee survey $d New York : AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412"
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "$j embedded-field technique cannot be reconstructed"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 4.35 - NOT HANDLED: $j embedded-field technique cannot be reconstructed] 776 08 $i Print version $j 1001# $a McConnell $h John H. $1 24510 $a How to design, implement, and interpret an employee survey $j 260## $a New York $b AMACOM $c c2003 $j 77608 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412"
   - tag: "777"
     examples:
       - doc: null
@@ -3566,6 +3582,14 @@ fields:
         reason: ""
         testfile: "t/34-field-76x-78x.t"
         marker: "# render: [doc §4.35 #3] 780 07 $a British Columbia. Ministry of Provincial Secretary and Government Services $t Annual report $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433"
+      - doc: null
+        num: null
+        kind: not_handled
+        status: not_handled
+        derived: false
+        reason: "$j embedded-field technique cannot be reconstructed"
+        testfile: "t/not-automated.t"
+        marker: "# render: [doc section 4.35 - NOT HANDLED: $j embedded-field technique cannot be reconstructed] 780 07 $j 1101# $a British Columbia $b Ministry of Provincial Secretary and Government Services $j 24510 $a Annual report $j 78007 $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433"
   - tag: "785"
     examples:
       - doc: null

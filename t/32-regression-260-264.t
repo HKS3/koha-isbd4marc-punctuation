@@ -168,8 +168,9 @@ my $rules_264 = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET)->{264}
 ok( defined $rules_264, '264 rules loaded' );
 
 # --- Example 17: Basic $a/$b/$c ---
+# Doc: Current: 264 #1 $a Washington, D.C. : $b U.S. Dept. of Agriculture, Forest Service, $c 1981.
 {
-    # render: 264 #1 $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $c 1981
+    # render: [doc §4.13 #1] 264 #1 $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $c 1981
     my $field = make_field( '264', '#', '1',
         a => 'Washington, D.C.',
         b => 'U.S. Dept. of Agriculture, Forest Service',
@@ -190,10 +191,11 @@ ok( defined $rules_264, '264 rules loaded' );
 }
 
 # --- Example 18: Multiple $a ---
+# Doc: Current: 264 #1 $a New York ; $a Berlin : $b Springer Verlag, $c 1977.
 # " ; " is appended to the FIRST $a via the COMPOUND key aa (postfix),
 # moving to the second $a only in prefix mode.
 {
-    # render: 264 #1 $a New York $a Berlin $b Springer Verlag $c 1977
+    # render: [doc §4.13 #2] 264 #1 $a New York $a Berlin $b Springer Verlag $c 1977
     my $field = make_field( '264', '#', '1',
         a => 'New York',
         a => 'Berlin',
@@ -217,8 +219,9 @@ ok( defined $rules_264, '264 rules loaded' );
 }
 
 # --- Example 19: Interleaved $a/$b ---
+# Doc: Current: 264 #1 $a Paris : $b Gauthier-Villars ; $a Chicago : $b University of Chicago Press, $c 1955.
 {
-    # render: 264 #1 $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955
+    # render: [doc §4.13 #3] 264 #1 $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955
     my $field = make_field( '264', '#', '1',
         a => 'Paris',
         b => 'Gauthier-Villars',
@@ -245,8 +248,9 @@ ok( defined $rules_264, '264 rules loaded' );
 }
 
 # --- Example 20: $q for address ---
+# Doc: Current: 264 #1 $a Washington, D.C. (1649 K St., N.W., Washington 20006) : $b Wider Opportunities for Women, $c 1979.
 {
-    # render: 264 #1 $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979
+    # render: [doc §4.13 #4] 264 #1 $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979
     my $field = make_field( '264', '#', '1',
         a => 'Washington, D.C.',
         q => '1649 K St., N.W., Washington 20006',
@@ -270,8 +274,10 @@ ok( defined $rules_264, '264 rules loaded' );
 }
 
 # --- Example 21: $3 (materials specified) ---
+# Doc: Current: 264 31 $3 June 1993- : $a London : $b Elle
+# (Note: identical to §4.12 #7, just field number 264 31 vs 260 3#.)
 {
-    # render: 264 31 $3 June 1993- $a London $b Elle
+    # render: [doc §4.13 #5] 264 31 $3 June 1993- $a London $b Elle
     my $field = make_field( '264', '3', '1',
         '3' => 'June 1993-',
         a   => 'London',

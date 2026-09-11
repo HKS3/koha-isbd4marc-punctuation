@@ -268,10 +268,12 @@ ok( defined $rules, '260 rules loaded' );
 }
 
 {
-    # LoC Current: 260 ## $aLondon : $bArts Council of Great Britain, $c1976 $e(Twickenham : $fCTD Printers, $g1974)
-    # render: [LoC - derived] 260 ## $a London $b Arts Council of Great Britain $c 1976 $e Twickenham $f CTD Printers $g 1974
+    # Doc: Current: 260 ## $a London : $b Arts Council of Great Britain, $c 1976 $e (Twickenham : $f CTD Printers, $g 1974)
+    # render: [doc §4.12 #5] 260 ## $a London $b Arts Council of Great Britain $c 1976 $e Twickenham $f CTD Printers $g 1974
     # Full (e : f, g) group: $f does NOT close here (a $g follows), $g closes.
-    # (Data cleaned: $f carries no trailing comma in the un-punctuated form.)
+    # (Data identical to the doc's own §4.12 #5 example; confirmed by user as the 260
+    #  migration-pair gap. The old `[LoC - derived]` provenance is superseded by the
+    #  doc pin - the record matches the doc exactly.)
     my $field = make_field(
         '260', ' ', ' ',
         a => 'London',

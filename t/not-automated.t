@@ -350,4 +350,96 @@ sub decorate_pair {
     check_combined( $post, $pre, '110 $g: combined string identical' );
 }
 
+# --- Case 13: 76x embedded-field examples, $j technique (NOT HANDLED) ---
+# §4.35 pairs #4/#5/#6 use the UNIMARC-style embedded-field technique
+# ($j delimits an entire embedded MARC field; $h carries the GIVEN name of an
+# inverted name). The engine has no $j structural key and treats $h as
+# "physical description" (. ) here, so it cannot reconstruct the doc Current.
+# Verified: 760 block pchrs has no 'j' key; 'h' means physical desc, not
+# given-name split. Documented as checked (not handled), per user decision.
+{
+    my $rules = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET)->{775};
+    ok( defined $rules, '775 (embedded) rules loaded' );
+
+    # Pair #4 - embedded 775 (doc Future form fed in; doc Current is the ideal).
+    # Doc: Current: 775 0# $a Mellor, Alec. $t Strange masonic stories $e eng
+    # render: [doc section 4.35 - NOT HANDLED: $j embedded-field + $h given-name cannot be reconstructed] 775 0# $j 1001# $a Mellor $h Alec $j 24510 $a Strange masonic stories $j 7750# $e eng
+    my ( $post, $pre ) = decorate_pair( '775', '0', '#', $rules,
+        j => '1001#', a => 'Mellor', h => 'Alec', j => '24510',
+        a => 'Strange masonic stories', j => '7750#', e => 'eng' );
+
+    # is(): regression-pin - $h gets '. ' (physical-desc key), not the ideal ', '.
+    is( $post->[1], '1001#',                 '775 emb: embedded $j leader unchanged' );
+    is( $post->[3], 'Mellor. ',              '775 emb: $a gets ". " (wrong - ideal is ", ")' );
+    is( $post->[5], 'Alec',                  '775 emb: $h (given name) NOT comma-joined' );
+    is( $post->[9], 'Strange masonic stories', '775 emb: title $a unchanged' );
+
+    # isnot(): gap-gate - ideal is Mellor, Alec. ... (absent).
+    isnt(
+        combined_string(@$post),
+        'Mellor, Alec. Strange masonic stories eng',
+        '775 emb: still NOT reconstructed to the ISBD ideal (gap open)'
+    );
+    check_combined( $post, $pre, '775 emb: combined string identical' );
+}
+
+# --- Case 14: 76x embedded-field examples, $j technique (NOT HANDLED) ---
+{
+    my $rules = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET)->{776};
+    ok( defined $rules, '776 (embedded) rules loaded' );
+
+    # Pair #5 - embedded 776.
+    # Doc: Current: 776 08 $i Print version: $a McConnell, John H. $t How to design, implement, and interpret an employee survey. $d New York : AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412
+    # render: [doc section 4.35 - NOT HANDLED: $j embedded-field technique cannot be reconstructed] 776 08 $i Print version $j 1001# $a McConnell $h John H. $1 24510 $a How to design, implement, and interpret an employee survey $j 260## $a New York $b AMACOM $c c2003 $j 77608 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412
+    my ( $post, $pre ) = decorate_pair( '776', '0', '8', $rules,
+        i => 'Print version', j => '1001#', a => 'McConnell', h => 'John H.',
+        '1' => '24510', a => 'How to design, implement, and interpret an employee survey',
+        j => '260##', a => 'New York', b => 'AMACOM', c => 'c2003',
+        j => '77608', z => '0814407099', w => '(DLC)##2002153914#', w => '(OCoLC)51020412' );
+
+    # is(): regression-pin - $d's embedded $a/$b/$c degrade to '. ' glue, not ': ,'.
+    is( $post->[1], 'Print version: ',         '776 emb: $i gets ": " (this part IS correct)' );
+    is( $post->[5], 'McConnell. ',             '776 emb: given-name $h not comma-joined' );
+    is( $post->[15], 'New York. ',             '776 emb: embedded $a gets ". " not ": "' );
+    is( $post->[17], 'AMACOM. ',               '776 emb: embedded $b gets ". " not ", "' );
+
+    # isnot(): gap-gate - ideal joins name + imprint correctly.
+    isnt(
+        combined_string(@$post),
+        'Print version: McConnell, John H. How to design, implement, and interpret an employee survey. New York : AMACOM, c2003 0814407099 (DLC)##2002153914# (OCoLC)51020412',
+        '776 emb: still NOT reconstructed to the ISBD ideal (gap open)'
+    );
+    check_combined( $post, $pre, '776 emb: combined string identical' );
+}
+
+# --- Case 15: 76x embedded-field examples, $j technique (NOT HANDLED) ---
+{
+    my $rules = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET)->{780};
+    ok( defined $rules, '780 (embedded) rules loaded' );
+
+    # Pair #6 - embedded 780.
+    # Doc: Current: 780 07 $a British Columbia. Ministry of Provincial Secretary and Government Services. $t Annual report $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433
+    # render: [doc section 4.35 - NOT HANDLED: $j embedded-field technique cannot be reconstructed] 780 07 $j 1101# $a British Columbia $b Ministry of Provincial Secretary and Government Services $j 24510 $a Annual report $j 78007 $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433
+    my ( $post, $pre ) = decorate_pair( '780', '0', '7', $rules,
+        j => '1101#', a => 'British Columbia', b => 'Ministry of Provincial Secretary and Government Services',
+        j => '24510', a => 'Annual report', j => '78007', x => '0226-0883',
+        w => '(DLC)###80649039#', w => '(OCoLC)6270433' );
+
+    # is(): regression-pin - corporate name glued with '. ' via the b key, not
+    # 'Ministry...' kept intact; $j leaders pass through.
+    is( $post->[1], '1101#',                             '780 emb: embedded $j leader unchanged' );
+    is( $post->[3], 'British Columbia. ',                '780 emb: $a gets ". " for the embedded $b' );
+    is( $post->[5], 'Ministry of Provincial Secretary and Government Services',
+        '780 emb: corporate $b unchanged (last of its run)' );
+    is( $post->[9], 'Annual report',                     '780 emb: title $a unchanged' );
+
+    # isnot(): gap-gate - ideal is British Columbia. Ministry ... .
+    isnt(
+        combined_string(@$post),
+        'British Columbia. Ministry of Provincial Secretary and Government Services. Annual report 0226-0883 (DLC)###80649039# (OCoLC)6270433',
+        '780 emb: still NOT reconstructed to the ISBD ideal (gap open)'
+    );
+    check_combined( $post, $pre, '780 emb: combined string identical' );
+}
+
 done_testing();
