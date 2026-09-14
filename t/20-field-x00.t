@@ -44,6 +44,98 @@ sub check_combined {
 }
 
 {
+    # Doc: Current: 100 1# $a El Saffar, Ruth S., $d 1941-
+    # render: [doc §5.2 #2] 100 ## $a El Saffar $h Ruth S. $d 1941-
+    my $r = _decorate( '100', 'postfix', a => 'El Saffar', h => 'Ruth S.', d => '1941-' );
+    is( $r->[1], 'El Saffar, ', '100: $a before $h (inverted name)' );
+    is( $r->[3], 'Ruth S., ',   '100: $h before $d' );
+    is( $r->[5], '1941-',       '100: $d last' );
+    check_combined(
+        '100', '100: $a+$h+$d',
+        a => 'El Saffar',
+        h => 'Ruth S.',
+        d => '1941-'
+    )
+}
+
+{
+    # Doc: Current: 100 1# $a P-Orridge, Genesis, $d 1950-
+    # render: [doc §5.2 #3] 100 ## $a P-Orridge $h Genesis $d 1950-
+    my $r = _decorate( '100', 'postfix', a => 'P-Orridge', h => 'Genesis', d => '1950-' );
+    is( $r->[1], 'P-Orridge, ', '100: $a before $h' );
+    is( $r->[3], 'Genesis, ',   '100: $h before $d' );
+    is( $r->[5], '1950-',       '100: $d last' );
+    check_combined(
+        '100', '100: $a+$h+$d (P-Orridge)',
+        a => 'P-Orridge',
+        h => 'Genesis',
+        d => '1950-'
+    )
+}
+
+{
+    # Doc: Current: 100 1# $a Blackbeard, Author of, $d 1777-1852.
+    # render: [doc §5.2 #4] 100 ## $a Blackbeard $h Author of $d 1777-1852
+    my $r = _decorate( '100', 'postfix', a => 'Blackbeard', h => 'Author of', d => '1777-1852' );
+    is( $r->[1], 'Blackbeard, ', '100: $a before $h' );
+    is( $r->[3], 'Author of, ',  '100: $h before $d' );
+    is( $r->[5], '1777-1852',    '100: $d last' );
+    check_combined(
+        '100', '100: $a+$h+$d (Blackbeard)',
+        a => 'Blackbeard',
+        h => 'Author of',
+        d => '1777-1852'
+    )
+}
+
+{
+    # Doc: Current: 100 1# $a Walle-Lissnijder, $c van de.
+    # render: [doc §5.2 #6] 100 ## $a Walle-Lissnijder $c van de
+    my $r = _decorate( '100', 'postfix', a => 'Walle-Lissnijder', c => 'van de' );
+    is( $r->[1], 'Walle-Lissnijder, ', '100: $a before $c (terminal $c)' );
+    is( $r->[3], 'van de',             '100: $c last (no separator after)' );
+    check_combined(
+        '100', '100: $a+$c (terminal)',
+        a => 'Walle-Lissnijder',
+        c => 'van de'
+    )
+}
+
+{
+    # Doc: Current: 100 0# $a Claude, $c d'Abbeville, père, $d d. 1632.
+    # render: [doc §5.2 #8] 100 ## $a Claude $c d'Abbeville, père $d d. 1632
+    my $r = _decorate( '100', 'postfix',
+        a => 'Claude', c => "d'Abbeville, père", d => 'd. 1632' );
+    is( $r->[1], 'Claude, ',          '100: $a before $c' );
+    is( $r->[3], "d'Abbeville, père, ", '100: $c before $d' );
+    is( $r->[5], 'd. 1632',           '100: $d last' );
+    check_combined(
+        '100', '100: $a+$c+$d (Claude)',
+        a => 'Claude',
+        c => "d'Abbeville, père",
+        d => 'd. 1632'
+    )
+}
+
+{
+    # Doc: Current: 100 1# $a Beethoven, Ludwig van, $d 1770-1827 $c (Spirit)
+    # render: [doc §5.2 #10] 100 ## $a Beethoven $h Ludwig van $d 1770-1827 $g Spirit
+    my $r = _decorate( '100', 'postfix',
+        a => 'Beethoven', h => 'Ludwig van', d => '1770-1827', g => 'Spirit' );
+    is( $r->[1], 'Beethoven, ', '100: $a before $h' );
+    is( $r->[3], 'Ludwig van, ', '100: $h before $d' );
+    is( $r->[5], '1770-1827',   '100: $d unchanged (g not in pchrs)' );
+    is( $r->[7], ' (Spirit)',   '100: $g wrapped in parens (spec 5.2)' );
+    check_combined(
+        '100', '100: $a+$h+$d+$g',
+        a => 'Beethoven',
+        h => 'Ludwig van',
+        d => '1770-1827',
+        g => 'Spirit'
+    )
+}
+
+{
     # render: [doc Appendix - derived] 100 ## $a Morgan, Robert $d 1944-
     my $r = _decorate( '100', 'postfix', a => 'Morgan, Robert', d => '1944-' );
     is( $r->[1], 'Morgan, Robert, ', '100: $a before $d' );
@@ -119,7 +211,7 @@ sub check_combined {
 
 {
     # Doc: Current: 100 1# $a Beeton, $c Mrs. $q (Isabella Mary), $d 1836-1865.
-    # render: [doc §5.2] 100 ## $a Beeton $c Mrs. $q Isabella Mary $d 1836-1865
+    # render: [doc §5.2 #14] 100 ## $a Beeton $c Mrs. $q Isabella Mary $d 1836-1865
     my $r = _decorate(
         '100', 'postfix',
         a => 'Beeton',
@@ -142,7 +234,7 @@ sub check_combined {
 
 {
     # Doc: Current: 100 0# $a H. D. $q (Hilda Doolittle), $d 1886-1961.
-    # render: [doc §5.2] 100 ## $a H. D. $q Hilda Doolittle $d 1886-1961
+    # render: [doc §5.2 #13] 100 ## $a H. D. $q Hilda Doolittle $d 1886-1961
     my $r = _decorate(
         '100', 'postfix',
         a => 'H. D.',
@@ -161,28 +253,57 @@ sub check_combined {
 }
 
 {
-    # render: 100 ## $a Charles Edward $b III $d 1720-1788
+    # LoC Current: 100 0# $a John $b II Comnenus, $c Emperor of the East, $d 1088-1143.
+    # render: [LoC - derived] 100 ## $a John $b II Comnenus $c Emperor of the East $d 1088-1143
+    # $b is the numeration -> N/A per §5.2 (no '. ' after $a).
     my $r = _decorate(
         '100', 'postfix',
-        a => 'Charles Edward',
-        b => 'III',
-        d => '1720-1788'
+        a => 'John',
+        b => 'II Comnenus',
+        c => 'Emperor of the East',
+        d => '1088-1143'
     );
-    is( $r->[1], 'Charles Edward. ', '100: $a before $b' );
-    is( $r->[3], 'III, ',            '100: $b before $d' );
-    is( $r->[5], '1720-1788',        '100: $d last' );
+    is( $r->[1], 'John',                 '100: $a unchanged ($b numeration, N/A)' );
+    is( $r->[3], 'II Comnenus, ',        '100: $b before $c' );
+    is( $r->[5], 'Emperor of the East, ', '100: $c before $d' );
+    is( $r->[7], '1088-1143',            '100: $d last' );
     check_combined(
-        '100', '100: $a+$b+$d',
-        a => 'Charles Edward',
-        b => 'III',
-        d => '1720-1788'
+        '100', '100 LoC: John II Comnenus',
+        a => 'John',
+        b => 'II Comnenus',
+        c => 'Emperor of the East',
+        d => '1088-1143'
+    )
+}
+
+{
+    # LoC Current: 100 0# $a John Paul $b II, $c Pope, $d 1920-
+    # render: [LoC - derived] 100 ## $a John Paul $b II $c Pope $d 1920-
+    # $b is the numeration -> N/A per §5.2 (no '. ' after $a).
+    my $r = _decorate(
+        '100', 'postfix',
+        a => 'John Paul',
+        b => 'II',
+        c => 'Pope',
+        d => '1920-'
+    );
+    is( $r->[1], 'John Paul',      '100: $a unchanged ($b numeration, N/A)' );
+    is( $r->[3], 'II, ',           '100: $b before $c' );
+    is( $r->[5], 'Pope, ',         '100: $c before $d' );
+    is( $r->[7], '1920-',          '100: $d last' );
+    check_combined(
+        '100', '100 LoC: John Paul II',
+        a => 'John Paul',
+        b => 'II',
+        c => 'Pope',
+        d => '1920-'
     )
 }
 
 # ===== 700 =====
 {
     # Doc: Current: 700 1# $a Salamín C., Marcel A.
-    # render: [doc §5.2] 700 ## $a Salamín C., Marcel A.
+    # render: [doc §5.2 - derived] 700 ## $a Salamín C., Marcel A.
     my $r = _decorate( '700', 'postfix', a => 'Salamín C., Marcel A.' );
     is( $r->[1], 'Salamín C., Marcel A.', '700: $a alone' );
     check_combined( '700', '700: $a alone', a => 'Salamín C., Marcel A.' )
@@ -190,7 +311,7 @@ sub check_combined {
 
 {
     # Doc: Current: 700 0# $a Charles Edward, $c Prince, grandson of James II, King of England, $d 1720-1788.
-# render: [doc §5.2] 700 ## $a Charles Edward $c Prince, grandson of James II, King of England $d 1720-1788
+# render: [doc §5.2 #7] 700 ## $a Charles Edward $c Prince, grandson of James II, King of England $d 1720-1788
     my $r = _decorate(
         '700', 'postfix',
         a => 'Charles Edward',
@@ -292,6 +413,19 @@ sub check_combined {
         x => 'E',
         y => '17',
         z => 'E'
+    )
+}
+
+{
+    # Doc: Current: 600 30 $a Norfolk, Dukes of.
+    # render: [doc §5.2 #5] 600 ## $a Norfolk $h Dukes of
+    my $r = _decorate( '600', 'postfix', a => 'Norfolk', h => 'Dukes of' );
+    is( $r->[1], 'Norfolk, ', '600: $a before $h (inverted name)' );
+    is( $r->[3], 'Dukes of',  '600: $h last' );
+    check_combined(
+        '600', '600: $a+$h',
+        a => 'Norfolk',
+        h => 'Dukes of'
     )
 }
 
@@ -546,6 +680,28 @@ sub check_combined {
         d => '1564-1616',
         t => 'Works',
         l => 'German'
+    )
+}
+
+# repeated $g (constructed) -> single paren group (a : b)
+# x00 $g is the name-portion qualifier; two adjacent $g share one paren pair
+# via _decorate_paren_group_pre(['g']) + the gg compound key.
+{
+    # render: 100 ## $a Aristotle $g Greek philosopher $g student of Plato
+    my $r = _decorate(
+        '100', 'postfix',
+        a => 'Aristotle',
+        g => 'Greek philosopher',
+        g => 'student of Plato'
+    );
+    is( $r->[1], 'Aristotle',          '100: repeated $g - $a unchanged' );
+    is( $r->[3], ' (Greek philosopher : ', '100: repeated $g - first $g opens group + ": " via gg' );
+    is( $r->[5], 'student of Plato)',   '100: repeated $g - last $g closes paren (a : b)' );
+    check_combined(
+        '100', '100 repeated $g: (a : b)',
+        a => 'Aristotle',
+        g => 'Greek philosopher',
+        g => 'student of Plato'
     )
 }
 

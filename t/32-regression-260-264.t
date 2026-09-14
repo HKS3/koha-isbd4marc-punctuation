@@ -31,7 +31,7 @@ ok( defined $rules_260, '260 rules loaded' );
 # --- Example 10: Multiple $b with $c ---
 # Doc: Current: 260 ## $a Washington, D.C. : $b U.S. Dept... : $b For sale by... , $c 1981
 {
-    # render: [doc §4.12] 260 ## $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $b For sale by the Supt. of Docs. U.S. G.P.O. $c 1981
+    # render: [doc §4.12 #1] 260 ## $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $b For sale by the Supt. of Docs. U.S. G.P.O. $c 1981
     my $field = make_field( '260', ' ', ' ',
         a => 'Washington, D.C.',
         b => 'U.S. Dept. of Agriculture, Forest Service',
@@ -55,11 +55,11 @@ ok( defined $rules_260, '260 rules loaded' );
 }
 
 # --- Example 11: Multiple $a with $b and $c ---
-# Doc: Current: 260 ## $a New York ; $a Berlin : $b Springer Verlag , $c 1977
+# Doc: Current: 260 ## $a New York ; $a Berlin : $b Springer Verlag, $c 1977.
 # Note: " ; " is appended to the FIRST $a via the COMPOUND pchrs key aa
 # (postfix), and moves to the second $a only in prefix mode.
 {
-    # render: [doc §4.12] 260 ## $a New York $a Berlin $b Springer Verlag $c 1977
+    # render: [doc §4.12 #2] 260 ## $a New York $a Berlin $b Springer Verlag $c 1977
     my $field = make_field( '260', ' ', ' ',
         a => 'New York',
         a => 'Berlin',
@@ -83,11 +83,11 @@ ok( defined $rules_260, '260 rules loaded' );
 }
 
 # --- Example 12: Interleaved $a/$b ---
-# Doc: Current: 260 ## $a Paris : $b Gauthier-Villars ; $a Chicago : $b University of Chicago Press , $c 1955
+# Doc: Current: 260 ## $a Paris : $b Gauthier-Villars ; $a Chicago : $b University of Chicago Press, $c 1955.
 # Note: " ; " is appended to $b when followed by $a (compound ba) in postfix,
 # and moves to the second $a (prepended) in prefix mode.
 {
-    # render: [doc §4.12] 260 ## $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955
+    # render: [doc §4.12 #3] 260 ## $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955
     my $field = make_field( '260', ' ', ' ',
         a => 'Paris',
         b => 'Gauthier-Villars',
@@ -116,7 +116,7 @@ ok( defined $rules_260, '260 rules loaded' );
 # --- Example 13: $q for address (between $a and $b) ---
 # Doc: Current: 260 ## $a Washington, D.C. ($q 1649 K St....) : $b Wider Opportunities... , $c 1979
 {
-    # render: [doc §4.12] 260 ## $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979
+    # render: [doc §4.12 #4] 260 ## $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979
     my $field = make_field( '260', ' ', ' ',
         a => 'Washington, D.C.',
         q => '1649 K St., N.W., Washington 20006',
@@ -140,9 +140,9 @@ ok( defined $rules_260, '260 rules loaded' );
 }
 
 # --- Example 16: $3 (materials specified) ---
-# Doc: Current: 260 3# $3 June 1993-: $a London : $b Elle
+# Doc: Current: 260 3# $3 June 1993- : $a London : $b Elle
 {
-    # render: [doc §4.12] 260 3# $3 June 1993- $a London $b Elle
+    # render: [doc §4.12 #7] 260 3# $3 June 1993- $a London $b Elle
     my $field = make_field( '260', '3', '#',
         '3' => 'June 1993-',
         a   => 'London',
@@ -168,8 +168,9 @@ my $rules_264 = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET)->{264}
 ok( defined $rules_264, '264 rules loaded' );
 
 # --- Example 17: Basic $a/$b/$c ---
+# Doc: Current: 264 #1 $a Washington, D.C. : $b U.S. Dept. of Agriculture, Forest Service, $c 1981.
 {
-    # render: 264 #1 $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $c 1981
+    # render: [doc §4.13 #1] 264 #1 $a Washington, D.C. $b U.S. Dept. of Agriculture, Forest Service $c 1981
     my $field = make_field( '264', '#', '1',
         a => 'Washington, D.C.',
         b => 'U.S. Dept. of Agriculture, Forest Service',
@@ -190,10 +191,11 @@ ok( defined $rules_264, '264 rules loaded' );
 }
 
 # --- Example 18: Multiple $a ---
+# Doc: Current: 264 #1 $a New York ; $a Berlin : $b Springer Verlag, $c 1977.
 # " ; " is appended to the FIRST $a via the COMPOUND key aa (postfix),
 # moving to the second $a only in prefix mode.
 {
-    # render: 264 #1 $a New York $a Berlin $b Springer Verlag $c 1977
+    # render: [doc §4.13 #2] 264 #1 $a New York $a Berlin $b Springer Verlag $c 1977
     my $field = make_field( '264', '#', '1',
         a => 'New York',
         a => 'Berlin',
@@ -217,8 +219,9 @@ ok( defined $rules_264, '264 rules loaded' );
 }
 
 # --- Example 19: Interleaved $a/$b ---
+# Doc: Current: 264 #1 $a Paris : $b Gauthier-Villars ; $a Chicago : $b University of Chicago Press, $c 1955.
 {
-    # render: 264 #1 $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955
+    # render: [doc §4.13 #3] 264 #1 $a Paris $b Gauthier-Villars $a Chicago $b University of Chicago Press $c 1955
     my $field = make_field( '264', '#', '1',
         a => 'Paris',
         b => 'Gauthier-Villars',
@@ -245,8 +248,9 @@ ok( defined $rules_264, '264 rules loaded' );
 }
 
 # --- Example 20: $q for address ---
+# Doc: Current: 264 #1 $a Washington, D.C. (1649 K St., N.W., Washington 20006) : $b Wider Opportunities for Women, $c 1979.
 {
-    # render: 264 #1 $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979
+    # render: [doc §4.13 #4] 264 #1 $a Washington, D.C. $q 1649 K St., N.W., Washington 20006 $b Wider Opportunities for Women $c 1979
     my $field = make_field( '264', '#', '1',
         a => 'Washington, D.C.',
         q => '1649 K St., N.W., Washington 20006',
@@ -270,8 +274,10 @@ ok( defined $rules_264, '264 rules loaded' );
 }
 
 # --- Example 21: $3 (materials specified) ---
+# Doc: Current: 264 31 $3 June 1993- : $a London : $b Elle
+# (Note: identical to §4.12 #7, just field number 264 31 vs 260 3#.)
 {
-    # render: 264 31 $3 June 1993- $a London $b Elle
+    # render: [doc §4.13 #5] 264 31 $3 June 1993- $a London $b Elle
     my $field = make_field( '264', '3', '1',
         '3' => 'June 1993-',
         a   => 'London',
@@ -289,6 +295,52 @@ ok( defined $rules_264, '264 rules loaded' );
     is( $result_pr[5], ' : Elle',       '264 ex21 prefix: $b gets " : " prepended' );
 
     check_combined( \@result, \@result_pr, '264 ex21: combined string identical' );
+}
+
+# --- 264 $r (parallel data, §4.5) ---
+# Constructed: $r fires ' = ' on the preceding $b (no doc example for 264 $r).
+{
+    # render: 264 #1 $a London $b Arts Council $r London Arts Council
+    my $field = make_field( '264', '#', '1',
+        a => 'London',
+        b => 'Arts Council',
+        r => 'London Arts Council',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_264, 'postfix' );
+    is( $result[1], 'London : ',          '264: $a gets " : " for $b' );
+    is( $result[3], 'Arts Council = ',    '264: $b gets " = " for $r' );
+    is( $result[5], 'London Arts Council', '264: $r unchanged (last sf)' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_264, 'prefix' );
+    is( $result_pr[1], 'London',          '264 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Arts Council', '264 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = London Arts Council', '264 prefix: $r gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '264: combined string identical ($r)' );
+}
+
+# --- 264 $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $b (no doc example for 264 $t).
+{
+    # render: 264 #1 $a London $b Arts Council $t Parallel publisher
+    my $field = make_field( '264', '#', '1',
+        a => 'London',
+        b => 'Arts Council',
+        t => 'Parallel publisher',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_264, 'postfix' );
+    is( $result[1], 'London : ',          '264: $a gets " : " for $b' );
+    is( $result[3], 'Arts Council = ',    '264: $b gets " = " for $t' );
+    is( $result[5], 'Parallel publisher', '264: $t unchanged (last sf)' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules_264, 'prefix' );
+    is( $result_pr[1], 'London',          '264 prefix: $a unchanged' );
+    is( $result_pr[3], ' : Arts Council', '264 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = Parallel publisher', '264 prefix: $t gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '264: combined string identical ($t)' );
 }
 
 done_testing();

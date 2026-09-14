@@ -20,7 +20,7 @@ ok( defined $rules_020, '020 rules loaded' );
 # --- Example 1: $a + $q (single qualifying info) ---
 # Doc: Current: 020 ## $a 9780060723804 $q (acid-free paper)
 {
-    # render: [doc §3.2] 020 ## $a 9780060723804 $q acid-free paper
+    # render: [doc §3.2 #1] 020 ## $a 9780060723804 $q acid-free paper
     my $field = make_field(
         '020', ' ', ' ',
         a => '9780060723804',
@@ -53,7 +53,7 @@ ok( defined $rules_020, '020 rules loaded' );
 # --- Example 2: $a + $q (single qualifying info, trade) ---
 # Doc: Current: 020 ## $a 9780060799748 $q (trade)
 {
-    # render: [doc §3.2] 020 ## $a 9780060799748 $q trade
+    # render: [doc §3.2 #2] 020 ## $a 9780060799748 $q trade
     my $field = make_field(
         '020', ' ', ' ',
         a => '9780060799748',
@@ -78,7 +78,7 @@ ok( defined $rules_020, '020 rules loaded' );
 # --- Example 3: $a + $q + $c (qualifying info + terms of availability) ---
 # Doc: Current: 020 ## $a 0717941728 $q (folded) : $c $0.45
 {
-    # render: [doc §3.2] 020 ## $a 0717941728 $q folded $c \$0.45
+    # render: [doc §3.2 #3] 020 ## $a 0717941728 $q folded $c \$0.45
     my $field = make_field(
         '020', ' ', ' ',
         a => '0717941728',
@@ -108,7 +108,7 @@ ok( defined $rules_020, '020 rules loaded' );
 # --- Example 4: $a + $q + $q + $c (two qualifying infos + terms) ---
 # Doc: Current: 020 ## $a 0914378260 $q (pbk. ; $q v. 1) : $c $5.00
 {
-    # render: [doc §3.2] 020 ## $a 0914378260 $q pbk. $q v. 1 $c \$5.00
+    # render: [doc §3.2 #4] 020 ## $a 0914378260 $q pbk. $q v. 1 $c \$5.00
     my $field = make_field(
         '020', ' ', ' ',
         a => '0914378260',
@@ -140,6 +140,66 @@ ok( defined $rules_020, '020 rules loaded' );
         '020 example 4 prefix: $c gets " : " prepended' );
 
     check_combined( \@result, \@result_pr, '020 example 4: combined string identical' );
+}
+
+# --- Example 5: $a + $q + $z + $c (qualifying info + canceled/invalid ISBN + terms) ---
+# Doc: Current: 020 ## $a 0877790019 $q (black leather) $z 0877780116 : $c $14.00
+{
+    # render: [doc §3.2 #5] 020 ## $a 0877790019 $q black leather $z 0877780116 $c \$14.00
+    my $field = make_field(
+        '020', ' ', ' ',
+        a => '0877790019',
+        q => 'black leather',
+        z => '0877780116',
+        c => '$14.00',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules_020, 'postfix' );
+    is( $result[1], '0877790019',      '020 example 5 postfix: $a unchanged' );
+    is( $result[3], '(black leather)', '020 example 5 postfix: $q wrapped in ()' );
+    is( $result[5], '0877780116 : ',
+        '020 example 5 postfix: $z unchanged but gets " : " for $c' );
+    is( $result[7], '$14.00', '020 example 5 postfix: $c unchanged (last sf)' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules_020, 'prefix' );
+    is( $result_pr[1], '0877790019',      '020 example 5 prefix: $a unchanged' );
+    is( $result_pr[3], '(black leather)', '020 example 5 prefix: $q wrapped in ()' );
+    is( $result_pr[5], '0877780116',      '020 example 5 prefix: $z unchanged' );
+    is( $result_pr[7], ' : $14.00',
+        '020 example 5 prefix: $c gets " : " prepended' );
+
+    check_combined( \@result, \@result_pr, '020 example 5: combined string identical' );
+}
+
+# --- Example 6: $c + $q only, no $a (qualifying info + terms, no ISBN) ---
+# Doc: Current: 020 ## $c $4.95 $q (lib. bdg.)
+# NOTE: a leading $c gets NO ' : ' prefix - the colon only separates $c from a
+#       PRECEDING subfield, so '020 ## $c $4.95' stays just '$4.95'.
+{
+    # render: [doc §3.2 #6] 020 ## $c \$4.95 $q lib. bdg.
+    my $field = make_field(
+        '020', ' ', ' ',
+        c => '$4.95',
+        q => 'lib. bdg.',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules_020, 'postfix' );
+    is( $result[1], '$4.95',       '020 example 6 postfix: leading $c unchanged (no colon)' );
+    is( $result[3], '(lib. bdg.)', '020 example 6 postfix: $q wrapped in ()' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules_020, 'prefix' );
+    is( $result_pr[1], '$4.95',       '020 example 6 prefix: leading $c unchanged (no colon)' );
+    is( $result_pr[3], '(lib. bdg.)', '020 example 6 prefix: $q wrapped in ()' );
+
+    check_combined( \@result, \@result_pr, '020 example 6: combined string identical' );
 }
 
 # --- Edge case: $a alone ---

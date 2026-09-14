@@ -41,12 +41,34 @@ my @testfiles = @ARGV;
 # --- Collect (field_tag => [ marker, ... ]) per file, preserving order ---
 my @sections;    # each: { tag, markers => [ [file, marker], ... ] }
 my %index;       # tag -> section index
+my @not_automated;   # each: { tag, type, reason, marker, file }
 
 for my $file (@testfiles) {
     open my $fh, '<', $file or die "Cannot read $file: \$!\n";
     while ( my $line = <$fh> ) {
         next unless $line =~ /^\s*#\s*render:/;
         my $marker = $line;
+
+        # NOT-HANDLED / DECISION markers have no render body (no field data
+        # after the [doc...] token) - they only document a gap. Route them to
+        # a separate list and emit a "Not automated" section instead of trying
+        # to render/parse them.
+        if ( $marker =~ /\[(?:doc|LoC)\b[^\]]*\b(?:NOT\s+HANDLED|DECISION)\b[^\]]*\]/i ) {
+            my ($tag)   = $marker =~ /render:\s*(?:\[[^\]]*\]\s*)?(\d{3})\b/;
+            $tag = '' unless defined $tag;
+            my $type = ( $marker =~ /\bDECISION\b/i ) ? 'DECISION' : 'NOT HANDLED';
+            my ($reason) = $marker =~ /-\s*(?:NOT\s+HANDLED|DECISION):\s*([^\]]*)\]/i;
+            $reason = '' unless defined $reason;
+            push @not_automated, {
+                tag    => $tag,
+                type   => $type,
+                reason => ( defined $reason ? $reason : '' ),
+                marker => $marker,
+                file   => $file,
+            };
+            next;
+        }
+
         # Optional provenance token ([doc ...] or [LoC ...]) precedes the tag.
         my ($tag) = $marker =~ /render:\s*(?:\[(?:doc|LoC)\b[^\]]*\]\s*)?(\d{3})\b/ or next;
         $tag =~ s/\D//g;    # defensive
@@ -188,6 +210,32 @@ for my $section (@sections) {
         push @md, "```";
         push @md, "  $combined";
         push @md, "```";
+        push @md, '';
+    }
+}
+
+# --- Not-automated section: NOT-HANDLED / DECISION markers (no render body) ---
+# These document gaps/kept-decisions rather than implemented punctuation, so
+# they are listed (tag + type + reason) and NOT rendered.
+if (@not_automated) {
+    push @md, '## Not automated';
+    push @md, '';
+    push @md,
+        'These cases are documented in the suite with a `NOT HANDLED` / ' .
+        '`DECISION` marker (no render body): they are either genuine gaps ' .
+        'we do not automate, or kept decisions where our output is already ' .
+        'ISBD-acceptable. They are NOT included in the rendered examples above.';
+    push @md, '';
+
+    # Group by tag, numeric order; keep original (file) order within a tag.
+    my %bytag;
+    push @{ $bytag{ $_->{tag} } }, $_ for @not_automated;
+    for my $tag ( sort { $a <=> $b } keys %bytag ) {
+        push @md, "### Field $tag";
+        push @md, '';
+        for my $na ( @{ $bytag{$tag} } ) {
+            push @md, "- **$na->{type}**: $na->{reason}";
+        }
         push @md, '';
     }
 }

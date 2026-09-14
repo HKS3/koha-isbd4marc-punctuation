@@ -41,7 +41,7 @@ note( "Rule set under test: $SET" );
 my $R = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET);
 
 # --- all 15 tags are defined, canonical + aliases ---
-my @tags = qw(760 761 762 765 767 770 772 773 774 775 776 777 780 785 786 787);
+my @tags = qw(760 762 765 767 770 772 773 774 775 776 777 780 785 786 787);
 for my $t (@tags) {
     ok( defined $R->{$t}, "$t rules defined" );
 }
@@ -66,7 +66,7 @@ is( $R->{760}{cb_pre},
     'Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_display_text_pre',
     '760 $i display-text wired to the shared callback string'
 );
-for my $t (qw(761 762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
+for my $t (qw(762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
     is( $R->{$t}{use_rules}, '760', "$t aliases 760 (identical rule table)" );
 }
 
@@ -75,7 +75,7 @@ for my $t (qw(761 762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
 # =====================================================================
 # Doc: Current: 775 0# $a Mellor, Alec. $t Strange masonic stories $e eng
 {
-    # render: [doc §4.35] 775 0# $a Mellor, Alec $t Strange masonic stories $e eng
+    # render: [doc §4.35 #1] 775 0# $a Mellor, Alec $t Strange masonic stories $e eng
     my $field = make_field( '775', '0', '#', a => 'Mellor, Alec', t => 'Strange masonic stories', e => 'eng' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{775}, 'postfix' );
@@ -98,7 +98,7 @@ for my $t (qw(761 762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
 #   design, implement, and interpret an employee survey. $d New York :
 #   AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412
 {
-    # render: [doc §4.35] 776 08 $i Print version $a McConnell, John H $t How to design, implement, and interpret an employee survey $d New York : AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412
+    # render: [doc §4.35 #2] 776 08 $i Print version $a McConnell, John H $t How to design, implement, and interpret an employee survey $d New York : AMACOM, c2003 $z 0814407099 $w (DLC)##2002153914# $w (OCoLC)51020412
     my $field = make_field( '776', '0', '8', i => 'Print version', a => 'McConnell, John H', t => 'How to design, implement, and interpret an employee survey', d => 'New York : AMACOM, c2003', z => '0814407099', w => '(DLC)##2002153914#', w => '(OCoLC)51020412' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{776}, 'postfix' );
@@ -129,7 +129,7 @@ for my $t (qw(761 762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
 #   and Government Services. $t Annual report $x 0226-0883 $w (DLC)###80649039#
 #   $w (OCoLC)6270433
 {
-    # render: [doc §4.35] 780 07 $a British Columbia. Ministry of Provincial Secretary and Government Services $t Annual report $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433
+    # render: [doc §4.35 #3] 780 07 $a British Columbia. Ministry of Provincial Secretary and Government Services $t Annual report $x 0226-0883 $w (DLC)###80649039# $w (OCoLC)6270433
     my $field = make_field( '780', '0', '7', a => 'British Columbia. Ministry of Provincial Secretary and Government Services', t => 'Annual report', x => '0226-0883', w => '(DLC)###80649039#', w => '(OCoLC)6270433' );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{780}, 'postfix' );
@@ -209,23 +209,10 @@ for my $t (qw(761 762 765 767 770 772 773 774 775 776 777 780 785 786 787)) {
 }
 
 # =====================================================================
-# The remaining aliases (761/762/765/767/770/772/773/774/777/785/786):
+# The remaining aliases (762/765/767/770/772/773/774/777/785/786):
 # representative constructed data per tag — all share the identical §4.35
 # table, so each just exercises the content-subfield '. ' + $i ':' rules.
 # =====================================================================
-
-# 761 Subseries Entry
-{
-    # render: 761 ## $a Hauptserie. Abt. A $t Monographien
-    my $field = make_field( '761', ' ', ' ', a => 'Hauptserie. Abt. A', t => 'Monographien' );
-    my @r = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{761}, 'postfix' );
-    is( $r[1], 'Hauptserie. Abt. A. ', '761 postfix: $a gets ". " (from following $t)' );
-    is( $r[3], 'Monographien', '761 postfix: $t (last) unchanged' );
-    my @rp = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{761}, 'prefix' );
-    is( $rp[1], 'Hauptserie. Abt. A', '761 prefix: $a unchanged' );
-    is( $rp[3], '. Monographien', '761 prefix: $t gets ". " prepended' );
-    check_combined( \@r, \@rp, '761: combined string identical' );
-}
 
 # 762 Subseries Entry
 {

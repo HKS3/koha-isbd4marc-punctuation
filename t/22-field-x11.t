@@ -53,7 +53,7 @@ sub check_combined {
 # ex 1: $n + $d within one paren group
 {
     # Doc: Current: 111 2# $a Brussels Hemoglobin Symposium $n (1st : $d 1983)
-    # render: [doc §5.4] 111 2# $a Brussels Hemoglobin Symposium $n 1st $d 1983
+    # render: [doc §5.4 #1] 111 2# $a Brussels Hemoglobin Symposium $n 1st $d 1983
     my $r = _decorate(
         '111', 'postfix',
         a => 'Brussels Hemoglobin Symposium',
@@ -75,7 +75,7 @@ sub check_combined {
 # ex 2: $g qualifier + $d/$c group
 {
     # Doc: Current: 111 2# $a Governor's Conference on Aging (N.Y.) $d (1982 : $c Albany, N.Y.)
-# render: [doc §5.4] 111 2# $a Governor's Conference on Aging $g N.Y. $d 1982 $c Albany, N.Y.
+# render: [doc §5.4 #2] 111 2# $a Governor's Conference on Aging $g N.Y. $d 1982 $c Albany, N.Y.
     my $r = _decorate(
         '111', 'postfix',
         a => "Governor's Conference on Aging",
@@ -99,7 +99,7 @@ sub check_combined {
 # ex 4: $g + $n/$d/$c full group
 {
     # Doc: Current: 111 2# $a Military History Symposium (U.S.) $n (9th : $d 1980 : $c United States Air Force Academy)
-# render: [doc §5.4] 111 2# $a Military History Symposium $g U.S. $n 9th $d 1980 $c United States Air Force Academy
+# render: [doc §5.4 #4] 111 2# $a Military History Symposium $g U.S. $n 9th $d 1980 $c United States Air Force Academy
     my $r = _decorate(
         '111', 'postfix',
         a => 'Military History Symposium',
@@ -129,7 +129,7 @@ sub check_combined {
 # $e subordinate unit after a $n/$d/$c group (uses '. ' per meeting spec)
 {
     # Doc: Current: 111 2# $a Olympic Games $n (21st : $d 1976 : $c Montréal, Québec). $e Organizing Committee. $e Arts and Culture Program. $e Visual Arts Section.
-# render: [doc §5.4] 111 2# $a Olympic Games $n 21st $d 1976 $c Montréal, Québec $e Organizing Committee $e Arts and Culture Program $e Visual Arts Section
+# render: [doc §5.4 - derived] 111 2# $a Olympic Games $n 21st $d 1976 $c Montréal, Québec $e Organizing Committee $e Arts and Culture Program $e Visual Arts Section
     my $r = _decorate(
         '111', 'postfix',
         a => 'Olympic Games',
@@ -259,7 +259,7 @@ sub check_combined {
 # ===== 711 (Added Entry - Meeting Name) - aliases 111 =====
 {
     # Doc: Current: 711 2# $a Theatertreffen Berlin (Festival)
-    # render: [doc §5.4] 711 2# $a Theatertreffen Berlin $g Festival
+    # render: [doc §5.4 #3] 711 2# $a Theatertreffen Berlin $g Festival
     my $r = _decorate(
         '711', 'postfix',
         a => 'Theatertreffen Berlin',
@@ -514,6 +514,27 @@ sub check_combined {
         t => 'Proceedings',
         l => 'English',
         v => 'no. 3'
+    )
+}
+
+# repeated $g (constructed) -> single paren group (a : b); stays separate
+# from the n/d/c meeting run (two independent parens).
+{
+    # render: 111 ## $a Conference $g International $g Invitational
+    my $r = _decorate(
+        '111', 'postfix',
+        a => 'Conference',
+        g => 'International',
+        g => 'Invitational'
+    );
+    is( $r->[1], 'Conference',                    '111: repeated $g - $a unchanged' );
+    is( $r->[3], ' (International : ',            '111: repeated $g - first opens group + ": " via gg' );
+    is( $r->[5], 'Invitational)',                 '111: repeated $g - last closes paren (a : b)' );
+    check_combined(
+        '111', '111 repeated $g: (a : b)',
+        a => 'Conference',
+        g => 'International',
+        g => 'Invitational'
     )
 }
 

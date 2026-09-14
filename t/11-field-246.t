@@ -171,4 +171,135 @@ ok( defined $rules, '246 rules loaded' );
     check_combined( \@result, \@result_pr, '246: combined string identical' );
 }
 
+# --- Test: $n (number of part) ---
+# Constructed: $n fires '. ' on the preceding $a (key = following subfield).
+{
+    # render: 246 1# $a Rock mechanics $n Pt. 1
+    my $field = make_field(
+        '246', '1', ' ',
+        a => 'Rock mechanics',
+        n => 'Pt. 1',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'Rock mechanics. ', '246: $a gets ". " for $n' );
+    is( $result[3], 'Pt. 1',            '246: $n (last) unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'Rock mechanics', '246 prefix: $a unchanged' );
+    is( $result_pr[3], '. Pt. 1',        '246 prefix: $n gets ". " prepended' );
+
+    check_combined( \@result, \@result_pr, '246: combined string identical' );
+}
+
+# --- Test: $p (name of part) ---
+# Constructed: $p fires ', ' on the preceding $n.
+{
+    # render: 246 1# $a Rock mechanics $n Pt. 1 $p Section A
+    my $field = make_field(
+        '246', '1', ' ',
+        a => 'Rock mechanics',
+        n => 'Pt. 1',
+        p => 'Section A',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'Rock mechanics. ', '246: $a gets ". " for $n' );
+    is( $result[3], 'Pt. 1, ',          '246: $n gets ", " for $p' );
+    is( $result[5], 'Section A',        '246: $p (last) unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'Rock mechanics', '246 prefix: $a unchanged' );
+    is( $result_pr[3], '. Pt. 1',        '246 prefix: $n gets ". " prepended' );
+    is( $result_pr[5], ', Section A',    '246 prefix: $p gets ", " prepended' );
+
+    check_combined( \@result, \@result_pr, '246: combined string identical' );
+}
+
+# --- Test: $q (alternative title) ---
+# Constructed: $q fires ', ' on the preceding $a.
+{
+    # render: 246 1# $a Under the hill $q The story of Venus
+    my $field = make_field(
+        '246', '1', ' ',
+        a => 'Under the hill',
+        q => 'The story of Venus',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'Under the hill, ', '246: $a gets ", " for $q' );
+    is( $result[3], 'The story of Venus', '246: $q (last) unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'Under the hill',   '246 prefix: $a unchanged' );
+    is( $result_pr[3], ', The story of Venus', '246 prefix: $q gets ", " prepended' );
+
+    check_combined( \@result, \@result_pr, '246: combined string identical' );
+}
+
+# --- Test: $r (parallel title, §4.5) ---
+# Constructed: $r fires ' = ' on the preceding $a (mirrors 245 ex2).
+{
+    # render: 246 1# $a Rock mechanics $r Felsmechanik
+    my $field = make_field(
+        '246', '1', ' ',
+        a => 'Rock mechanics',
+        r => 'Felsmechanik',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'Rock mechanics = ', '246: $a gets " = " for $r' );
+    is( $result[3], 'Felsmechanik',      '246: $r (last) unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'Rock mechanics', '246 prefix: $a unchanged' );
+    is( $result_pr[3], ' = Felsmechanik', '246 prefix: $r gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '246: combined string identical' );
+}
+
+# --- Test: $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $b (other title information).
+{
+    # render: 246 1# $a Rock mechanics $b subtitle $t Parallel subtitle
+    my $field = make_field(
+        '246', '1', ' ',
+        a => 'Rock mechanics',
+        b => 'subtitle',
+        t => 'Parallel subtitle',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'postfix' );
+    is( $result[1], 'Rock mechanics : ', '246: $a gets " : " for $b' );
+    is( $result[3], 'subtitle = ',       '246: $b gets " = " for $t' );
+    is( $result[5], 'Parallel subtitle', '246: $t (last) unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules, 'prefix' );
+    is( $result_pr[1], 'Rock mechanics', '246 prefix: $a unchanged' );
+    is( $result_pr[3], ' : subtitle',    '246 prefix: $b gets " : " prepended' );
+    is( $result_pr[5], ' = Parallel subtitle', '246 prefix: $t gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '246: combined string identical' );
+}
+
 done_testing();

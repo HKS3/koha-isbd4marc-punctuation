@@ -65,7 +65,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # Note: our output 'Equilibrium(Economics)' differs from the doc's
 # 'Equilibrium (Economics)' only by the known qualifier leading-space gap.
 {
-    # render: [doc §5.6] 650 ## $a Equilibrium $g Economics
+    # render: [doc §5.6 #4] 650 ## $a Equilibrium $g Economics
     my $field = make_field( '650', ' ', ' ', a => 'Equilibrium', g => 'Economics' );
 
     my @result =
@@ -104,7 +104,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 650 ex 3: inverted text $h + remaining text $j (doc §5.6 ex 1) ---
 # Doc: Current: 650 #0 $a Animals, Mythical, in art.
 {
-    # render: [doc §5.6] 650 ## $a Animals $h Mythical $j in art
+    # render: [doc §5.6 #1] 650 ## $a Animals $h Mythical $j in art
     my $field = make_field( '650', ' ', ' ', a => 'Animals', h => 'Mythical', j => 'in art' );
 
     my @result =
@@ -125,7 +125,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 650 ex 4: $h + $c + $d (doc §5.6 ex 5: Fredericksburg) ---
 # Doc: Current: 650 #0 $a Fredericksburg, Battle of, Fredericksburg, Va., 1862.
 {
-    # render: [doc §5.6] 650 ## $a Fredericksburg $h Battle of $c Fredericksburg, Va. $d 1862
+    # render: [doc §5.6 #5] 650 ## $a Fredericksburg $h Battle of $c Fredericksburg, Va. $d 1862
     my $field = make_field(
         '650', ' ', ' ',
         a => 'Fredericksburg',
@@ -151,12 +151,39 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
     check_combined( \@result, \@result_pr, '650 ex4: combined string identical' );
 }
 
+# --- 650 ex 4b: $c + $d (no $h) (doc §5.6 ex 6: San Francisco Earthquake) ---
+# Doc: Current: 650 #0 $a San Francisco Earthquake and Fire, Calif., 1906.
+# NOTE: the doc's trailing '.' is field-terminal (leader/18), not engine-injected.
+{
+    # render: [doc §5.6 #6] 650 ## $a San Francisco Earthquake and Fire $c Calif. $d 1906
+    my $field = make_field(
+        '650', ' ', ' ',
+        a => 'San Francisco Earthquake and Fire',
+        c => 'Calif.',
+        d => '1906',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'650'}, 'postfix' );
+    is( $result[1], 'San Francisco Earthquake and Fire, ', '650 ex4b postfix: $a ", " before $c' );
+    is( $result[3], 'Calif., ',                           '650 ex4b postfix: $c ", " before $d' );
+    is( $result[5], '1906',                               '650 ex4b postfix: $d final unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'650'}, 'prefix' );
+    is( $result_pr[1], 'San Francisco Earthquake and Fire', '650 ex4b prefix: $a unchanged' );
+    is( $result_pr[3], ', Calif.',                         '650 ex4b prefix: $c ", " prepended' );
+    is( $result_pr[5], ', 1906',                           '650 ex4b prefix: $d ", " prepended' );
+
+    check_combined( \@result, \@result_pr, '650 ex4b: combined string identical' );
+}
+
 # --- 650 ex 5: $d then N/A $x then $h (doc §5.6 ex 7: Korean War) ---
 # Doc: Current: 650 #0 $a Korean War, 1950-1953 $x Participation, American.
 # NOTE: our combined 'Korean War, 1950-1953Participation, American' has NO
 # space between $d and $x (N/A subdivision) — the known spacing gap.
 {
-    # render: [doc §5.6] 650 ## $a Korean War $d 1950-1953 $x Participation $h American
+    # render: [doc §5.6 #7] 650 ## $a Korean War $d 1950-1953 $x Participation $h American
     my $field = make_field(
         '650', ' ', ' ',
         a => 'Korean War',
@@ -185,7 +212,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 650 ex 6: $a keeps internal punctuation, $h gets ", " (doc §5.6 ex 2) ---
 # Doc: Current: 650 #0 $a Associations, institutions, etc., Foreign.
 {
-    # render: [doc §5.6] 650 ## $a Associations, institutions, etc. $h Foreign
+    # render: [doc §5.6 #2] 650 ## $a Associations, institutions, etc. $h Foreign
     my $field = make_field( '650', ' ', ' ', a => 'Associations, institutions, etc.', h => 'Foreign' );
 
     my @result =
@@ -199,6 +226,26 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
     is( $result_pr[3], ', Foreign',                        '650 ex6 prefix: $h ", " prepended' );
 
     check_combined( \@result, \@result_pr, '650 ex6: combined string identical' );
+}
+
+# --- 650 ex 6b: $h inverted text, no additional text (doc §5.6 ex 3: Canons) ---
+# Doc: Current: 650 #0 $a Canons, Cathedral, collegiate, etc.
+# NOTE: the doc's trailing '.' is field-terminal (leader/18), not engine-injected.
+{
+    # render: [doc §5.6 #3] 650 ## $a Canons $h Cathedral, collegiate, etc.
+    my $field = make_field( '650', ' ', ' ', a => 'Canons', h => 'Cathedral, collegiate, etc.' );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'650'}, 'postfix' );
+    is( $result[1], 'Canons, ',                    '650 ex6b postfix: $a ", " before $h' );
+    is( $result[3], 'Cathedral, collegiate, etc.', '650 ex6b postfix: $h final unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'650'}, 'prefix' );
+    is( $result_pr[1], 'Canons',                   '650 ex6b prefix: $a unchanged' );
+    is( $result_pr[3], ', Cathedral, collegiate, etc.', '650 ex6b prefix: $h ", " prepended' );
+
+    check_combined( \@result, \@result_pr, '650 ex6b: combined string identical' );
 }
 
 # --- 650 ex 7: LoC-derived — qualifier baked in $a, split to $g ---
@@ -353,7 +400,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # Doc: Current: 655 #7 $a Fantasy comedies (Motion pictures) $2 lcgft
 # NOTE: our 'Fantasy comedies(Motion pictures)' lacks the space before '('.
 {
-    # render: [doc §5.7] 655 ## $a Fantasy comedies $g Motion pictures $2 lcgft
+    # render: [doc §5.7 #1] 655 ## $a Fantasy comedies $g Motion pictures $2 lcgft
     my $field = make_field( '655', ' ', ' ', a => 'Fantasy comedies', g => 'Motion pictures', '2' => 'lcgft' );
 
     my @result =
@@ -371,10 +418,31 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
     check_combined( \@result, \@result_pr, '655 ex1: combined string identical' );
 }
 
+# --- 655 ex 1b: $g qualifier (doc §5.7 ex 2: Historical films and video) ---
+# Doc: Current: 655 #7 $a Historical films and video (Nonfiction) $2 mim
+{
+    # render: [doc §5.7 #2] 655 ## $a Historical films and video $g Nonfiction $2 mim
+    my $field = make_field( '655', ' ', ' ', a => 'Historical films and video', g => 'Nonfiction', '2' => 'mim' );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'655'}, 'postfix' );
+    is( $result[1], 'Historical films and video', '655 ex1b postfix: $a unchanged' );
+    is( $result[3], '(Nonfiction)',               '655 ex1b postfix: $g wrapped in parens' );
+    is( $result[5], 'mim',                        '655 ex1b postfix: $2 (N/A) unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'655'}, 'prefix' );
+    is( $result_pr[1], 'Historical films and video', '655 ex1b prefix: $a unchanged' );
+    is( $result_pr[3], '(Nonfiction)',               '655 ex1b prefix: $g wrapped in parens' );
+    is( $result_pr[5], 'mim',                        '655 ex1b prefix: $2 (N/A) unchanged' );
+
+    check_combined( \@result, \@result_pr, '655 ex1b: combined string identical' );
+}
+
 # --- 655 ex 2: $h inverted text (doc §5.7 ex: Poems) ---
 # Doc: Current: 655 #7 $a Poems, English $y 19th century. $2 rbgenr
 {
-    # render: [doc §5.7] 655 ## $a Poems $h English $y 19th century $2 rbgenr
+    # render: [doc §5.7 #6] 655 ## $a Poems $h English $y 19th century $2 rbgenr
     my $field = make_field( '655', ' ', ' ', a => 'Poems', h => 'English', y => '19th century', '2' => 'rbgenr' );
 
     my @result =
@@ -392,10 +460,30 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
     check_combined( \@result, \@result_pr, '655 ex2: combined string identical' );
 }
 
+# --- 655 ex 2b: $h inverted text, no N/A subdivisions (doc §5.7 ex: Historical fiction) ---
+# Doc: Current: 655 #4 $a Historical fiction, Japanese.
+# NOTE: the doc's trailing '.' is field-terminal (leader/18), not engine-injected.
+{
+    # render: [doc §5.7 #5] 655 ## $a Historical fiction $h Japanese
+    my $field = make_field( '655', ' ', ' ', a => 'Historical fiction', h => 'Japanese' );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'655'}, 'postfix' );
+    is( $result[1], 'Historical fiction, ', '655 ex2b postfix: $a ", " before $h' );
+    is( $result[3], 'Japanese',             '655 ex2b postfix: $h final unchanged' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'655'}, 'prefix' );
+    is( $result_pr[1], 'Historical fiction', '655 ex2b prefix: $a unchanged' );
+    is( $result_pr[3], ', Japanese',         '655 ex2b prefix: $h ", " prepended' );
+
+    check_combined( \@result, \@result_pr, '655 ex2b: combined string identical' );
+}
+
 # --- 655 ex 3: $g + N/A subdivisions (doc §5.7 ex: Signing patterns) ---
 # Doc: Current: 655 #7 $a Signing patterns (Printing) $z Germany $y 18th century. $2 rbpri
 {
-    # render: [doc §5.7] 655 ## $a Signing patterns $g Printing $z Germany $y 18th century $2 rbpri
+    # render: [doc §5.7 #3] 655 ## $a Signing patterns $g Printing $z Germany $y 18th century $2 rbpri
     my $field = make_field( '655', ' ', ' ',
         a => 'Signing patterns', g => 'Printing', z => 'Germany', y => '18th century', '2' => 'rbpri' );
 
@@ -444,7 +532,7 @@ is( $R->{'657'}{use_rules}, '655', '657 aliases 655' );
 # --- 656 ex 2: doc §5.7 ex (Plastic surgeons) — $g after N/A $z ---
 # Doc: Current: 656 #7 $a Plastic surgeons $z Los Angeles (Calif.) $2 <thesaurus code>
 {
-    # render: [doc §5.7] 656 ## $a Plastic surgeons $z Los Angeles $g Calif.
+    # render: [doc §5.7 #4] 656 ## $a Plastic surgeons $z Los Angeles $g Calif.
     my $field = make_field( '656', ' ', ' ', a => 'Plastic surgeons', z => 'Los Angeles', g => 'Calif.' );
 
     my @result =

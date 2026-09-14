@@ -18,9 +18,9 @@ my $rules_250 = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for($SET)->{250}
 ok( defined $rules_250, '250 rules loaded' );
 
 # --- Example 1: $a + $r (parallel edition) ---
-# Doc: Current: 250 ## $a Canadian ed. = Éd. canadienne.
+# Doc: Current: 250 ## $a Canadian ed. = $b Éd. canadienne.
 {
-    # render: [doc §4.9] 250 ## $a Canadian ed. $r Éd. canadienne
+    # render: [doc §4.9 #1] 250 ## $a Canadian ed. $r Éd. canadienne
     my $field = make_field(
         '250', ' ', ' ',
         a => 'Canadian ed.',
@@ -57,7 +57,7 @@ ok( defined $rules_250, '250 rules loaded' );
 # --- Example 2: $a + $c (statement of responsibility) ---
 # Doc: Current: 250 ## $a 3rd draft / $b edited by Paul Watson.
 {
-    # render: [doc §4.9] 250 ## $a 3rd draft $c edited by Paul Watson
+    # render: [doc §4.9 #2] 250 ## $a 3rd draft $c edited by Paul Watson
     my $field = make_field(
         '250', ' ', ' ',
         a => '3rd draft',
@@ -91,7 +91,7 @@ ok( defined $rules_250, '250 rules loaded' );
 # --- Example 3: $a + $c (edition with reviser) ---
 # Doc: Current: 250 ## $a 4th ed. / $b revised by J.G. Le Mesurier and E. McIntosh.
 {
-    # render: [doc §4.9] 250 ## $a 4th ed. $c revised by J.G. Le Mesurier and E. McIntosh
+    # render: [doc §4.9 #3] 250 ## $a 4th ed. $c revised by J.G. Le Mesurier and E. McIntosh
     my $field = make_field(
         '250', ' ', ' ',
         a => '4th ed.',
@@ -125,7 +125,7 @@ ok( defined $rules_250, '250 rules loaded' );
 # --- Example 4: $a + $c (edition with revisions note) ---
 # Doc: Current: 250 ## $a Rev. ed. / $b with revisions, an introduction, and a chapter on writing by E.B. White.
 {
-    # render: [doc §4.9] 250 ## $a Rev. ed. $c with revisions, an introduction, and a chapter on writing by E.B. White
+    # render: [doc §4.9 #4] 250 ## $a Rev. ed. $c with revisions, an introduction, and a chapter on writing by E.B. White
     my $field = make_field(
         '250', ' ', ' ',
         a => 'Rev. ed.',
@@ -213,6 +213,40 @@ ok( defined $rules_250, '250 rules loaded' );
     );
 
     check_combined( \@result, \@result_pr, '250: combined string identical ($a+$c+$d)' );
+}
+
+# --- Example 7: $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $a (mirrors ex1's $r; no doc
+# example for 250 $t).
+{
+    # render: 250 ## $a Canadian ed. $t parallel
+    my $field = make_field(
+        '250', ' ', ' ',
+        a => 'Canadian ed.',
+        t => 'parallel',
+    );
+
+    my @result =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules_250, 'postfix' );
+    is(
+        $result[1],
+        'Canadian ed. = ',
+        '250: $a gets " = " for $t'
+    );
+    is( $result[3], 'parallel', '250: $t unchanged (last sf)' );
+
+    my @result_pr =
+      Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field,
+        $rules_250, 'prefix' );
+    is( $result_pr[1], 'Canadian ed.', '250 prefix: $a unchanged' );
+    is(
+        $result_pr[3],
+        ' = parallel',
+        '250 prefix: $t gets " = " prepended'
+    );
+
+    check_combined( \@result, \@result_pr, '250: combined string identical ($a+$t)' );
 }
 
 done_testing();

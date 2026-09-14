@@ -41,7 +41,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 2: $a followed by $c (Example 1 from doc) ---
 # Doc: Current: 490 1# $a Bulletin / U.S. Department of Labor, Bureau of Labor Statistics
 {
-    # render: [doc §4.18] 490 1# $a Bulletin $c U.S. Department of Labor, Bureau of Labor Statistics
+    # render: [doc §4.18 #1] 490 1# $a Bulletin $c U.S. Department of Labor, Bureau of Labor Statistics
     my $field = make_field( '490', '1', ' ',
         a => 'Bulletin',
         c => 'U.S. Department of Labor, Bureau of Labor Statistics',
@@ -61,7 +61,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 3: $3 with $a and $v (Example 2 from doc) ---
 # Doc: Current: 490 1# $3 v. 9-<10>: $a MPCHT art and anthropological monographs ; $v no. 35
 {
-    # render: [doc §4.18] 490 1# $3 v. 9-<10> $a MPCHT art and anthropological monographs $v no. 35
+    # render: [doc §4.18 #2] 490 1# $3 v. 9-<10> $a MPCHT art and anthropological monographs $v no. 35
     my $field = make_field( '490', '1', ' ',
         '3' => 'v. 9-<10>',
         a   => 'MPCHT art and anthropological monographs',
@@ -84,7 +84,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 4: $a followed by $b followed by $v (Example 3 from doc) ---
 # Doc: Current: 490 1# $a Detroit area study, 1971 : social problems and social change in Detroit ; $v no. 19
 {
-    # render: [doc §4.18] 490 1# $a Detroit area study, 1971 $b social problems and social change in Detroit $v no. 19
+    # render: [doc §4.18 #3] 490 1# $a Detroit area study, 1971 $b social problems and social change in Detroit $v no. 19
     my $field = make_field( '490', '1', ' ',
         a => 'Detroit area study, 1971',
         b => 'social problems and social change in Detroit',
@@ -107,7 +107,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 5: $3 with $a and $c (Example 4 from doc) ---
 # Doc: Current: 490 1# $3 1972/73-1975-76: $a Research report / National Education Association Research
 {
-    # render: [doc §4.18] 490 1# $3 1972/73-1975-76 $a Research report $c National Education Association Research
+    # render: [doc §4.18 #4] 490 1# $3 1972/73-1975-76 $a Research report $c National Education Association Research
     my $field = make_field( '490', '1', ' ',
         '3' => '1972/73-1975-76',
         a   => 'Research report',
@@ -130,7 +130,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 6: $a with $v and $x (Example 6 from doc) ---
 # Doc: Current: 490 1# $a Annual census of manufactures = $a Recensement des manufactures, $x 0315-5587
 {
-    # render: [doc §4.18] 490 1# $a Annual census of manufactures $r Recensement des manufactures $x 0315-5587
+    # render: [doc §4.18 #6] 490 1# $a Annual census of manufactures $r Recensement des manufactures $x 0315-5587
     my $field = make_field( '490', '1', ' ',
         a => 'Annual census of manufactures',
         r => 'Recensement des manufactures',
@@ -163,7 +163,7 @@ ok( defined $rules, '490 rules loaded' );
     );
 
     my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
-    is( $result[1], 'Papers and documents of the I.C.I.. ',        '490 ex7: $a gets ". " for $n' );
+    is( $result[1], 'Papers and documents of the I.C.I.',        '490 ex7: $a ends in ". ", so the ". " for $n is suppressed (same-char dedup)' );
     is( $result[3], 'Series C, ',                                  '490 ex7: $n gets ", " for $p' );
     is( $result[5], 'Bibliographies ; ',                           '490 ex7: $p gets " ; " for $v' );
     is( $result[7], 'no. 3 = ',                                    '490 ex7: $v gets " = " for $r' );
@@ -171,7 +171,7 @@ ok( defined $rules, '490 rules loaded' );
 
     my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
     is( $result_pr[1], 'Papers and documents of the I.C.I.',        '490 ex7 prefix: $a unchanged' );
-    is( $result_pr[3], '. Series C',                                '490 ex7 prefix: $n gets ". " prepended' );
+    is( $result_pr[3], 'Series C',                                '490 ex7 prefix: $n unchanged (the ". " for $n was suppressed)' );
     is( $result_pr[5], ', Bibliographies',     '490 ex7 prefix: $p gets ", " prepended' );
     is( $result_pr[7], ' ; no. 3',             '490 ex7 prefix: $v gets " ; " prepended' );
     is( $result_pr[9], ' = Travaux et documents de l\'I.C.I.', '490 ex7 prefix: $r gets " = " prepended' );
@@ -182,7 +182,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 8: $a + $v + $y (Example 8 from doc) ---
 # Doc: Current: 490 1# $a Forschungen zur Geschichte Vorarlbergs ; $v 6. Bd. = der ganzen Reihe 13 Bd.
 {
-    # render: [doc §4.18] 490 1# $a Forschungen zur Geschichte Vorarlbergs $v 6. Bd. $y der ganzen Reihe 13 Bd.
+    # render: [doc §4.18 #8] 490 1# $a Forschungen zur Geschichte Vorarlbergs $v 6. Bd. $y der ganzen Reihe 13 Bd.
     my $field = make_field( '490', '1', ' ',
         a => 'Forschungen zur Geschichte Vorarlbergs',
         v => '6. Bd.',
@@ -205,7 +205,7 @@ ok( defined $rules, '490 rules loaded' );
 # --- Test 9: $a + $x + $v + $n + $p + $x + $v (Example 9 from doc, abbreviated) ---
 # Doc: Current: 490 1# $a Lund studies in geography, $x 1400-1144 ; $v 101. $a Ser. B, Human geography, $x 0076-1478 ; $v 48
 {
-    # render: [doc §4.18] 490 1# $a Lund studies in geography $x 1400-1144 $v 101 $n Ser. B $p Human geography $x 0076-1478 $v 48
+    # render: [doc §4.18 #9] 490 1# $a Lund studies in geography $x 1400-1144 $v 101 $n Ser. B $p Human geography $x 0076-1478 $v 48
     my $field = make_field( '490', '1', ' ',
         a => 'Lund studies in geography',
         x => '1400-1144',
@@ -276,6 +276,48 @@ ok( defined $rules, '490 rules loaded' );
     is( $result_pr[5], ' ; compiled by John Smith', '490 prefix: $d gets " ; " prepended' );
 
     check_combined( \@result, \@result_pr, '490: combined string identical' );
+}
+
+# --- German abbreviation: same-char dedup (engine) ---
+# '2. Aufl.' already ends in a period, so the '. ' for $n must NOT double
+# it -> '2. Aufl.' (not '2. Aufl.. '). This is the engine same-char dedup.
+{
+    # render: 490 ## $a 2. Aufl. $n Ergänzungsband
+    my $field = make_field( '490', '1', ' ',
+        a => '2. Aufl.',
+        n => 'Ergänzungsband',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
+    is( $result[1], '2. Aufl.',                '490: $a ends in "2. Aufl.", so the ". " for $n is suppressed (dedup)' );
+    is( $result[3], 'Ergänzungsband',    '490: $n (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
+    is( $result_pr[1], '2. Aufl.',            '490 prefix: $a unchanged' );
+    is( $result_pr[3], 'Ergänzungsband', '490 prefix: $n unchanged (dedup suppresses ". ")' );
+
+    check_combined( \@result, \@result_pr, '490: German-abbreviation dedup combined string identical' );
+}
+
+# --- 490 $t (other parallel data, §4.5) ---
+# Constructed: $t fires ' = ' on the preceding $a (mirrors ex6's $r; no doc
+# example for 490 $t).
+{
+    # render: 490 1# $a Census of manufactures $t Recensement des manufactures
+    my $field = make_field( '490', '1', ' ',
+        a => 'Census of manufactures',
+        t => 'Recensement des manufactures',
+    );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'postfix' );
+    is( $result[1], 'Census of manufactures = ', '490: $a gets " = " for $t' );
+    is( $result[3], 'Recensement des manufactures', '490: $t (last) unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $rules, 'prefix' );
+    is( $result_pr[1], 'Census of manufactures', '490 prefix: $a unchanged' );
+    is( $result_pr[3], ' = Recensement des manufactures', '490 prefix: $t gets " = " prepended' );
+
+    check_combined( \@result, \@result_pr, '490: combined string identical ($t)' );
 }
 
 done_testing();
