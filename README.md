@@ -131,6 +131,18 @@ For the implemented fields punctuation handling follows:
 
 - https://www.loc.gov/aba/pcc/documents/isbdmarc2016.pdf
 
+### Reference coverage
+
+Every example given in the reference document (its `Current` / `Future`
+pairs, per field) is covered by the test suite, either pinned verbatim
+(`# render: [doc section X.Y #N]` markers) or classified as derived,
+NOT-HANDLED, or a documented DECISION. The one section deliberately left
+out is **section 4.1** (the leader/18 byte): it is not a MARC field, so it
+cannot be rendered by the field hooks, and its `Current`/`Future` describe
+the punctuation-omission trigger the plugin keys on rather than a field
+render. Its logic is exercised directly in `t/22-filter.t`. `t/99` asserts
+this coverage stays complete on every run (see below).
+
 ### Librarians Note
 
 For documentation and especially to make it easier for _librarians_ to
@@ -188,6 +200,35 @@ from `Current` and `Future` lines of the reference document, so it
 should be easy to verify those. The unittest are meant to ensure that
 future changes to the code does not break the rules already derived
 and are meant for programmers and machines.
+
+#### Reproducing the coverage gate
+
+The test suite is driven by the `Current` / `Future` examples in the
+reference document, so a gate (`t/99-doc-coverage.t`) proves on every
+run that every in-scope example is still covered. The tool chain is:
+
+1. **Reference document.** The `.pdf` is fetched from the LoC/PCC page
+   above and converted to plain text with `pdftotext`; the text file
+   (`isbdmarc2016.txt`, project root) is what the tooling reads.
+   `scripts/fetch_reference_doc.pl` does this in one step (downloads only
+   when the file is absent); `./run_tests.sh` calls it automatically when
+   the text is missing.
+2. **Index.** `scripts/build_doc_index.pl` turns that text file into a
+   JSON index of `Current` / `Future` pairs keyed by section (`X.Y`).
+3. **Coverage table.** `scripts/doc_coverage.pl` reads the `# render:`
+   markers in `t/*.t` (the single source of truth) and emits
+   `docs/doc_coverage.yaml`.
+4. **Gate.** `t/99-doc-coverage.t` (a) regenerates the YAML and checks
+   it is byte-identical to the committed one, and (b) builds the index
+   at test time and asserts every in-scope section is fully covered,
+   allowing only the declared section-4.1 exclusion.
+
+Run the whole suite with `./run_tests.sh`. The reference document and
+its text form are not committed to the repository for copyright
+reasons; keep `isbdmarc2016.txt` at the project root (next to this
+repo) — the default the tooling and tests use — or point `ISBD_REF_DOC`
+at its location if you keep it elsewhere. If it is missing, the suite
+fetches+prepares it once, or `t/99` explains how when run on its own.
 
 #### Rule sets
 

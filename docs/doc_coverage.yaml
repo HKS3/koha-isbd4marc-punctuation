@@ -12,8 +12,8 @@ meta:
     "num" (per-section example number) is null until the coverage pass
     pins each [doc §X.Y #N] marker; "status" mirrors kind until then.
 summary:
-  total_examples: 460
-  doc: 253
+  total_examples: 462
+  doc: 255
   derived: 0
   loc: 31
   constructed: 159
@@ -3068,6 +3068,22 @@ fields:
         reason: ""
         testfile: "t/29-field-5xx-group3.t"
         marker: "# render: [doc §3.24 - derived] 565 ## $3 Military petitioners files $a 11 $b name $b address $c pensioners $d Civil War (1861-65) veterans"
+      - doc: "§3.24 #2"
+        num: null
+        kind: doc
+        status: doc
+        derived: false
+        reason: ""
+        testfile: "t/29-field-5xx-group3.t"
+        marker: "# render: [doc §3.24 #2] 565 0# $3 Product use survey $a 3 $b sex $b age $b marital status $c retail customers $d Northeast coast distribution area"
+      - doc: "§3.24 #3"
+        num: null
+        kind: doc
+        status: doc
+        derived: false
+        reason: ""
+        testfile: "t/29-field-5xx-group3.t"
+        marker: "# render: [doc §3.24 #3] 565 8# $3 Vandalism report files $a 14 $b name $b address $b occupation $c local jurisdiction $d registered voters $e alphabetical by jurisdiction"
   - tag: "580"
     examples:
       - doc: "§4.34 #1"

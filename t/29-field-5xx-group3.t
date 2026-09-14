@@ -890,6 +890,62 @@ ok( !exists $R->{532}{cb_pre}, '532 has no cb_pre (all N/A)' );
     check_combined( \@result, \@result_pr, '565 ex1: combined string identical' );
 }
 
+# --- 565 ex 2: $3 + repeatable $b/$b/$c/$d (doc §3.24 #2) ---
+# Doc: Current: 565 0# $3 Product use survey $a 3; $b sex; $b age; $b marital status; $c retail customers; $d Northeast coast distribution area
+{
+    # render: [doc §3.24 #2] 565 0# $3 Product use survey $a 3 $b sex $b age $b marital status $c retail customers $d Northeast coast distribution area
+    my $field = make_field( '565', '0', '#', '3' => 'Product use survey', a => '3', b => 'sex', b => 'age', b => 'marital status', c => 'retail customers', d => 'Northeast coast distribution area' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'565'}, 'postfix' );
+    is( $result[1], 'Product use survey', '565 ex2 postfix: $3 unchanged (3a suppressed)' );
+    is( $result[3], '3; ', '565 ex2 postfix: $a gets "; " for first $b' );
+    is( $result[5], 'sex; ', '565 ex2 postfix: $b 1 gets "; " (bb boundary)' );
+    is( $result[7], 'age; ', '565 ex2 postfix: $b 2 gets "; " (bb boundary)' );
+    is( $result[9], 'marital status; ', '565 ex2 postfix: $b 3 gets "; " for $c' );
+    is( $result[11], 'retail customers; ', '565 ex2 postfix: $c gets "; " for $d' );
+    is( $result[13], 'Northeast coast distribution area', '565 ex2 postfix: $d unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'565'}, 'prefix' );
+    is( $result_pr[1], 'Product use survey', '565 ex2 prefix: $3 unchanged' );
+    is( $result_pr[3], '3', '565 ex2 prefix: $a unchanged (empty pending from 3a)' );
+    is( $result_pr[5], '; sex', '565 ex2 prefix: $b 1 gets "; " prepended' );
+    is( $result_pr[7], '; age', '565 ex2 prefix: $b 2 gets "; " prepended' );
+    is( $result_pr[9], '; marital status', '565 ex2 prefix: $b 3 gets "; " prepended' );
+    is( $result_pr[11], '; retail customers', '565 ex2 prefix: $c gets "; " prepended' );
+    is( $result_pr[13], '; Northeast coast distribution area', '565 ex2 prefix: $d gets "; " prepended' );
+
+    check_combined( \@result, \@result_pr, '565 ex2: combined string identical' );
+}
+
+# --- 565 ex 3: $3 + repeatable $b/$b/$c/$d/$e (doc §3.24 #3) ---
+# Doc: Current: 565 8# $3 Vandalism report files $a 14; $b name; $b address; $b occupation; $c local jurisdiction; $d registered voters; $e alphabetical by jurisdiction
+{
+    # render: [doc §3.24 #3] 565 8# $3 Vandalism report files $a 14 $b name $b address $b occupation $c local jurisdiction $d registered voters $e alphabetical by jurisdiction
+    my $field = make_field( '565', '8', '#', '3' => 'Vandalism report files', a => '14', b => 'name', b => 'address', b => 'occupation', c => 'local jurisdiction', d => 'registered voters', e => 'alphabetical by jurisdiction' );
+
+    my @result = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'565'}, 'postfix' );
+    is( $result[1], 'Vandalism report files', '565 ex3 postfix: $3 unchanged (3a suppressed)' );
+    is( $result[3], '14; ', '565 ex3 postfix: $a gets "; " for first $b' );
+    is( $result[5], 'name; ', '565 ex3 postfix: $b 1 gets "; " (bb boundary)' );
+    is( $result[7], 'address; ', '565 ex3 postfix: $b 2 gets "; " (bb boundary)' );
+    is( $result[9], 'occupation; ', '565 ex3 postfix: $b 3 gets "; " for $c' );
+    is( $result[11], 'local jurisdiction; ', '565 ex3 postfix: $c gets "; " for $d' );
+    is( $result[13], 'registered voters; ', '565 ex3 postfix: $d gets "; " for $e' );
+    is( $result[15], 'alphabetical by jurisdiction', '565 ex3 postfix: $e unchanged' );
+
+    my @result_pr = Koha::Filter::MARC::ISBD4MARCPunctuation::_decorate_field( $field, $R->{'565'}, 'prefix' );
+    is( $result_pr[1], 'Vandalism report files', '565 ex3 prefix: $3 unchanged' );
+    is( $result_pr[3], '14', '565 ex3 prefix: $a unchanged (empty pending from 3a)' );
+    is( $result_pr[5], '; name', '565 ex3 prefix: $b 1 gets "; " prepended' );
+    is( $result_pr[7], '; address', '565 ex3 prefix: $b 2 gets "; " prepended' );
+    is( $result_pr[9], '; occupation', '565 ex3 prefix: $b 3 gets "; " prepended' );
+    is( $result_pr[11], '; local jurisdiction', '565 ex3 prefix: $c gets "; " prepended' );
+    is( $result_pr[13], '; registered voters', '565 ex3 prefix: $d gets "; " prepended' );
+    is( $result_pr[15], '; alphabetical by jurisdiction', '565 ex3 prefix: $e gets "; " prepended' );
+
+    check_combined( \@result, \@result_pr, '565 ex3: combined string identical' );
+}
+
 # =====================================================================
 # 584 – Accumulation and Frequency of Use Note (spec §3.25)
 # $a/$b '. '. $3 lead-in suppressed.
