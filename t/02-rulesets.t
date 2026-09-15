@@ -56,6 +56,38 @@ is(
     "LoC/PCC 020 inline cb_pre is a code-ref"
 );
 
+# 4b. rules_for('K10Plus') returns the K10Plus set (a DESCENDANT of LoC/PCC:
+#     LoC/PCC is the baseline; every later set is built as a deviation from
+#     it, like K10Plus was). It activates K10Plus (Option-2 fix) so use_rules
+#     aliases resolve against K10Plus, not the previous default.
+my $k10 = Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for('K10Plus');
+is(
+    scalar( keys %$k10 ),
+    97,
+    'rules_for(K10Plus) has 97 field tags (96 shared + 249)'
+);
+is(
+    ( exists $k10->{'249'} ? 1 : 0 ),
+    1,
+    'K10Plus set contains the German-only field 249'
+);
+is(
+    ( exists $k10->{'532'} ? 1 : 0 ),
+    1,
+    'K10Plus set contains the K10plus-only field 532'
+);
+is(
+    $k10->{'100'}{pchrs}{n},
+    ', ',
+    'K10Plus 100 $n punctuation is ", " (deviates from LoC/PCC ". ")'
+);
+# Dispatching a set by name activates it (so use_rules resolves within it).
+is(
+    Koha::Filter::MARC::ISBD4MARCPunctuation::ruleset(),
+    'K10Plus',
+    'rules_for(K10Plus) activated the K10Plus set (alias resolution scope)'
+);
+
 # 5. rules_for('DoesNotExist') dies
 eval { Koha::Filter::MARC::ISBD4MARCPunctuation::rules_for('DoesNotExist') };
 ok( $@, "rules_for('DoesNotExist') dies" );

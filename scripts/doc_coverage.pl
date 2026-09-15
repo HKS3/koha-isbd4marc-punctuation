@@ -24,7 +24,12 @@
 # 'num' is null and 'status' mirrors the provenance kind.
 #
 # Usage:
-#   ./scripts/doc_coverage.pl [OUTFILE] [TESTFILE...]
+#   ./scripts/doc_coverage.pl [--set=LoC/PCC|K10Plus] [OUTFILE] [TESTFILE...]
+#
+# By default only the LoC/PCC markers are collected (the coverage table is
+# LoC/PCC-scoped). Pass --set=K10Plus (or any set name, matched against each
+# test file's 'my $SET = ...' declaration) to collect that set's markers
+# instead, e.g. for a future K10plus coverage run.
 #
 # Sync check (to assert the table is up to date with the tests):
 #   perl scripts/doc_coverage.pl && git diff --exit-code docs/doc_coverage.yaml
@@ -38,6 +43,18 @@ use lib '.';
 use lib 't/lib';
 use t::lib::TestHelper qw( parse_render_marker );
 
+# Which rule set's markers to collect. Every marker-bearing test file declares
+# 'my $SET = ...'; we only collect files whose declared set matches this.
+# Default 'LoC/PCC' keeps docs/doc_coverage.yaml (and the t/99 byte-identity
+# gate) LoC/PCC-pure - the K10plus markers in t/50-k10plus-*.t are excluded.
+my $set_filter = 'LoC/PCC';
+my @rest;
+for my $a (@ARGV) {
+    if ( $a =~ /^--set=(.*)$/ ) { $set_filter = $1; }
+    else                        { push @rest, $a; }
+}
+@ARGV = @rest;
+
 my $outfile   = shift // 'docs/doc_coverage.yaml';
 my @testfiles = @ARGV;
 @testfiles = glob('t/*.t') unless @testfiles;
@@ -48,6 +65,17 @@ my @collect;    # flat list of { tag, prov, marker, file }
 
 for my $file (@testfiles) {
     open my $fh, '<', $file or die "Cannot read $file: $!\n";
+    # A file belongs to this run only if its declared $SET matches. (Marker-
+    # bearing files always declare 'my $SET = ...'; a file with no such
+    # declaration contributes nothing to any set's table.)
+    my $file_set = '';
+    while ( my $line = <$fh> ) {
+        if ( $line =~ /^\s*my\s+\$SET\s*=\s*'([^']+)'/ ) { $file_set = $1; last; }
+    }
+    close $fh;
+    next unless $file_set eq $set_filter;
+
+    open $fh, '<', $file or die "Cannot read $file: $!\n";
     while ( my $line = <$fh> ) {
         next unless $line =~ /^\s*#\s*render:/;
         my $marker = $line;

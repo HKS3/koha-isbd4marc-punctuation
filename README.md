@@ -233,9 +233,17 @@ fetches+prepares it once, or `t/99` explains how when run on its own.
 #### Rule sets
 
 The punctuation rules are organised as **rule sets**, one per
-catalogue tradition. Currently there is one set, **`LoC/PCC`** (the
-default, following the reference document above). A `None` set (no
-automatic punctuation) is also supported.
+catalogue tradition. Currently there are two sets:
+- **`LoC/PCC`** (the default, following the reference document above)
+- **`K10Plus`** (one of the German union catalogues). These rules were
+  kindly provided by BSZ and are used in their migration scripts.
+
+A `None` set (no automatic punctuation) is also supported. Each set is
+fully self-contained: `LoC/PCC` follows the reference document above, and
+`K10Plus` mirrors the German-union `isbd.py` reference that BSZ use in
+their migration scripts (the two are independent data, not programmatic
+deltas of each other). The K10plus-only fields `249` and `532` live only
+in `K10Plus`.
 
 - Each set lives in its own package under
   `Koha/Filter/MARC/ISBD4MARCPunctuation/RuleSet/` and is just data
@@ -246,6 +254,11 @@ automatic punctuation) is also supported.
 - Shared structural callbacks (e.g. the `$n/$d/$c` meeting-group and
   `$e/$f/$g` imprint grouping) stay in the engine and are referenced
   from the rule data by name, so rule-set files stay readable data.
+- The coverage/render tooling (`scripts/doc_coverage.pl`,
+  `scripts/render_examples.pl`) is segmented by set: they pick up each
+  test file's `my $SET = ...` declaration, default to the LoC/PCC
+  markers, and accept a `--set=K10Plus` flag to run on the K10plus
+  marker set (so the LoC/PCC coverage table and report stay pure).
 
 **To add a new field** to the current (`LoC/PCC`) set: add its rule
 block to `RuleSet/LoCPCC.pm` (data only; reuse the shared grouping

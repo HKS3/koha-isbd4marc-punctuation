@@ -22,6 +22,7 @@ use MARC::Field;
 use base qw(Koha::RecordProcessor::Base);
 
 use Koha::Filter::MARC::ISBD4MARCPunctuation::RuleSet::LoCPCC;
+use Koha::Filter::MARC::ISBD4MARCPunctuation::RuleSet::K10Plus;
 
 our $NAME    = 'ISBD4MARCPunctuation';
 our $VERSION = '0.02';
@@ -157,6 +158,11 @@ Loads the full rules hash for a named set. Pass C<None> to get an
 empty hash (a no-op "no automatic punctuation" set). With no argument,
 returns the I<active> set's rules.
 
+Passing a set name I<activates> it (same as calling C<ruleset($name)>):
+after C<< rules_for('K10Plus') >>, the active set is I<K10Plus>, so any
+C<use_rules> alias is resolved against I<K10Plus> (not the previous default).
+This keeps alias resolution within the set the rules came from.
+
 =back
 
 =cut
@@ -176,7 +182,16 @@ sub ruleset {
 
 sub rules_for {
     my $set = shift;
-    $set = ruleset() unless defined $set;
+
+    # A named set both loads AND activates: alias resolution and later
+    # no-arg rules_for() calls must stay within the set the rules came from.
+    # (Calling with no arg keeps the current active set.)
+    if ( defined $set ) {
+        $ACTIVE_RULESET = $set;
+    }
+    else {
+        $set = ruleset();
+    }
 
     if ( $set eq 'None' ) {
         return {};
@@ -185,6 +200,11 @@ sub rules_for {
     if ( $set eq 'LoC/PCC' ) {
         return
           Koha::Filter::MARC::ISBD4MARCPunctuation::RuleSet::LoCPCC::rules();
+    }
+
+    if ( $set eq 'K10Plus' ) {
+        return
+          Koha::Filter::MARC::ISBD4MARCPunctuation::RuleSet::K10Plus::rules();
     }
 
     die "Unknown rule set '$set'\n";
