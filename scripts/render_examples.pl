@@ -31,12 +31,34 @@ use Koha::RecordProcessor::Base;
 use Koha::Filter::MARC::ISBD4MARCPunctuation;
 use t::lib::TestHelper qw( parse_render_marker render_field_string combined_string );
 
-# The rule set the report is rendered for.
+# The rule set the report is rendered for (default LoC/PCC). A --set=NAME
+# flag (matched against each test file's 'my $SET = ...' declaration)
+# selects a set's markers, so a K10plus report can be produced with:
+#   perl scripts/render_examples.pl --set=K10Plus <outfile> t/50-k10plus-*.t
 my $SET = 'LoC/PCC';
+my @rest;
+for my $a (@ARGV) {
+    if ( $a =~ /^--set=(.*)$/ ) { $SET = $1; }
+    else                        { push @rest, $a; }
+}
+@ARGV = @rest;
+
+# Which test files belong to the target set: a file belongs only if its
+# declared 'my $SET = ...' matches. Non-marker files contribute nothing; a
+# file with no declaration contributes nothing to any set's report.
+my %file_set;
+for my $f ( glob('t/*.t') ) {
+    open my $fh, '<', $f or next;
+    while ( my $line = <$fh> ) {
+        if ( $line =~ /^\s*my\s+\$SET\s*=\s*'([^']+)'/ ) { $file_set{$f} = $1; last; }
+    }
+    close $fh;
+}
 
 my $outfile   = shift // 'examples/koha-isbd4marc-puncuation-output.md';
 my @testfiles = @ARGV;
 @testfiles = glob('t/*.t') unless @testfiles;
+@testfiles = grep { ( $file_set{$_} // '' ) eq $SET } @testfiles;
 
 # --- Collect (field_tag => [ marker, ... ]) per file, preserving order ---
 my @sections;    # each: { tag, markers => [ [file, marker], ... ] }
